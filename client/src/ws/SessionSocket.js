@@ -1,38 +1,37 @@
 "use strict";
 
+/**
+ * @typedef {object} SessionSocketOptions
+ * @property {number} userId
+ * @property {string} domain
+ * @property {string} port
+ * @property {boolean} secure
+ */
+
 class SessionSocket {
   /**
-   * Start a new SessionSocket
-   * @param {number} userId
-   * @param {keyof SessionSocket.SessionSocketTypes} type
-   * @param {boolean} secure
-   * @param {number} recipientId
+   * Start a new Socket Session
+   * @param {SessionSocketOptions} options
+   * @param {(ev: MessageEvent<any>) => void} messageHandler
    */
-  constructor(userId, type, secure, recipientId) {
+  constructor(options, messageHandler) {
+    const {userId, domain, port, secure} = options;
     this.userId = Number(userId);
 
-    if (isNaN(this.userId)) {
-      throw new TypeError("Invalid userId: " + userId);
+    if (isNaN(this.userId)) throw new TypeError("Invalid userId: " + userId);
+
+    this.domain = domain;
+
+    if (typeof this.domain !== "string" || !this.domain?.length) throw new TypeError("Invalid domain: " + domain);
+
+    if (port) {
+      this.port = Number(port);
+
+      if (isNaN(port)) throw new TypeError("Invalid port: " + port);
     }
 
-    this.type = type;
-    
-    const numRecipient = Number(recipientId);
-    this.recipientId = isNaN(numRecipient) ? null : numRecipient;
-    
-    // recipientId is required for chat between user
-    if (!this.recipientId && this.type === "chat") {
-      throw new Error("Recipient is required for chat session");
-    }
-    
-    this.route = SessionSocket.SessionSocketTypes[this.type];
-
-    if (!this.route) {
-      throw new TypeError("Invalid type: " + type);
-    }
-
-    const prot = secure === true ? "wss" : "ws";
-    this.socket = new WebSocket(prot + "://localhost:8080/");
+    const protocol = secure === true ? "wss" : "ws";
+    this.socket = new WebSocket(protocol + "://" + this.domain + (this.port ? (":"+this.port) : "") + "/");
 
     this.socket.addEventListener('open', (event) => {
       this.socket.send(JSON.stringify({
@@ -41,6 +40,12 @@ class SessionSocket {
 	  user_id: this.userId,
 	}
       }));
+    });
+
+    this.socket.addEventListener("message", messageHandler);
+
+    this.socket.addEventListener("error", (...args) => {
+      console.error(args, "<<<<<<<<< error [socket]");
     });
   }
 
@@ -56,11 +61,6 @@ class SessionSocket {
   send(msg) {
     if (typeof msg !== "string") throw TypeError("Expected string, got '" + msg + "'");
     return this.socket.send(msg);
-  }
-
-  static SessionSocketTypes = {
-    globalChat: "globalChat",
-    chat: "chat",
   }
 }
 
