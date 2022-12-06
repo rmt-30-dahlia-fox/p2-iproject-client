@@ -1,12 +1,30 @@
-import { ref, computed } from "vue";
 import { defineStore } from "pinia";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-export const useCounterStore = defineStore("counter", () => {
-  const count = ref(0);
-  const doubleCount = computed(() => count.value * 2);
-  function increment() {
-    count.value++;
-  }
+export const useCounterStore = defineStore("counter", {
+  state: () => ({
+    baseUrl: "http://localhost:3000",
+    loginStatus: false,
+  }),
 
-  return { count, doubleCount, increment };
+  getters: {},
+  actions: {
+    async logoutHandler() {
+      try {
+        localStorage.clear();
+        this.loginStatus = false;
+        this.router.push("/");
+        Swal.fire({
+          icon: "success",
+          title: "See You Next Time!",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
+  },
 });
