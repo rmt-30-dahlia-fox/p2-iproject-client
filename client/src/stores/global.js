@@ -10,7 +10,8 @@ export const useGlobalStore = defineStore('global', {
     isSidebarOpen: false,
     products: [],
     brands: [],
-    dealers: []
+    dealers: [],
+    product: {}
   }),
   getters: {
   },
@@ -102,6 +103,20 @@ export const useGlobalStore = defineStore('global', {
           url: `${this.baseUrl}dealers`
         })
         this.dealers = data;
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
+    async fetchProductDeteail(id){
+      try {
+        this.isLoad = true;
+        const {data} = await axios({
+          method: "GET",
+          url: `${this.baseUrl}products/${id}`
+        })
+        this.product = data;
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
