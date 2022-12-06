@@ -11,7 +11,7 @@ export default {
 </script>
 
 <template>
-  <div class="min-h-screen max-w-screen">
+  <div class="min-h-screen max-w-screen flex flex-col">
     <Navbar />
     
     <RouterView />

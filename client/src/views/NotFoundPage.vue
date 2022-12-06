@@ -2,7 +2,7 @@
 
 <template>
   <!-- Not Found Page -->
-  <div class="grid px-4 bg-white place-content-center h-screen">
+  <div class="grow grid px-4 bg-white place-content-center min-h-max">
     <div class="text-center">
       <h1 class="font-black text-gray-200 text-9xl">404</h1>
 

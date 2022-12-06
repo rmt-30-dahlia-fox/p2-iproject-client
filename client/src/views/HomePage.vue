@@ -1,4 +1,14 @@
-<script></script>
+<script>
+import ActivityCard from "@/components/ActivityCard.vue";
+import Leaderboard from "@/components/Leaderboard.vue";
+
+export default {
+  components: {
+    ActivityCard,
+    Leaderboard
+  },
+};
+</script>
 
 <template>
   <!-- Home Page -->
@@ -39,163 +49,13 @@
   </header>
 
   <!-- Activities Cards -->
-  <div
-    class="flex flex-col gap-4 container max-w-xl my-4 mx-auto justify-center"
-  >
-    <article class="rounded-xl border-2 border-gray-100 bg-white">
-      <div class="flex items-start p-6 justify-between">
-        <a href="#" class="block shrink-0">
-          <img
-            alt="Speaker"
-            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            class="h-14 w-14 rounded-lg object-cover"
-          />
-        </a>
+  <div class="flex container my-4 justify-around px-6 mx-auto">
+    <div class="grow flex flex-col gap-4 mx-6 max-w-lg justify-center">
+      <ActivityCard />
+      <ActivityCard />
+      <ActivityCard />
+    </div>
 
-        <div class="ml-4 grow">
-          <h3 class="font-medium sm:text-lg">
-            <a href="#" class="hover:underline"> John Doe </a>
-          </h3>
-
-          <p class="text-sm text-gray-700 line-clamp-2">Time - City</p>
-        </div>
-
-        <div class="flex cursor-pointer items-center justify-center">
-          <img src="./assets/heart-no-fill.png" width="36" height="36" alt="" />
-          <img src="./assets/heart-fill.png" width="36" height="36" alt="" />
-        </div>
-      </div>
-
-      <a href="#" class="px-6 block">
-        <img
-          alt="Art"
-          src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          class="h-96 w-full object-cover"
-        />
-
-        <h3 class="mt-4 text-xl font-bold text-gray-900">
-          Activity Name
-          <span
-            class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-500"
-          >
-            Type
-          </span>
-        </h3>
-
-        <p class="mt-2 max-w-sm text-gray-700">Caption</p>
-      </a>
-
-      <div class="flex justify-end">
-        <strong
-          class="-mr-[2px] -mb-[2px] inline-flex items-center gap-1 rounded-tl-xl rounded-br-xl bg-green-600 py-1.5 px-3 text-white"
-        >
-          <span class="text-[10px] font-medium sm:text-xs">Difficulty</span>
-        </strong>
-      </div>
-    </article>
-
-    <article class="rounded-xl border-2 border-gray-100 bg-white">
-      <div class="flex items-start p-6 justify-between">
-        <a href="#" class="block shrink-0">
-          <img
-            alt="Speaker"
-            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            class="h-14 w-14 rounded-lg object-cover"
-          />
-        </a>
-
-        <div class="ml-4 grow">
-          <h3 class="font-medium sm:text-lg">
-            <a href="#" class="hover:underline"> John Doe </a>
-          </h3>
-
-          <p class="text-sm text-gray-700 line-clamp-2">Time - City</p>
-        </div>
-
-        <div class="flex cursor-pointer items-center justify-center">
-          <img src="./assets/heart-no-fill.png" width="36" height="36" alt="" />
-          <img src="./assets/heart-fill.png" width="36" height="36" alt="" />
-        </div>
-      </div>
-
-      <a href="#" class="px-6 block">
-        <img
-          alt="Art"
-          src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          class="h-96 w-full object-cover"
-        />
-
-        <h3 class="mt-4 text-xl font-bold text-gray-900">
-          Activity Name
-          <span
-            class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-500"
-          >
-            Type
-          </span>
-        </h3>
-
-        <p class="mt-2 max-w-sm text-gray-700">Caption</p>
-      </a>
-
-      <div class="flex justify-end">
-        <strong
-          class="-mr-[2px] -mb-[2px] inline-flex items-center gap-1 rounded-tl-xl rounded-br-xl bg-green-600 py-1.5 px-3 text-white"
-        >
-          <span class="text-[10px] font-medium sm:text-xs">Difficulty</span>
-        </strong>
-      </div>
-    </article>
-
-    <article class="rounded-xl border-2 border-gray-100 bg-white">
-      <div class="flex items-start p-6 justify-between">
-        <a href="#" class="block shrink-0">
-          <img
-            alt="Speaker"
-            src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-            class="h-14 w-14 rounded-lg object-cover"
-          />
-        </a>
-
-        <div class="ml-4 grow">
-          <h3 class="font-medium sm:text-lg">
-            <a href="#" class="hover:underline"> John Doe </a>
-          </h3>
-
-          <p class="text-sm text-gray-700 line-clamp-2">Time - City</p>
-        </div>
-
-        <div class="flex cursor-pointer items-center justify-center">
-          <img src="./assets/heart-no-fill.png" width="36" height="36" alt="" />
-          <img src="./assets/heart-fill.png" width="36" height="36" alt="" />
-        </div>
-      </div>
-
-      <a href="#" class="px-6 block">
-        <img
-          alt="Art"
-          src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
-          class="h-96 w-full object-cover"
-        />
-
-        <h3 class="mt-4 text-xl font-bold text-gray-900">
-          Activity Name
-          <span
-            class="whitespace-nowrap rounded-full bg-purple-100 px-2.5 py-0.5 text-sm text-purple-500"
-          >
-            Type
-          </span>
-        </h3>
-
-        <p class="mt-2 max-w-sm text-gray-700">Caption</p>
-      </a>
-
-      <div class="flex justify-end">
-        <strong
-          class="-mr-[2px] -mb-[2px] inline-flex items-center gap-1 rounded-tl-xl rounded-br-xl bg-green-600 py-1.5 px-3 text-white"
-        >
-          <span class="text-[10px] font-medium sm:text-xs">Difficulty</span>
-        </strong>
-      </div>
-    </article>
+    <Leaderboard />
   </div>
 </template>
