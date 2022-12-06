@@ -304,6 +304,26 @@ export const useGlobalStore = defineStore('global', {
       } catch (error) {
         this.showNotification(err.response.data.message, "error")
       }
+    },
+    async sendReview(id, message){
+      try {
+        this.isLoad = true;
+        await axios({
+          method: "POST",
+          url: `${this.baseUrl}reviews/${id}`,
+          data: {
+            message
+          },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.isLoad = false;
+        this.router.push('/profile');
+      } catch (error) {
+        this.isLoad = false;
+        this.showNotification(error.response.data.message, "error");
+      }
     }
   }
 })
