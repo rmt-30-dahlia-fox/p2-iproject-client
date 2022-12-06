@@ -9,13 +9,17 @@ export default {}
       <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl flex-grow">
         Welcome Back, Barry!
       </h1>
-      <router-link to="/profile" class="block shrink-0">
-        <span class="sr-only">Profile</span>
+      <router-link to="/profile" class="p-2 shadow bg-white block shrink-0 group flex shrink-0 items-center rounded-full hover:bg-sky-100 transition">
         <img
-          alt="Man"
-          src="https://images.unsplash.com/photo-1600486913747-55e5470d6f40?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+          alt="Profile"
+          src="https://thispersondoesnotexist.com/image"
           class="h-10 w-10 rounded-full object-cover"
         />
+	<p class="ml-2 hidden text-left text-xs sm:block">
+	  <strong class="block font-medium">Eric Frusciante</strong>
+
+	  <span class="text-gray-500"> eric@frusciante.com </span>
+	</p>
       </router-link>
 
     </div>

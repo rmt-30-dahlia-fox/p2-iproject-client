@@ -1,10 +1,18 @@
 <script>
+import {mapState} from "pinia";
 import Navbar from "./components/Navbar.vue";
+import {useGlobalStore} from "./stores/global";
 
 export default {
   components: {
     Navbar,
-  }
+  },
+  computed: {
+    ...mapState(useGlobalStore, ["user"]),
+  },
+  created() {
+
+  },
 }
 // Navbar v-if="user"
 </script>

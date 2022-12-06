@@ -31,6 +31,7 @@ export const useGlobalStore = defineStore('global', {
 	email: "",
 	password: "",
       },
+      user: null,
     };
   },
   actions: {
