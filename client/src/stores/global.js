@@ -177,6 +177,27 @@ export const useGlobalStore = defineStore('global', {
     async getTransactionDetail(id){
       await this.fetchTransaction("Paid");
       this.transactionDetail = this.paidTransaction.find(element => element.id === id);
+    },
+    async bookCar(id){
+      try {
+        this.isLoad = true;
+        await axios({
+          method: "POST",
+          url: `${this.baseUrl}transactions/${id}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
+    logoutHandler(){
+      localStorage.removeItem("access_token");
+      this.isSidebarOpen = false;
+      this.router.push('/login');
     }
   }
 })
