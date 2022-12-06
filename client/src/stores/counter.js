@@ -26,5 +26,30 @@ export const useCounterStore = defineStore("counter", {
         });
       }
     },
+
+    async registerHandler(value) {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + "/register",
+          method: "post",
+          data: {
+            email: value.email,
+            password: value.password,
+          },
+        });
+
+        this.router.push("/login");
+
+        Swal.fire({
+          icon: "success",
+          title: "Success Create an Account!",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
   },
 });
