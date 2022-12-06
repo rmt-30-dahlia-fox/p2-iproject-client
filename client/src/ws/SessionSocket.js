@@ -1,11 +1,14 @@
 "use strict";
 
+import axios from "axios";
+
 /**
  * @typedef {object} SessionSocketOptions
  * @property {number} userId
- * @property {string} domain
- * @property {string} port
- * @property {boolean} secure
+ * @property {string} httpUri - Without protocol, without trailing slash
+ * @property {string} wsUri - Without protocol without trailing slash
+ * @property {boolean} secureWs
+ * @property {boolean} secureHttp
  */
 
 class SessionSocket {
@@ -15,23 +18,23 @@ class SessionSocket {
    * @param {(ev: MessageEvent<any>) => void} messageHandler
    */
   constructor(options, messageHandler) {
-    const {userId, domain, port, secure} = options;
+    const {userId, httpUri, wsUri, secureWs, secureHttp} = options;
     this.userId = Number(userId);
 
     if (isNaN(this.userId)) throw new TypeError("Invalid userId: " + userId);
 
-    this.domain = domain;
+    this.httpUri = httpUri;
+    this.wsUri = wsUri;
 
-    if (typeof this.domain !== "string" || !this.domain?.length) throw new TypeError("Invalid domain: " + domain);
+    this.connectBase = this.domain + (this.port ? (":"+this.port) : "");
 
-    if (port) {
-      this.port = Number(port);
+    this.secureWs = !!secureWs;
+    this.secureHttp = !!secureHttp;
 
-      if (isNaN(port)) throw new TypeError("Invalid port: " + port);
-    }
-
-    const protocol = secure === true ? "wss" : "ws";
-    this.socket = new WebSocket(protocol + "://" + this.domain + (this.port ? (":"+this.port) : "") + "/");
+    this.socket = new WebSocket();
+    this.ax = axios.create({
+      baseUrl: this.connectHttp,
+    });
 
     this.socket.addEventListener('open', (event) => {
       this.socket.send(JSON.stringify({
@@ -49,6 +52,16 @@ class SessionSocket {
     });
   }
 
+  get connectWs() {
+    const wsProtocol = this.secureWs === true ? "wss" : "ws";
+    return wsProtocol + "://" + this.wsUri;
+  }
+
+  get connectHttp() {
+    const httpProtocol = this.secureHttp === true ? "https" : "http";
+    return httpProtocol + "://" + this.httpUri;
+  }
+
   close(code, reason) {
     this.socket.close(code, JSON.stringify({
       user_id: this.userId,
@@ -59,9 +72,23 @@ class SessionSocket {
   }
 
   send(msg) {
-    if (typeof msg !== "string") throw TypeError("Expected string, got '" + msg + "'");
-    return this.socket.send(msg);
+    if (typeof msg !== "object") throw TypeError("Expected object literal, got '" + msg + "'");
+    return this.socket.send(JSON.stringify(msg));
   }
+
+  sendGlobalChatMessage(content) {
+    this.ax.post(this.connectHttp + "/chat/global", {
+      op: 
+    }, {
+      headers
+    })
+  }
+
+  sendDirectMessage(content) {
+
+  }
+
+  sendChat() {}
 }
 
 export default SessionSocket;
