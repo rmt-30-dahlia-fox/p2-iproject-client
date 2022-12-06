@@ -8,6 +8,8 @@ export const useGlobalStore = defineStore('global', {
     isLoad: false,
     user: {},
     isSidebarOpen: false,
+    products: [],
+    brands: []
   }),
   getters: {
   },
@@ -68,5 +70,28 @@ export const useGlobalStore = defineStore('global', {
         console.log(error);
       }
     },
+    async fetchProducts(filter){
+      try {
+        this.isLoad = true;
+        const {data} = await axios({
+          method: "GET",
+          url: `${this.baseUrl}products`,
+          params: filter
+        })
+        this.products = data;
+        this.fetchBrand();
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
+    fetchBrand(){
+      this.products.forEach(el=>{
+        if(this.brands.findIndex(brand=>brand === el.brand) === -1){
+          this.brands.push(el.brand);
+        }
+      })
+    }
   }
 })
