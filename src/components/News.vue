@@ -1,5 +1,17 @@
 <script>
-export default {}
+import { mapActions, mapState, mapWritableState } from "pinia"
+import { useCounterStore } from "../stores/counter"
+export default {
+  methods: {
+    ...mapActions(useCounterStore, ["fetchNewsData"]),
+  },
+  computed: {
+    ...mapWritableState(useCounterStore, ["newsList"]),
+  },
+  created() {
+    this.fetchNewsData()
+  },
+}
 </script>
 <template>
   <div class="container my-24 px-6 mx-auto">
@@ -8,7 +20,7 @@ export default {}
       <h2 class="text-3xl font-bold mb-12 text-center">Latest articles</h2>
 
       <div class="grid lg:grid-cols-3 gap-6">
-        <div
+        <div v-for="news in newsList" :key="news.id"
           class="relative overflow-hidden bg-no-repeat bg-cover shadow-lg rounded-lg"
           style="background-position: 50%"
           data-mdb-ripple="true"

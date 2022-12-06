@@ -15,7 +15,7 @@ export default {
 }
 </script>
 <template>
-  <div class="fixed top-0 w-full">
+  <div class="fixed top-0 w-full z-20 shadow-lg">
     <nav class="bg-white border-gray-200">
       <div
         class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
