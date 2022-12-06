@@ -4,7 +4,7 @@ import { useGlobalStore } from '../stores/global';
 import ReviewCard from '../components/ProductDetail/ReviewCard.vue';
 export default{
   methods: {
-    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'bookCar', 'formatNumber'])
+    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'formatNumber', 'paymentHandler'])
   },
   computed: {
     ...mapState(useGlobalStore, ["product"])
@@ -42,7 +42,7 @@ export default{
                 <p>Start From</p>
                 <p class="text-xl font-bold">IDR. {{formatNumber(product.price)}}</p>
               </div>
-              <button @click.prevent="bookCar(product.id)" type="button"
+              <button @click.prevent="paymentHandler(this.$route.params.id)" type="button" id="pay-button"
                 class="w-full rounded border border-gray-300 bg-black text-white px-6 py-3 text-sm font-bold uppercase tracking-wide">
                 Book Now
               </button>

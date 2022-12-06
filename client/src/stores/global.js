@@ -32,7 +32,7 @@ export const useGlobalStore = defineStore('global', {
           data
         })
         this.router.push('/login');
-        this.showNotification("Successfully registered", "ok");
+        this.showNotification("Successfully registered", "success");
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
@@ -55,7 +55,7 @@ export const useGlobalStore = defineStore('global', {
         this.fetchUserData();
         this.router.push('/');
         this.isLoad = false;
-        this.showNotification("Successfully logged in", "ok");
+        this.showNotification("Successfully logged in", "success");
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
@@ -151,7 +151,7 @@ export const useGlobalStore = defineStore('global', {
         })
         this.fetchUserData();
         this.isLoad = false;
-        this.showNotification("Profile successfully updated", "ok");
+        this.showNotification("Profile successfully updated", "success");
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
@@ -184,7 +184,7 @@ export const useGlobalStore = defineStore('global', {
     async bookCar(id){
       try {
         this.isLoad = true;
-        await axios({
+        const {data} = await axios({
           method: "POST",
           url: `${this.baseUrl}transactions/${id}`,
           headers: {
@@ -192,7 +192,9 @@ export const useGlobalStore = defineStore('global', {
           }
         })
         this.isLoad = false;
-        this.showNotification("Successfully booked! Please see profile > My book for more details", "ok");
+        const transactionId = data.id;
+        console.log(data);
+        return transactionId;
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
@@ -202,21 +204,17 @@ export const useGlobalStore = defineStore('global', {
       localStorage.removeItem("access_token");
       this.isSidebarOpen = false;
       this.isLoggedIn = false;
-      this.showNotification("Successfully logged out", "ok");
+      this.showNotification("Successfully logged out", "success");
       this.router.push('/login');
     },
     formatNumber(number){
       return number.toLocaleString("da-DK")
     },
     showNotification(message, type){
-      let icon = 'success';
-      if(type === "error"){
-        icon = "error";
-      }
       Swal.fire({
         position: 'top-end',
         toast: true,
-        icon,
+        icon: type,
         title: message,
         showConfirmButton: false,
         timer: 1500
@@ -243,7 +241,7 @@ export const useGlobalStore = defineStore('global', {
           }
         })
           .then(_=>{
-            this.showNotification("Succesfully cancel transaction", "ok");
+            this.showNotification("Succesfully cancel transaction", "success");
             this.fetchTransaction("All");
             this.isLoad = false;
           })
@@ -252,6 +250,57 @@ export const useGlobalStore = defineStore('global', {
             this.showNotification(error.response.data.message, "error");
           })
       })
+    },
+    async paymentHandler(id, price, status){
+      try {
+        const transactionId = id;
+        if(status === "new"){
+          const transactionId = await this.bookCar(id);
+        }
+        const notification = this.showNotification;
+        const baseUrl = this.baseUrl;
+        const redirectPage = this.router.push;
+        const {data} = await axios({
+          method: "POST",
+          url: `${this.baseUrl}payments`,
+          data: this.user,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        window.snap.pay(data.snapToken, {
+          onSuccess: function(result){
+            notification("Transaction success!", "success");
+            axios({
+              method: "PATCH",
+              url: `${baseUrl}transactions/${transactionId}`,
+              headers: {
+                access_token: localStorage.access_token
+              },
+              data: {
+                status: "Paid"
+              }
+            })
+              .then(_=>{
+                redirectPage('/profile')
+              })
+              .catch(err=>{
+                notification(error.response.data.message, "error")
+              })
+          },
+          onPending: function(result){
+            notification("Wating your payment!" , "question");
+          },
+          onError: function(result){
+            notification("payment failed!" , "error");
+          },
+          onClose: function(){
+            notification('You closed the popup without finishing the payment' , "error");
+          }
+        })
+      } catch (error) {
+        this.showNotification(err.response.data.message, "error")
+      }
     }
   }
 })
