@@ -5,7 +5,9 @@ export const useGlobalStore = defineStore('global', {
   state: () => ({
     baseUrl: `http://localhost:3000/customers/`,
     isLoggedIn: false,
-    isLoad: false
+    isLoad: false,
+    user: {},
+    isSidebarOpen: false,
   }),
   getters: {
   },
@@ -28,6 +30,43 @@ export const useGlobalStore = defineStore('global', {
         console.log(error);
       }
     },
-    
+    async loginHandler(login){
+      try {
+        this.isLoad = true;
+        const {data} = await axios({
+          method: "POST",
+          url: `${this.baseUrl}login`,
+          data: {
+            email: login.email,
+            password: login.password
+          }
+        })
+        localStorage.setItem("access_token", data.access_token);
+        this.isLoggedIn = true;
+        this.fetchUserData();
+        this.router.push('/');
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
+    async fetchUserData(){
+      try {
+        this.isLoad = true;
+        const{data} = await axios({
+          method: "GET",
+          url: `${this.baseUrl}users`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        this.user = data;
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
   }
 })
