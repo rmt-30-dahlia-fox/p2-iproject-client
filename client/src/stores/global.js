@@ -122,8 +122,8 @@ export const useGlobalStore = defineStore('global', {
           method: "GET",
           url: `${this.baseUrl}products/${id}`
         })
-        this.product = data;
         this.isLoad = false;
+        this.product = data;
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
@@ -154,6 +154,9 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification("Profile successfully updated", "success");
       } catch (error) {
         this.isLoad = false;
+        if(error === "Password unmatching"){
+          return this.showNotification(error, "error");
+        }
         this.showNotification(error.response.data.message, "error");
       }
     },
