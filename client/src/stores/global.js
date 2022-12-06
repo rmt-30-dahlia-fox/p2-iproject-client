@@ -257,6 +257,7 @@ export const useGlobalStore = defineStore('global', {
         if(status === "new"){
           transactionId = await this.bookCar(id);
         }
+        const fetchTransaction = this.fetchTransaction;
         const notification = this.showNotification;
         const baseUrl = this.baseUrl;
         const redirectPage = this.router.push;
@@ -284,6 +285,7 @@ export const useGlobalStore = defineStore('global', {
             })
               .then(_=>{
                 redirectPage('/profile')
+                fetchTransaction("All");
               })
               .catch(err=>{
                 notification(error.response.data.message, "error")
