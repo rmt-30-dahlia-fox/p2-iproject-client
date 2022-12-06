@@ -11,7 +11,11 @@ export const useGlobalStore = defineStore('global', {
     products: [],
     brands: [],
     dealers: [],
-    product: {}
+    product: {},
+    profileContent: "my-car",
+    paidTransaction: [],
+    allTransaction: [],
+    transactionDetail: {},
   }),
   getters: {
   },
@@ -122,6 +126,57 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
         console.log(error);
       }
+    },
+    async updateProfile(data){
+      try {
+        if(data.password !== data.confirmPassword){
+          throw("Password unmatching")
+        }
+        this.isLoad = true;
+        await axios({
+          method: "PUT",
+          url: `${this.baseUrl}users`,
+          headers: {
+            access_token: localStorage.access_token
+          },
+          data: { 
+            "firstName": data.firstName,
+            "lastName": data.lastName,
+            "email": data.email,
+            "password": data.password,
+            "phoneNumber": data.phoneNumber
+          }
+        })
+        this.fetchUserData();
+        this.isLoad = false;
+      } catch (error) {
+        this.isLoad = false;
+        console.log(error);
+      }
+    },
+    async fetchTransaction(status){
+      try {
+        this.isLoad = true;
+        const {data} = await axios({
+          method: "GET",
+          url: `${this.baseUrl}transactions/${status}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        if(status === "Paid"){
+          this.isLoad = false;
+          return this.paidTransaction = data;
+        }
+        this.allTransaction = data;
+        this.isLoad = false;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getTransactionDetail(id){
+      await this.fetchTransaction("Paid");
+      this.transactionDetail = this.paidTransaction.find(element => element.id === id);
     }
   }
 })
