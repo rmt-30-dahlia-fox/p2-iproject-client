@@ -1,17 +1,14 @@
 <script>
 import PostCard from "../components/PostCard.vue";
-import FriendCard from "../components/FriendCard.vue";
 
 export default {
   components: {
     PostCard,
-    FriendCard,
   },
 };
 </script>
 
 <template>
-<section class="flex">
   <div id="home-posts" class="flex-grow">
     <div id="new-post">
       <form action="" class="flex items-center justify-center" enctype="multipart/form-data">
@@ -44,15 +41,6 @@ export default {
       <PostCard />
     </div>
   </div>
-  <div id="friend-list" class="h-screen p-4 shadow w-80">
-    <h1>People</h1>
-    <FriendCard />
-    <FriendCard />
-    <FriendCard />
-    <FriendCard />
-    <FriendCard />
-  </div>
-</section>
 </template>
 
 <style></style>

@@ -2,6 +2,7 @@
 export default {
   methods: {
     triggerChat(id) {
+      this.$router.push("/chat/"+id);
       console.log("triggered");
     }
   },
@@ -9,7 +10,7 @@ export default {
 </script>
 
 <template>
-    <div @click.prevent="triggerChat(1)" class="flex p-2 pr-6 my-2 rounded-lg cursor-pointer hover:bg-gray-100">
+    <div @click.prevent="triggerChat(1)" class="flex p-2 pr-6 my-2 rounded-lg cursor-pointer hover:bg-gray-200">
       <img
           alt="Profile"
           src="https://thispersondoesnotexist.com/image"
