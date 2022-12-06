@@ -31,11 +31,12 @@ export const useGlobalStore = defineStore('global', {
           url: `${this.baseUrl}register`,
           data
         })
-        this.router.push('/login')
+        this.router.push('/login');
+        this.showNotification("Successfully registered", "ok");
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async loginHandler(login){
@@ -54,9 +55,10 @@ export const useGlobalStore = defineStore('global', {
         this.fetchUserData();
         this.router.push('/');
         this.isLoad = false;
+        this.showNotification("Successfully logged in", "ok");
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async fetchUserData(){
@@ -73,7 +75,7 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async fetchProducts(filter){
@@ -89,7 +91,7 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     fetchBrand(){
@@ -110,7 +112,7 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async fetchProductDeteail(id){
@@ -124,7 +126,7 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async updateProfile(data){
@@ -149,9 +151,10 @@ export const useGlobalStore = defineStore('global', {
         })
         this.fetchUserData();
         this.isLoad = false;
+        this.showNotification("Profile successfully updated", "ok");
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async fetchTransaction(status){
@@ -171,7 +174,7 @@ export const useGlobalStore = defineStore('global', {
         this.allTransaction = data;
         this.isLoad = false;
       } catch (error) {
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     async getTransactionDetail(id){
@@ -189,18 +192,35 @@ export const useGlobalStore = defineStore('global', {
           }
         })
         this.isLoad = false;
+        this.showNotification("Successfully booked! Please see profile > My book for more details", "ok");
       } catch (error) {
         this.isLoad = false;
-        console.log(error);
+        this.showNotification(error.response.data.message, "error");
       }
     },
     logoutHandler(){
       localStorage.removeItem("access_token");
       this.isSidebarOpen = false;
+      this.isLoggedIn = false;
+      this.showNotification("Successfully logged out", "ok");
       this.router.push('/login');
     },
     formatNumber(number){
       return number.toLocaleString("da-DK")
+    },
+    showNotification(message, type){
+      let icon = 'success';
+      if(type === "error"){
+        icon = "error";
+      }
+      Swal.fire({
+        position: 'top-end',
+        toast: true,
+        icon,
+        title: message,
+        showConfirmButton: false,
+        timer: 1500
+      })
     }
   }
 })
