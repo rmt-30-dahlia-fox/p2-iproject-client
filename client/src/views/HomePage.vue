@@ -1,0 +1,61 @@
+<script>
+import ActivityCard from "@/components/ActivityCard.vue";
+import Leaderboard from "@/components/Leaderboard.vue";
+
+export default {
+  components: {
+    ActivityCard,
+    Leaderboard
+  },
+};
+</script>
+
+<template>
+  <!-- Home Page -->
+  <header aria-label="Page Header">
+    <div
+      class="mx-auto container max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8"
+    >
+      <div class="sm:flex sm:items-center sm:justify-between">
+        <div class="text-center sm:text-left">
+          <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
+            Welcome Back, Barry!
+          </h1>
+
+          <div>
+            <div class="my-2">
+              <h2 class="font-medium">Badge - 50 / 100 Stars</h2>
+              <div class="mt-2 overflow-hidden rounded-full bg-gray-200">
+                <div class="h-2 w-2/3 rounded-full bg-teal-500"></div>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="mt-4">Let's get fit and share it to your friends! 🎉</h2>
+        </div>
+
+        <div
+          class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center"
+        >
+          <button
+            class="block rounded-lg bg-teal-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
+            type="button"
+          >
+            Create Post
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Activities Cards -->
+  <div class="flex container my-4 justify-around px-6 mx-auto">
+    <div class="grow flex flex-col gap-4 mx-6 max-w-lg justify-center">
+      <ActivityCard />
+      <ActivityCard />
+      <ActivityCard />
+    </div>
+
+    <Leaderboard />
+  </div>
+</template>
