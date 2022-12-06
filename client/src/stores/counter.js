@@ -5,10 +5,33 @@ export const useCounterStore = defineStore('counter', {
   state: () => ({
     // baseUrl: "https://sipri-movie.up.railway.app",
     baseUrl: "http://localhost:3000",
+    dataManga : ""
 
 
   }),
   actions: {
+    async registerHandler(dataRegister) {
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: this.baseUrl + "/register",
+          data: {
+            email: dataRegister.email,
+            password: dataRegister.password,
+            username: dataRegister.username,
+            phoneNumber: dataRegister.phoneNumber,
+            address: dataRegister.address
+          }
+        })
+        localStorage.setItem('access_token', data.access_token)
+        this.router.push('/')    
+
+      } catch (error) {
+        console.log(error);
+        // this.handleError(error)
+
+      }
+    },
     async loginHandler(dataLogin) {
       try {
         const { data } = await axios({
@@ -24,7 +47,7 @@ export const useCounterStore = defineStore('counter', {
 
       } catch (error) {
         console.log(error);
-        // this.handleError(error)
+        this.handleError(error)
 
       }
     },

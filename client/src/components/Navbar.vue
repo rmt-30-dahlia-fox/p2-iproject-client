@@ -4,6 +4,12 @@ import { mapActions, mapState, mapWritableState } from 'pinia';
 
 
 export default {
+    data(){
+        return{
+            loggedIn : false
+        }
+
+    },  
     computed: {
     },
     methods: {
@@ -12,7 +18,13 @@ export default {
             this.$router.push('/login')
         }
     },
-
+    updated(){
+        if(localStorage.access_token){
+            this.loggedIn = true
+        }else{
+            this.loggedIn = false
+        }
+    }
 
 }
 
@@ -49,12 +61,12 @@ export default {
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
-                    <router-link to="/">
+                    <router-link v-if="!loggedIn" to="/login">
                         <button type="button" class="btn btn-link px-3 me-2" >
                             Login
                         </button> </router-link>
-                    <RouterLink to="/">
-                        <button type="button" class="btn btn-primary me-3" style="border-radius: 10px;">
+                    <RouterLink to="/register">
+                        <button v-if="!loggedIn" type="button" class="btn btn-primary me-3" style="border-radius: 10px;">
                             Sign up
                         </button>
                     </RouterLink>
