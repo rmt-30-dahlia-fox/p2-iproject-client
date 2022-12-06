@@ -24,12 +24,7 @@ export default {
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="#">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
+
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -38,15 +33,18 @@ export default {
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Dropdown link
+              Calculator
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><a class="dropdown-item" href="#">BMR</a></li>
+              <li><a class="dropdown-item" href="#">BMI</a></li>
               <li>
-                <a class="dropdown-item" href="#">Something else here</a>
+                <a class="dropdown-item" href="#">Calories Need</a>
               </li>
             </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Articles</a>
           </li>
         </ul>
       </div>
