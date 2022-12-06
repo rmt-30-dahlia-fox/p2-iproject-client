@@ -221,6 +221,37 @@ export const useGlobalStore = defineStore('global', {
         showConfirmButton: false,
         timer: 1500
       })
+    },
+    async cancelTransaction(id){
+      Swal.fire({
+        title: 'Are you sure want to cancel this transaction?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirm'
+      }).then((result) => {
+        this.isLoad = true;
+        axios({
+          method: "PATCH",
+          url: `${this.baseUrl}transactions/${id}`,
+          headers: {
+            access_token: localStorage.access_token
+          },
+          data: {
+            status: "Cancel"
+          }
+        })
+          .then(_=>{
+            this.showNotification("Succesfully cancel transaction", "ok");
+            this.fetchTransaction("All");
+            this.isLoad = false;
+          })
+          .catch(error=>{
+            this.isLoad = false;
+            this.showNotification(error.response.data.message, "error");
+          })
+      })
     }
   }
 })
