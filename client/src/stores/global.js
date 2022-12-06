@@ -253,9 +253,9 @@ export const useGlobalStore = defineStore('global', {
     },
     async paymentHandler(id, price, status){
       try {
-        const transactionId = id;
+        let transactionId = id;
         if(status === "new"){
-          const transactionId = await this.bookCar(id);
+          transactionId = await this.bookCar(id);
         }
         const notification = this.showNotification;
         const baseUrl = this.baseUrl;
@@ -265,7 +265,8 @@ export const useGlobalStore = defineStore('global', {
           url: `${this.baseUrl}payments`,
           data: this.user,
           headers: {
-            access_token: localStorage.access_token
+            access_token: localStorage.access_token,
+            price
           }
         })
         window.snap.pay(data.snapToken, {
