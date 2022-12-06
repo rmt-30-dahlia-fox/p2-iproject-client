@@ -20,8 +20,8 @@ export default{
   created(){
     if(localStorage.access_token){
       this.isLoggedIn = true;
+      this.fetchUserData();
     }
-    this.fetchUserData();
   }
 }
 </script>
