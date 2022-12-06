@@ -2,7 +2,7 @@
 
 <template>
   <!-- Leaderboard -->
-  <div>
+  <div class="col-start-2 col-span-4">
     <div
       class="container flex flex-col items-center justify-center w-full mx-auto bg-white rounded-lg shadow"
     >

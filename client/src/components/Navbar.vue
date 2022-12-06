@@ -4,7 +4,7 @@
   <!-- Navbar -->
   <div class="sticky top-0 bg-white z-20">
     <header aria-label="Site Header" class="container mx-auto">
-      <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex-1 md:flex md:items-center md:gap-12">
             <a class="block text-teal-600" href="/">
