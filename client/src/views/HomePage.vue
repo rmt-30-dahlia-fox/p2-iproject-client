@@ -14,7 +14,7 @@ export default {
   <!-- Home Page -->
   <header aria-label="Page Header">
     <div
-      class="mx-auto container max-w-screen-xl px-4 py-8 sm:py-12 sm:px-6 lg:px-8"
+      class="mx-auto container px-4 py-8 sm:py-12 sm:px-6 lg:px-8"
     >
       <div class="sm:flex sm:items-center sm:justify-between">
         <div class="text-center sm:text-left">
@@ -49,13 +49,15 @@ export default {
   </header>
 
   <!-- Activities Cards -->
-  <div class="flex container my-4 justify-around px-6 mx-auto">
-    <div class="grow flex flex-col gap-4 mx-6 max-w-lg justify-center">
+  <div class="container gap-10 grid grid-cols-10 mx-auto my-4 justify-around px-6 mx-auto">
+    <Leaderboard />
+
+    <div class="justify-center col-end-10 col-span-4 flex flex-col gap-4 w-full justify-center">
       <ActivityCard />
       <ActivityCard />
       <ActivityCard />
     </div>
 
-    <Leaderboard />
+    
   </div>
 </template>

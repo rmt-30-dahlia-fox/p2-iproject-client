@@ -1,7 +1,7 @@
 <script></script>
 
 <template>
-  <article class="rounded-xl border-2 w-50 border-gray-100 bg-white">
+  <article class="rounded-xl border-2 border-gray-100 bg-white">
     <div class="flex items-start p-6 justify-between">
       <a href="#" class="block shrink-0">
         <img
