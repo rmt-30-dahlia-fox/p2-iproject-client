@@ -57,8 +57,8 @@ export default {
           </li>
           <li class="nav-item" v-if="loginStatus">
             <h4>
-              <router-link to="/bookmark" class="nav-link text-dark"
-                >Bookmark</router-link
+              <router-link to="/cart" class="nav-link text-dark"
+                >Cart</router-link
               >
             </h4>
           </li>
