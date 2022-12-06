@@ -1,6 +1,11 @@
 <script>
+import { mapActions } from 'pinia';
+import { useGlobalStore } from '../../stores/global';
 export default{
-  props: ["product"]
+  props: ["product"],
+  methods: {
+    ...mapActions(useGlobalStore, ['formatNumber'])
+  }
 }
 </script>
 
@@ -21,7 +26,7 @@ export default{
           <span class="tracking-wider text-xl font-bold"> Start From </span>
         </p>
         <p class="my-1">
-          <span class="tracking-wider text-xl font-bold"> IDR. {{product.price}} </span>
+          <span class="tracking-wider text-xl font-bold"> IDR. {{formatNumber(product.price)}} </span>
         </p>
       </div>
     </router-link>

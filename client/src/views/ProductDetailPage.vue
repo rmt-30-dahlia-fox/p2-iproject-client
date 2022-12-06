@@ -4,7 +4,7 @@ import { useGlobalStore } from '../stores/global';
 import ReviewCard from '../components/ProductDetail/ReviewCard.vue';
 export default{
   methods: {
-    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'bookCar'])
+    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'bookCar', 'formatNumber'])
   },
   computed: {
     ...mapState(useGlobalStore, ["product"])
@@ -40,7 +40,7 @@ export default{
               <h2>Get exclusive merchandise from CarStore</h2>
               <div>
                 <p>Start From</p>
-                <p class="text-xl font-bold">IDR. {{product.price}}</p>
+                <p class="text-xl font-bold">IDR. {{formatNumber(product.price)}}</p>
               </div>
               <button @click.prevent="bookCar(product.id)" type="button"
                 class="w-full rounded border border-gray-300 bg-black text-white px-6 py-3 text-sm font-bold uppercase tracking-wide">

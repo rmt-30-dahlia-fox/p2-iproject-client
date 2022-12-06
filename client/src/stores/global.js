@@ -198,6 +198,9 @@ export const useGlobalStore = defineStore('global', {
       localStorage.removeItem("access_token");
       this.isSidebarOpen = false;
       this.router.push('/login');
+    },
+    formatNumber(number){
+      return number.toLocaleString("da-DK")
     }
   }
 })
