@@ -6,6 +6,8 @@ export const useGlobalStore = defineStore('global', {
     baseUrl: 'http://localhost:3000',
     isLogin: false,
     user: {},
+    types: [],
+    difficulties: [],
     activities: [],
     exercises: {
       currentPage: 1,
@@ -14,6 +16,11 @@ export const useGlobalStore = defineStore('global', {
     loginForm: {
       email: '',
       password: ''
+    },
+    filterForm: {
+      difficulty: '',
+      type: '',
+      name: ''
     }
    }),
   getters: {
@@ -25,6 +32,10 @@ export const useGlobalStore = defineStore('global', {
         const params = {}
 
         params.page = this.exercises.currentPage
+
+        if(this.filterForm.difficulty) params.difficulty = this.filterForm.difficulty
+        if(this.filterForm.type) params.type = this.filterForm.type
+        if(this.filterForm.name) params.name = this.filterForm.name
 
         const { data } = await axios.get(this.baseUrl + '/exercises', {
           headers: { access_token: localStorage.access_token },
@@ -50,11 +61,39 @@ export const useGlobalStore = defineStore('global', {
     },
 
     async fetchUserLogin(id) {
-      const { data } = await axios.get(this.baseUrl + '/users/' + id, {
-        headers: { access_token: localStorage.access_token }
-      })
+      try {
+        const { data } = await axios.get(this.baseUrl + '/users/' + id, {
+          headers: { access_token: localStorage.access_token }
+        })
+  
+        this.user = data
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-      this.user = data
+    async fetchTypes() {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/types', {
+          headers: { access_token: localStorage.access_token }
+        })
+  
+        this.types = data.data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async fetchDifficulties() {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/difficulties', {
+          headers: { access_token: localStorage.access_token }
+        })
+  
+        this.difficulties = data.data
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     checkIsLogin() {

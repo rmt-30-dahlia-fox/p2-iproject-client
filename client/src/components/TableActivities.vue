@@ -1,34 +1,45 @@
 <script>
-import { mapActions, mapWritableState } from "pinia";
+import { mapState, mapActions, mapWritableState } from "pinia";
 import { useGlobalStore } from "../stores/global";
-import TableRowExercise from '@/components/TableRowExercise.vue'
+import TableRowExercise from "@/components/TableRowExercise.vue";
 
 export default {
   components: {
-    TableRowExercise
+    TableRowExercise,
   },
   computed: {
-    ...mapWritableState(useGlobalStore, ['exercises'])
+    ...mapWritableState(useGlobalStore, ["exercises", 'filterForm']),
+    ...mapState(useGlobalStore, ["types", "difficulties"]),
   },
   methods: {
-    ...mapActions(useGlobalStore, ['fetchExercises']),
-    previousPage()  {
-      if(this.exercises.currentPage > 1) {
-        this.exercises.currentPage--
+    ...mapActions(useGlobalStore, [
+      "fetchExercises",
+      "fetchTypes",
+      "fetchDifficulties",
+    ]),
+    previousPage() {
+      if (this.exercises.currentPage > 1) {
+        this.exercises.currentPage--;
       }
 
-      this.fetchExercises()
+      this.fetchExercises();
     },
     nextPage() {
-      this.exercises.currentPage++
+      this.exercises.currentPage++;
 
-      this.fetchExercises()
+      this.fetchExercises();
+    },
+    filterExercise() {
+      console.log('masuk');
+      this.fetchExercises();
     }
   },
   created() {
-    this.fetchExercises()
-  }
-}
+    this.fetchExercises();
+    this.fetchTypes();
+    this.fetchDifficulties();
+  },
+};
 </script>
 
 <template>
@@ -43,36 +54,35 @@ export default {
         <p class="text-sm font-medium">Filter by:</p>
 
         <select
+          @change="filterExercise"
+          v-model="filterForm.difficulty"
           class="block px-2 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
           name="animals"
         >
           <option value="">Difficulty</option>
-          <option value="dog">Dog</option>
-          <option value="cat">Cat</option>
-          <option value="hamster">Hamster</option>
-          <option value="parrot">Parrot</option>
-          <option value="spider">Spider</option>
-          <option value="goldfish">Goldfish</option>
+          <option v-for="difficulty in difficulties" :key="difficulty.id" :value="difficulty.name">
+            {{ difficulty.name }}
+          </option>
         </select>
 
         <select
+          @change="filterExercise"
+          v-model="filterForm.type"
           class="mt-1 block px-2 py-1 text-sm text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
           name="animals"
         >
           <option value="">Type</option>
-          <option value="dog">Dog</option>
-          <option value="cat">Cat</option>
-          <option value="hamster">Hamster</option>
-          <option value="parrot">Parrot</option>
-          <option value="spider">Spider</option>
-          <option value="goldfish">Goldfish</option>
+          <option v-for="type in types" :key="type.id" :value="type.name">
+            {{ type.name }}
+          </option>
         </select>
 
-        <form>
+        <form @submit.prevent="filterExercise">
           <p class="text-sm font-medium mt-4">Search by:</p>
 
           <div class="relative">
             <input
+              v-model="filterForm.name"
               type="text"
               id="rounded-email"
               class="mt-1 rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-1 px-2 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-teal-600 focus:border-transparent"
@@ -81,7 +91,7 @@ export default {
           </div>
 
           <button
-            type="button"
+            type="submit"
             class="py-1 px-2 mt-2 bg-teal-600 hover:bg-teal-700 focus:ring-teal-500 focus:ring-offset-teal-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
           >
             Search
@@ -140,7 +150,7 @@ export default {
                   </div>
 
                   <a
-                  @click.prevent="nextPage"
+                    @click.prevent="nextPage"
                     href="#"
                     class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
                   >
@@ -168,7 +178,6 @@ export default {
               v-for="exercise in exercises.exercises"
               :key="exercise.id"
               :exercise="exercise"
-              :index="index"
             />
           </tbody>
         </table>
