@@ -11,7 +11,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useMainStore, ["pageTitle", "bmrResult"]),
+    ...mapState(useMainStore, ["bmrResult"]),
     ...mapWritableState(useMainStore, ["pageTitle"]),
   },
   methods: {
@@ -29,7 +29,7 @@ export default {
     },
     calculate() {
       console.log("calculate() ke trigger");
-      this.Calc_CaloriesNeed(this.params);
+      this.Calc_BMR(this.params);
       this.info = false;
       this.result = true;
     },
@@ -48,11 +48,18 @@ export default {
       <h3 class="mt-5">{{ pageTitle }}</h3>
     </div>
   </div>
-  <div class="bg-dark m-5 p-4">
+  <div class="bg-dark m-5 p-4 rounded">
     <div class="row">
       <div class="col">
         <button class="btn btn-info" @click="infobutton">info</button>
         <div class="text-light ps-2 pt-2" style="font-size: 14px" v-if="info">
+          <p>
+            The Basal Metabolic Rate (BMR) Calculator estimates your basal
+            metabolic rate—the amount of energy expended while at rest in a
+            neutrally temperate environment, and in a post-absorptive state
+            (meaning that the digestive system is inactive, which requires about
+            12 hours of fasting).
+          </p>
           <p>
             The basal metabolic rate (BMR) is the amount of energy needed while
             resting in a temperate environment when the digestive system is
@@ -74,23 +81,6 @@ export default {
             is the BMR value multiplied by a factor with a value between 1.2 and
             1.9, depending on activity level.
           </p>
-          <p>
-            In most situations, the BMR is estimated with equations summarized
-            from statistical data. The Harris-Benedict Equation was one of the
-            earliest equations introduced. It was revised in 1984 to be more
-            accurate and was used up until 1990, when the Mifflin-St Jeor
-            Equation was introduced. The Mifflin-St Jeor Equation has been shown
-            to be more accurate than the revised Harris-Benedict Equation. The
-            Katch-McArdle Formula is slightly different in that it calculates
-            resting daily energy expenditure (RDEE), which takes lean body mass
-            into account, something that neither the Mifflin-St Jeor nor the
-            Harris-Benedict Equation does. Of these equations, the Mifflin-St
-            Jeor Equation is considered the most accurate equation for
-            calculating BMR with the exception that the Katch-McArdle Formula
-            can be more accurate for people who are leaner and know their body
-            fat percentage. You can pick the equation to be used in the
-            calculation by expanding the settings
-          </p>
         </div>
         <div class="position relative" v-if="result">
           <h5
@@ -101,46 +91,10 @@ export default {
           <pre></pre>
           <table class="text-light">
             <tr>
-              <td>Daily Calories need</td>
+              <td>Your BMR is</td>
               <td>:</td>
               <td class="ps-3">
-                <strong class="fs-3">{{ calNeedResult.balance }}</strong>
-                Calories/day
-              </td>
-            </tr>
-            <tr>
-              <td>Mild Weight Loss</td>
-              <td>:</td>
-              <td class="ps-3">
-                <strong class="fs-3">{{ calNeedResult.mildWeightLoss }}</strong>
-                Calories/day
-              </td>
-            </tr>
-            <tr>
-              <td>Heavy Weight Loss</td>
-              <td>:</td>
-              <td class="ps-3">
-                <strong class="fs-3">{{
-                  calNeedResult.heavyWeightLoss
-                }}</strong>
-                Calories/day
-              </td>
-            </tr>
-            <tr>
-              <td>Mild Weight Gain</td>
-              <td>:</td>
-              <td class="ps-3">
-                <strong class="fs-3">{{ calNeedResult.mildWeightGain }}</strong>
-                Calories/day
-              </td>
-            </tr>
-            <tr>
-              <td>Heavy Weight Gain</td>
-              <td>:</td>
-              <td class="ps-3">
-                <strong class="fs-3">{{
-                  calNeedResult.heavyWeightGain
-                }}</strong>
+                <strong class="fs-3">{{ bmrResult[0].bmrResult }}</strong>
                 Calories/day
               </td>
             </tr>

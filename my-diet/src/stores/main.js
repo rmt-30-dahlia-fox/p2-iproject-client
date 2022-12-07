@@ -28,7 +28,7 @@ export const useMainStore = defineStore('main', {
     },
 
     async Calc_CaloriesNeed(params) {
-      console.log(params);
+      // console.log(params);
       try {
         const { data } = await axios({
           method: 'get',
@@ -44,7 +44,7 @@ export const useMainStore = defineStore('main', {
     },
 
     async Calc_BMR(params) {
-      console.log(params);
+      // console.log(params);
       try {
         const { data } = await axios({
           method: 'get',
@@ -52,8 +52,8 @@ export const useMainStore = defineStore('main', {
           headers: { 'X-RapidAPI-Key': import.meta.env.VITE_RAPID_KEY, 'X-RapidAPI-Host': import.meta.env.VITE_RAPID_HOST },
         });
         // console.log(data, '<<<< data from CALC-CaloriesNeed');
-
-        this.calNeedResult = data;
+        // console.log(data[0].bmrResult);
+        this.bmrResult = data;
       } catch (error) {
         console.log(error)
       }

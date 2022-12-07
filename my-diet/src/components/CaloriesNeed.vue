@@ -11,7 +11,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(useMainStore, ["pageTitle", "calNeedResult"]),
+    ...mapState(useMainStore, ["calNeedResult"]),
     ...mapWritableState(useMainStore, ["pageTitle"]),
   },
   methods: {
@@ -48,27 +48,35 @@ export default {
       <h3 class="mt-5">{{ pageTitle }}</h3>
     </div>
   </div>
-  <div class="bg-dark m-5 p-4">
+  <div class="bg-dark m-5 p-4 rounded">
     <div class="row">
       <div class="col">
         <button class="btn btn-info" @click="infobutton">info</button>
-        <p class="text-light ps-2 pt-2" style="font-size: 14px" v-if="info">
-          This Calorie Calculator is based on several equations, and the results
-          of the calculator are based on an estimated average. The
-          Harris-Benedict Equation was one of the earliest equations used to
-          calculate basal metabolic rate (BMR), which is the amount of energy
-          expended per day at rest. It was revised in 1984 to be more accurate
-          and was used up until 1990, when the Mifflin-St Jeor Equation was
-          introduced. The Mifflin-St Jeor Equation also calculates BMR, and has
-          been shown to be more accurate than the revised Harris-Benedict
-          Equation. The Katch-McArdle Formula is slightly different in that it
-          calculates resting daily energy expenditure (RDEE), which takes lean
-          body mass into account, something that neither the Mifflin-St Jeor nor
-          the Harris-Benedict Equation do. Of these equations, the Mifflin-St
-          Jeor Equation is considered the most accurate equation for calculating
-          BMR with the exception that the Katch-McArdle Formula can be more
-          accurate for people who are leaner and know their body fat percentage.
-        </p>
+        <div class="text-light ps-2 pt-2" style="font-size: 14px" v-if="info">
+          <p>
+            The Calorie Calculator can be used to estimate the number of
+            calories a person needs to consume each day. This calculator can
+            also provide some simple guidelines for gaining or losing weight.
+          </p>
+          <p>
+            This Calorie Calculator is based on several equations, and the
+            results of the calculator are based on an estimated average. The
+            Harris-Benedict Equation was one of the earliest equations used to
+            calculate basal metabolic rate (BMR), which is the amount of energy
+            expended per day at rest. It was revised in 1984 to be more accurate
+            and was used up until 1990, when the Mifflin-St Jeor Equation was
+            introduced. The Mifflin-St Jeor Equation also calculates BMR, and
+            has been shown to be more accurate than the revised Harris-Benedict
+            Equation. The Katch-McArdle Formula is slightly different in that it
+            calculates resting daily energy expenditure (RDEE), which takes lean
+            body mass into account, something that neither the Mifflin-St Jeor
+            nor the Harris-Benedict Equation do. Of these equations, the
+            Mifflin-St Jeor Equation is considered the most accurate equation
+            for calculating BMR with the exception that the Katch-McArdle
+            Formula can be more accurate for people who are leaner and know
+            their body fat percentage.
+          </p>
+        </div>
         <div class="position relative" v-if="result">
           <h5
             class="text-light position-relative top-0 start-50 translate-middle-y"
