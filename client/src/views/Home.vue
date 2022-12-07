@@ -5,13 +5,25 @@ export default {
   components: {
     PostCard,
   },
+  methods: {
+    triggerNewPost() {
+      const form = document.getElementById("form-new-post");
+      this.newPost(form)
+	.then(route => {
+	  if (route) {
+	    this.$route.push(route);
+	    form.reset();
+	  }
+	});
+    },
+  },
 };
 </script>
 
 <template>
   <div id="home-posts" class="flex-grow">
     <div id="new-post">
-      <form action="" class="flex items-center justify-center" enctype="multipart/form-data">
+      <form action="/posts" method="POST" id="form-new-post" @submit.prevent="triggerNewPost" class="flex items-center justify-center" enctype="multipart/form-data">
 	<textarea class="rounded-lg shadow" name="content" placeholder="What's on your mind?" cols="30" rows="10"></textarea>
 	<div class="flex-col ">
 	  <div

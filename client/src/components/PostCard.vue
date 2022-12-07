@@ -1,10 +1,14 @@
 <script>
+import Media from './Media.vue';
+
 export default {
+  props: ["media"],
   methods: {
-    triggerLike() {
-      console.log("Liked");
-    }
+      triggerLike() {
+	  console.log("Liked");
+      }
   },
+  components: { Media }
 };
 </script>
 
@@ -19,7 +23,7 @@ export default {
       </div>
       <span class="px-2 rounded cursor-pointer hover:bg-gray-300"><i class="pt-2 text-lg fas fa-ellipsis-h"></i></span>
     </div>
-    <img class="w-full bg-cover" src="https://3.bp.blogspot.com/-Chu20FDi9Ek/WoOD-ehQ29I/AAAAAAAAK7U/mc4CAiTYOY8VzOFzBKdR52aLRiyjqu0MwCLcBGAs/s1600/DSC04596%2B%25282%2529.JPG">
+    <Media v-if="media" :data="media"/>
     <div class="px-3 pb-2">
       <div class="pt-2">
 	<a

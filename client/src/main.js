@@ -13,7 +13,6 @@ const pinia = createPinia();
 app.use(pinia)
 
 router.beforeEach((to, from, next) => {
-  return next();
   const access_token = localStorage.getItem("access_token");
   // console.log(to, access_token)
 

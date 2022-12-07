@@ -26,14 +26,12 @@ class SessionSocket {
     this.httpUri = httpUri;
     this.wsUri = wsUri;
 
-    this.connectBase = this.domain + (this.port ? (":"+this.port) : "");
-
     this.secureWs = !!secureWs;
     this.secureHttp = !!secureHttp;
 
-    this.socket = new WebSocket();
+    this.socket = new WebSocket(this.connectWs);
     this.ax = axios.create({
-      baseUrl: this.connectHttp,
+      baseURL: this.connectHttp,
     });
 
     this.socket.addEventListener('open', (event) => {
@@ -43,6 +41,8 @@ class SessionSocket {
 	  user_id: this.userId,
 	}
       }));
+
+      console.log("[SessionSocket] Connecedted");
     });
 
     this.socket.addEventListener("message", messageHandler);
@@ -76,19 +76,27 @@ class SessionSocket {
     return this.socket.send(JSON.stringify(msg));
   }
 
-  sendGlobalChatMessage(content) {
-    this.ax.post(this.connectHttp + "/chat/global", {
-      op: 
-    }, {
-      headers
-    })
+  destroy() {
+    this.close(1000, "logout");
   }
 
-  sendDirectMessage(content) {
-
+  async sendGlobalChatMessage(formData) {
+    return this.ax.post("/chat/global", formData, {
+      headers: {
+	"Content-Type": "multipart/form-data",
+	access_token: localStorage.getItem("access_token"),
+      }
+    });
   }
 
-  sendChat() {}
+  async sendDirectMessage(formData, recipientId) {
+    return this.ax.post("/chat/"+recipientId, formData, {
+      headers: {
+	"Content-Type": "multipart/form-data",
+	access_token: localStorage.getItem("access_token"),
+      }
+    });
+  }
 }
 
 export default SessionSocket;
