@@ -10,26 +10,25 @@ export default {
     methods: {
         ...mapActions(useCounterStore, ['fetchMangaDetail'])
     },
-    created() {  
+    created() {
         this.fetchMangaDetail(this.$route.params.id)
     }
 }
 
 </script>
 <template>
-    <div  class="container ">
-        <h1 class="text-center">{{mangaDetail?mangaDetail.title : ""}}</h1>
+    <div class="container " style="margin-top: 20px ;">
+        <h1 class="text-center">{{ mangaDetail ? mangaDetail.title : "" }}</h1>
         <div class="d-flex">
-            <div>
-                <img :src="mangaDetail?mangaDetail.main_picture.large:''" alt="image here" width="500" />
+            <div style="margin-top: 15px ;">
+                <img :src="mangaDetail ? mangaDetail.main_picture.large : ''" alt="image here" width="500" />
             </div>
 
-            <div>
+            <div style="margin-top: 20px ;">
                 <div class="d-flex justify-content-between">
                     <div class="mx-5 my-3">
-                        <h4>Rating : {{mangaDetail?mangaDetail.mean:``}}</h4>                        
-                        <h4 style="font-family:Arial, Helvetica, sans-serif;font-weight:bold">Synopsis :</h4>
-                        <div><text>{{mangaDetail?mangaDetail.synopsis:``}}</text></div>
+                        <h4>Rating : {{ mangaDetail ? mangaDetail.mean : `` }}</h4>
+                        <div style="margin-top: 25px ;"><text>{{ mangaDetail ? mangaDetail.synopsis : `` }}</text></div>
 
                     </div>
                 </div>

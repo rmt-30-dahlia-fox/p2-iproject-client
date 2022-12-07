@@ -29,7 +29,7 @@ export default {
 
             <div class="card-body d-flex flex-column justify-content-end gap-2">
                 <ul class="list-group list-group-light list-group-small">
-                    <li class="list-group-item px-4">Rank : {{ manga.ranking.rank }}</li>
+                    <li class="list-group-item px-4">Rank : </li>
 
                 </ul>
                 <!-- <div class="d-flex flex-row-reverse">

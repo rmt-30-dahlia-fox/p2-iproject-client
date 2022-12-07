@@ -24,7 +24,7 @@ export default{
   <main>
     <h1 class="text-center ">Top Manga</h1>
     <div class="container">
-      <div class="row">
+      <div class="row row-cols-2 g-2 g-lg-3 row-cols-lg-5">
         <!-- <pre>{{dataManga}}</pre> -->
         <MangaCard v-for="manga in dataManga" :key="manga.ranking.rank" :manga="manga" />       
 
