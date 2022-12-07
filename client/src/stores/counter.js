@@ -1,6 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({ 
@@ -37,6 +38,16 @@ export const useCounterStore = defineStore('counter', {
       length: 0
     },
     
+    member: {
+      called: {},
+      register: {
+        name: '',
+        email: '',
+        phone: '',
+        gender: ''
+      }
+    },
+
     foods: [],
     categories: [],
     favorites: [],
@@ -79,6 +90,11 @@ export const useCounterStore = defineStore('counter', {
         this.router.replace('/')
       } catch (error) {
         console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
       }
     },
 
@@ -96,6 +112,46 @@ export const useCounterStore = defineStore('counter', {
         this.loggedUser.photo = localStorage.photo
         this.loggedUser.email = localStorage.email
         this.loggedUser.role = localStorage.role
+      }
+    },
+
+    async handleMember(){
+      try {
+        const {data} = await axios ({
+          url: this.baseUrl + 'members',
+          method: 'post',
+          data: {
+            name: this.member.register.name,
+            gender: this.member.register.gender,
+            email: this.member.register.email,
+            phone: this.member.register.phone
+          },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `${this.member.register.name} succesfully registered`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.member.register.name = ''
+        this.member.register.gender = ''
+        this.member.register.email = ''
+        this.member.register.phone = ''
+        
+        setTimeout(() => {
+          this.router.replace('/')
+        }, 1500)
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
       }
     },
   },

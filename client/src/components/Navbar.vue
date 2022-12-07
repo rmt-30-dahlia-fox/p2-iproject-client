@@ -79,7 +79,14 @@ export default {
                         </RouterLink>
                     </li>
 
-                    <li v-if="loginState" class="sidebar-item  ">
+                    <li v-if="loginState" @click.prevent="changePage('Register')" class="sidebar-item  ">
+                        <RouterLink to="/members" href="" class='sidebar-link'>
+                            <i class="bi bi-person-rolodex"></i>
+                            <span>Member</span>
+                        </RouterLink>
+                    </li>
+
+                    <li v-if="loginState" class="sidebar-item">
                         <a @click.prevent="checkLogout" href="" class='sidebar-link'>
                             <i class="bi bi-door-open-fill"></i>
                             <span>Logout</span>
