@@ -5,7 +5,18 @@ export const useGlobalStore = defineStore('global', {
   state: () => ({ 
     baseUrl: 'http://localhost:3000',
     isLogin: false,
-    user: {},
+    user: {
+      id: null,
+      email: '',
+      fullName: '',
+      dateOfBirth: '',
+      city: '',
+      imageProfile: '',
+      status: '',
+      star: null,
+      BadgeId: null,
+      Badge: null,
+    },
     types: [],
     difficulties: [],
     activities: [],
@@ -31,6 +42,10 @@ export const useGlobalStore = defineStore('global', {
       difficulty: '',
       type: '',
       name: ''
+    },
+    changePass: {
+      new: '',
+      old: ''
     }
    }),
   getters: {
@@ -76,7 +91,17 @@ export const useGlobalStore = defineStore('global', {
           headers: { access_token: localStorage.access_token }
         })
   
-        this.user = data
+        this.user.id = data.id
+        this.user.email = data.email
+        this.user.fullName = data.fullName
+        this.user.dateOfBirth = new Date(data.dateOfBirth).toLocaleDateString('fr-CA')
+        this.user.city = data.city
+        this.user.imageProfile = data.imageProfile
+        this.user.status = data.status
+        this.user.star = data.star
+        this.user.BadgeId = data.BadgeId
+        this.user.Badge = data.Badge
+
       } catch (error) {
         console.log(error);
       }

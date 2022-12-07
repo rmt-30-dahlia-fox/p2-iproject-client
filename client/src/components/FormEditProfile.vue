@@ -1,23 +1,26 @@
-<script></script>
+<script>
+import { mapActions, mapWritableState } from 'pinia';
+import { useGlobalStore } from '../stores/global';
+
+export default {
+  computed: {
+    ...mapWritableState(useGlobalStore, ['user', 'changePass']),
+  },
+  methods: {
+    ...mapActions(useGlobalStore, ['fetchUserLogin'])
+  },
+  created() {
+    this.fetchUserLogin(this.$route.params.userId)
+  }
+}
+</script>
 
 <template>
   <!-- Form Edit Profile -->
   <div class="bg-gray-100 p-4">
+    <h1 class="text-center font-bold text-xl">Edit Profile</h1>
     <form class="container max-w-2xl mx-auto my-4 bg-white shadow-md md:w-3/4">
-      <div class="p-4 rounded-lg bg-gray-100/5">
-        <div class="max-w-sm mx-auto md:w-full md:mx-0">
-          <div class="inline-flex items-center space-x-4">
-            <a href="#" class="relative block">
-              <img
-                alt="profil"
-                src="../assets/profile-pic.webp"
-                class="mx-auto object-cover rounded-full h-16 w-16"
-              />
-            </a>
-            <h1 class="text-gray-600">Charlie</h1>
-          </div>
-        </div>
-      </div>
+      
       <div class="space-y-6 bg-white">
         <div
           class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0"
@@ -26,9 +29,8 @@
           <div class="max-w-sm mx-auto md:w-2/3">
             <div class="relative">
               <input
-                disabled
+                v-model="user.email"
                 type="text"
-                id="user-info-email"
                 class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                 placeholder="Your email"
               />
@@ -46,8 +48,8 @@
             <div>
               <div class="relative">
                 <input
+                  v-model="user.fullName"
                   type="text"
-                  id="user-info-name"
                   class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
                   placeholder="Your full name"
                 />
@@ -66,10 +68,10 @@
             <div>
               <div class="relative">
                 <input
+                  v-model="user.city"
                   type="text"
-                  id="user-info-name"
                   class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="Your full name"
+                  placeholder="Your domicile"
                 />
               </div>
             </div>
@@ -86,10 +88,9 @@
             <div>
               <div class="relative">
                 <input
+                  v-model="user.dateOfBirth"
                   type="date"
-                  id="user-info-name"
                   class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="Your full name"
                 />
               </div>
             </div>
@@ -101,15 +102,15 @@
         <div
           class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0"
         >
-          <h2 class="max-w-sm mx-auto md:w-1/3">New Password</h2>
+          <h2 class="max-w-sm mx-auto md:w-1/3">Old Password</h2>
           <div class="max-w-sm mx-auto space-y-5 md:w-2/3">
             <div>
               <div class="relative">
                 <input
-                  type="text"
-                  id="user-info-name"
+                  v-model="changePass.old"
+                  type="password"
                   class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="Your full name"
+                  placeholder="Your old password"
                 />
               </div>
             </div>
@@ -118,15 +119,15 @@
         <div
           class="items-center w-full p-4 space-y-4 text-gray-500 md:inline-flex md:space-y-0"
         >
-          <h2 class="max-w-sm mx-auto md:w-1/3">Confirm Password</h2>
+          <h2 class="max-w-sm mx-auto md:w-1/3">New Password</h2>
           <div class="max-w-sm mx-auto space-y-5 md:w-2/3">
             <div>
               <div class="relative">
                 <input
-                  type="text"
-                  id="user-info-name"
+                  v-model="changePass.new"
+                  type="password"
                   class="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                  placeholder="Your full name"
+                  placeholder="Your new password"
                 />
               </div>
             </div>
