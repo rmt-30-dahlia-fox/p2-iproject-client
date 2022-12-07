@@ -1,4 +1,6 @@
 <script>
+import { mapState, mapActions } from "pinia";
+import { useGlobalStore } from "../stores/global";
 import ActivityCard from "@/components/ActivityCard.vue";
 import Leaderboard from "@/components/Leaderboard.vue";
 
@@ -7,6 +9,12 @@ export default {
     ActivityCard,
     Leaderboard
   },
+  computed: {
+    ...mapState(useGlobalStore, ['user'])
+  },
+  methods: {
+    ...mapActions(useGlobalStore, [''])
+  }
 };
 </script>
 
@@ -19,12 +27,12 @@ export default {
       <div class="sm:flex sm:items-center sm:justify-between">
         <div class="text-center sm:text-left">
           <h1 class="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Welcome Back, Barry!
+            Welcome Back, {{ user.fullName }}!
           </h1>
 
           <div>
             <div class="my-2">
-              <h2 class="font-medium">Badge - 50 / 100 Stars</h2>
+              <h2 class="font-medium">{{ user.Badge.name }} - {{ user.star }} / 100 Stars</h2>
               <div class="mt-2 overflow-hidden rounded-full bg-gray-200">
                 <div class="h-2 w-2/3 rounded-full bg-teal-500"></div>
               </div>
