@@ -4,7 +4,7 @@ import { useGlobalStore } from '../stores/global';
 
 export default {
   computed: {
-    ...mapWritableState(useGlobalStore, ['isLogin', 'goToProfile'])
+    ...mapWritableState(useGlobalStore, ['isLogin', 'goToProfile']),
   },
   methods: {
     goToHome() {
