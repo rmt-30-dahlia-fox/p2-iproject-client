@@ -6,6 +6,7 @@ export const useGlobalStore = defineStore('global', {
     baseUrl: 'http://localhost:3000',
     isLogin: false,
     user: {},
+    activities: [],
     loginForm: {
       email: '',
       password: ''
@@ -15,21 +16,31 @@ export const useGlobalStore = defineStore('global', {
     
   },
   actions: {
+    async fetchActivities() {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/activities', {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.activities = data.data
+      } catch (error) {
+        console.log(error);  
+      }
+    },
+
     async fetchUserLogin(id) {
       const { data } = await axios.get(this.baseUrl + '/users/' + id, {
         headers: { access_token: localStorage.access_token }
       })
 
       this.user = data
-      console.log(data);
     },
 
     checkIsLogin() {
       if(localStorage.access_token) {
         this.isLogin = true
+        this.fetchUserLogin(localStorage.userId)
       }
-
-      this.fetchUserLogin(localStorage.userId)
     },
 
     goToProfile() {
