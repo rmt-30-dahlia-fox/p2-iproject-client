@@ -10,10 +10,14 @@ export default {
     Leaderboard
   },
   computed: {
-    ...mapState(useGlobalStore, ['user'])
+    ...mapState(useGlobalStore, ['user', 'activities'])
   },
   methods: {
-    ...mapActions(useGlobalStore, [''])
+    ...mapActions(useGlobalStore, ['fetchUserLogin', 'fetchActivities'])
+  },
+  created() {
+    this.fetchUserLogin(localStorage.userId)
+    this.fetchActivities()
   }
 };
 </script>
@@ -61,9 +65,11 @@ export default {
     <Leaderboard />
 
     <div class="justify-center col-end-10 col-span-4 flex flex-col gap-4 w-full justify-center">
-      <ActivityCard />
-      <ActivityCard />
-      <ActivityCard />
+      <ActivityCard
+      v-for="activity in activities"
+      :key="activity.id"
+      :activity="activity"
+      />
     </div>
 
     
