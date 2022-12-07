@@ -15,7 +15,7 @@ export default {
     this.params.type = this.content.type;
   },
   methods: {
-    ...mapActions(useMainStore, ["fetchArticles"]),
+    ...mapActions(useMainStore, ["fetchArticles", "getTokenMidtrans"]),
   },
 };
 </script>
@@ -49,7 +49,12 @@ export default {
           {{ content.type.split("_").join(" ") }}
         </button>
       </div>
-      <a href="#" class="btn btn-primary w-100">Read more</a>
+      <a
+        href="#"
+        class="btn btn-primary w-100"
+        @click.prevent="getTokenMidtrans(1000)"
+        >Read more</a
+      >
     </div>
   </div>
 </template>

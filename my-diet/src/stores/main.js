@@ -4,8 +4,8 @@ import axios from 'axios'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    // baseUrl: "http://localhost:3000",
-    baseUrl: "https://p2-c3-movies-production.up.railway.app",
+    baseUrl: "http://localhost:3000",
+    // baseUrl: "https://p2-c3-movies-production.up.railway.app",
     pageTitle: 'Home',
     foodsResult: [],
     foodDetail: {},
@@ -13,6 +13,8 @@ export const useMainStore = defineStore('main', {
     bmrResult: [],
     bmiResult: [],
     articles: [],
+
+    midToken: '',
   }),
   actions: {
     // Home
@@ -111,6 +113,34 @@ export const useMainStore = defineStore('main', {
         this.articles = data;
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    // Midtrans
+    async getTokenMidtrans(total_price) {
+      console.log('MASUK DI MAIN STORES PINIA');
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + '/payment',
+          method: 'post',
+          data: { total_price },
+          // headers: {
+          // 	access_token: localStorage.access_token
+          // }
+        })
+
+        this.midToken = data.transactionToken
+        window.snap.pay(this.midToken, {
+          onSuccess: function () {
+            ;
+            this.router.push("/");
+            // nodemailer
+            // this.SuccessSwal('Payment Success!')
+          }
+        })
+      } catch (error) {
+        console.log(error);
+        // this.ErrorSwal(error)
       }
     },
 
