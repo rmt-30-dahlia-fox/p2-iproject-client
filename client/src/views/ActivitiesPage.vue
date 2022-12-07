@@ -1,14 +1,11 @@
 <script>
 import NavProfile from '@/components/NavProfile.vue'
-import MyProfile from '@/components/MyProfile.vue'
+import MyActivities from '@/components/MyActivities.vue'
 
 export default {
   components: {
     NavProfile,
-    MyProfile
-  },
-  methods: {
-
+    MyActivities
   }
 }
 </script>
@@ -18,7 +15,7 @@ export default {
     <!-- Navigation -->
     <NavProfile />
 
-    <MyProfile />
-    
+    <MyActivities />
+
   </div>
 </template>

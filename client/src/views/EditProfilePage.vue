@@ -1,24 +1,20 @@
 <script>
 import NavProfile from '@/components/NavProfile.vue'
-import MyProfile from '@/components/MyProfile.vue'
+import FormEditProfile from '@/components/FormEditProfile.vue'
 
 export default {
   components: {
     NavProfile,
-    MyProfile
-  },
-  methods: {
-
+    FormEditProfile
   }
 }
 </script>
 
 <template>
-  <div class="w-screen mx-auto">
+    <div class="w-screen mx-auto">
     <!-- Navigation -->
     <NavProfile />
 
-    <MyProfile />
-    
+    <FormEditProfile />
   </div>
 </template>
