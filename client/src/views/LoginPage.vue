@@ -1,9 +1,9 @@
 <script>
 import { mapActions } from 'pinia'
 import { useGlobalStore } from '../stores/global'
-export default{
-  data(){
-    return{
+export default {
+  data() {
+    return {
       login: {
         email: "",
         password: ""
@@ -12,12 +12,12 @@ export default{
     }
   },
   methods: {
-    ...mapActions(useGlobalStore, ['loginHandler']),
-    hideFunction(){
-      if(this.passwordDisplay === "password"){
+    ...mapActions(useGlobalStore, ['loginHandler', 'handleCredentialResponse']),
+    hideFunction() {
+      if (this.passwordDisplay === "password") {
         this.passwordDisplay = "text";
       }
-      else{
+      else {
         this.passwordDisplay = "password"
       }
     }
@@ -45,8 +45,8 @@ export default{
             <label for="email" class="text-sm font-medium">Email</label>
 
             <div class="relative mt-1">
-              <input v-model="login.email" type="email" id="email" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                placeholder="Enter email" />
+              <input v-model="login.email" type="email" id="email"
+                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm" placeholder="Enter email" />
 
               <span class="absolute inset-y-0 right-4 inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -62,8 +62,8 @@ export default{
             <label for="password" class="text-sm font-medium">Password</label>
 
             <div class="relative mt-1">
-              <input v-model="login.password" :type="passwordDisplay" id="password" class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-                placeholder="Enter password" />
+              <input v-model="login.password" :type="passwordDisplay" id="password"
+                class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm" placeholder="Enter password" />
 
               <span @click.prevent="hideFunction" class="absolute inset-y-0 right-4 inline-flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24"
@@ -86,6 +86,9 @@ export default{
             <router-link to="/register" class="underline" href="">Sign up</router-link>
           </p>
         </form>
+        <div id="google-button">
+          <GoogleLogin :callback="handleCredentialResponse" id="google-sign-in-button"/>
+        </div>
       </div>
     </div>
 
