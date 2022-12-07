@@ -5,9 +5,10 @@ export const useCounterStore = defineStore('counter', {
   state: () => ({
     // baseUrl: "https://sipri-movie.up.railway.app",
     baseUrl: "http://localhost:3000",
-    dataManga : ""
-
-
+    dataManga : "",
+    mangaDetail : "",
+    loggedIn : false
+    
   }),
   actions: {
     async registerHandler(dataRegister) {
@@ -51,19 +52,28 @@ export const useCounterStore = defineStore('counter', {
 
       }
     },
-    async fetchMangaList(req, res, next) {
+
+    async fetchMangaList() {
       try {
-        const mangaList = await axios({
+        const {data} = await axios({
           method: 'get',
-          url: 'https://api.myanimelist.net/v2/manga/ranking?ranking_type=all&limit=40',
-          headers: {
-            "X-MAL-CLIENT-ID": "aad45b6564954e88533f9ad51291a312"
-          }
-
+          url: this.baseUrl + '/mangas'
         })
-        console.log(mangaList);
+        this.dataManga = data.data
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
-        res.status(200).json('ok')
+    async fetchMangaDetail(id) {
+      try {
+        const {data} = await axios({
+          method: 'get',
+          url: this.baseUrl + `/mangas/${id}`
+        })
+        this.mangaDetail = data
+        console.log(data);
       } catch (error) {
         console.log(error);
       }

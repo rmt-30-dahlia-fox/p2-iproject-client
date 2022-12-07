@@ -49,7 +49,7 @@ export default {
                 <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a style="text-decoration: none;color:darkslateblue" >Let's Read 'Em All</a>
+                        <router-link style="text-decoration: none;color:darkslateblue" to="/"> Let's Read 'Em All</router-link>
                     </li>
                 </ul>
                 <!-- Left links -->
@@ -71,7 +71,7 @@ export default {
                         </button>
                     </RouterLink>
 
-                    <div>
+                    <div v-if="loggedIn" class="mx-2">
                         <a @click.prevent="logOut" class="btn btn-danger px-3" role="button" style="border-radius: 10px;"><i
                                 class="fab fa-github">Logout</i></a>
                     </div>

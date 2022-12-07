@@ -59,7 +59,7 @@ export default{
 
                 <!-- Register buttons -->
                 <div class="text-center">
-                    <p>Not a member? <router-link to="">
+                    <p>Not a member? <router-link to="/register">
                             <a href="#!">Register</a>
                         </router-link>
                     </p>
