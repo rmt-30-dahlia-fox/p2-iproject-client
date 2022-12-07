@@ -1,0 +1,73 @@
+/* body  or universal */
+
+body {
+  font-family: 'Maven Pro', sans-serif;
+}
+
+.text-black {
+  color: rgb(37, 35, 35);
+}
+
+/* navbar */
+
+
+.navbar {
+  height: 80px;
+  font-size: large;
+  font-weight: bold;
+}
+
+.navbar-brand img {
+  width: 200px
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+
+/* dashboard */
+.navbar-dashboard {
+  background: none;
+  color: white
+}
+
+
+.bg-dashboard {
+  background: url('./Swiss-Lauterbrunnen.jpg');
+  background-position: 0 -230px;
+  background-repeat: no-repeat;
+  height: 700px;
+}
+
+.round{
+  border-bottom-right-radius:15px;
+  border-bottom-left-radius:15px;
+ -moz-border-radius-bottomright:15px;
+ -moz-border-radius-bottomleft:15px;
+ -webkit-border-bottom-right-radius:15px;
+ -webkit-border-bottom-left-radius:15px;
+
+  -moz-border-radius-topright:15px;
+  -moz-border-radius-topleft:15px;
+  -webkit-border-top-right-radius:15px;
+  -webkit-border-top-left-radius:15px;
+  border-top-right-radius:15px;
+  border-top-left-radius:15px;
+}
+
+.input-group {
+  height: 50px;
+}
+
+
+/*  Hotels */
+
+.bg-hotels {
+  background-color: rgb(240, 240, 240);
+}
+
+.navbar-hotels {
+  margin-top: 10px;
+  background-color: white;
+}
