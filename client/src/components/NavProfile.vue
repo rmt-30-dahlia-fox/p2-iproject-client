@@ -1,12 +1,4 @@
 <script>
-// import { mapActions, mapState } from "pinia";
-// import { useGlobalStore } from "../stores/global";
-
-export default {
-  computed: {
-    // ...mapState(useGlobalStore, ['user'])
-  }
-}
 </script>
 
 <template>

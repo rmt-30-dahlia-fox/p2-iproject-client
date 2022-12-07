@@ -1,4 +1,6 @@
 <script>
+import { mapState, mapActions } from 'pinia';
+import { useGlobalStore } from '../stores/global';
 import NavProfile from '@/components/NavProfile.vue'
 import MyProfile from '@/components/MyProfile.vue'
 
@@ -7,8 +9,14 @@ export default {
     NavProfile,
     MyProfile
   },
+  computed: {
+    ...mapState(useGlobalStore, ['user'])
+  },
   methods: {
-
+    ...mapActions(useGlobalStore, ['fetchUserLogin'])
+  },
+  created() {
+    this.fetchUserLogin(this.$route.params.id)
   }
 }
 </script>
@@ -18,7 +26,9 @@ export default {
     <!-- Navigation -->
     <NavProfile />
 
-    <MyProfile />
+    <MyProfile
+      :user="user"
+    />
     
   </div>
 </template>
