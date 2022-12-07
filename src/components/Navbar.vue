@@ -1,16 +1,31 @@
 <script>
+import { mapActions, mapWritableState } from "pinia"
+import { useCounterStore } from "../stores/counter"
+
 export default {
   methods: {
     navLogin() {
       this.$router.push("/login")
     },
-    navHome(){
+    navHome() {
       this.$router.push("/")
     },
-    navAppointment(){
+    navAppointment() {
       this.$router.push("/appointment")
-    }
+    },
+    navFavorite(){
+      this.$router.push("/favoriteList")
+    },
+    ...mapActions(useCounterStore, ["logout"]),
+  },
 
+  components: {
+    ...mapWritableState(useCounterStore, ["loggedIn"]),
+  },
+  created() {
+    if (localStorage.getItem("access_token")) {
+      this.loggedIn = true
+    }
   },
 }
 </script>
@@ -42,9 +57,16 @@ export default {
             >Book Appointment</a
           >
           <a
+            v-if="!loggedIn"
             @click.prevent="navLogin"
             class="text-sm font-medium text-blue-600 hover:underline"
             >Login</a
+          >
+          <a
+            v-else
+            @click.prevent="logout"
+            class="text-sm font-medium text-blue-600 hover:underline"
+            >Logout</a
           >
         </div>
       </div>
@@ -54,12 +76,12 @@ export default {
         <div class="flex items-center">
           <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
             <li>
-              <a href="#" class="text-gray-900 hover:underline" aria-current="page"
+              <a @click.prevent="navHome" class="text-gray-900 hover:underline" aria-current="page"
                 >Home</a
               >
             </li>
             <li>
-              <a href="#" class="text-gray-900 hover:underline">Company</a>
+              <a @click.prevent="navFavorite" class="text-gray-900 hover:underline">Favorites</a>
             </li>
             <li>
               <a href="#" class="text-gray-900 hover:underline">Team</a>
