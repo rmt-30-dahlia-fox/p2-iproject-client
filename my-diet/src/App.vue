@@ -7,4 +7,9 @@ export default {};
 
   <router-view />
 </template>
-<style></style>
+<style>
+body {
+  background-image: url("./assets/background.png");
+  background-color: #cccccc;
+}
+</style>

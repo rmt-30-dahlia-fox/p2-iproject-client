@@ -1,210 +1,242 @@
 <script>
-import { mapState, mapActions, mapWritableState } from "pinia";
-import { useMainStore } from "../stores/main";
-
-import NavbarVue from "../components/Navbar.vue";
-import HomeContentVue from "../components/HomeContent.vue";
-
+// import submitButton from "./button-add-form.vue";
 export default {
-  components: {
-    NavbarVue,
-    HomeContentVue,
+  data() {
+    return {
+      formLogin: { email: "", password: "" },
+      formRegister: {
+        username: "",
+        email: "",
+        password: "",
+        phoneNumber: "",
+        address: "",
+      },
+      login: true,
+      register: false,
+    };
+  },
+  methods: {
+    loginAdmin() {
+      // console.log(this.formLogin)
+      this.$emit("loginAdmin", this.formLogin);
+    },
+    callback(response) {
+      const credential = response.credential;
+      this.$emit("loginGoogle", credential);
+      // console.log(response.credential)
+    },
+    changeForm() {
+      if (this.login) {
+        this.login = false;
+        this.register = true;
+      } else {
+        this.login = true;
+        this.register = false;
+      }
+    },
+    registerAdmin() {
+      this.login = true;
+      this.register = false;
+      this.$emit("registerAdmin", this.formRegister);
+    },
   },
 };
 </script>
 
 <template>
-  <!-- Pills navs -->
-  <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
-    <li class="nav-item" role="presentation">
-      <a
-        class="nav-link active"
-        id="tab-login"
-        data-mdb-toggle="pill"
-        href="#pills-login"
-        role="tab"
-        aria-controls="pills-login"
-        aria-selected="true"
-        >Login</a
-      >
-    </li>
-    <li class="nav-item" role="presentation">
-      <a
-        class="nav-link"
-        id="tab-register"
-        data-mdb-toggle="pill"
-        href="#pills-register"
-        role="tab"
-        aria-controls="pills-register"
-        aria-selected="false"
-        >Register</a
-      >
-    </li>
-  </ul>
-  <!-- Pills navs -->
-
-  <!-- Pills content -->
-  <div class="tab-content">
-    <div
-      class="tab-pane fade show active"
-      id="pills-login"
-      role="tabpanel"
-      aria-labelledby="tab-login"
-    >
-      <form>
-        <div class="text-center mb-3">
-          <p>Sign in with:</p>
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-facebook-f"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-google"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-twitter"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-github"></i>
-          </button>
+  <div class="container d-flex" style="height: 100vh; align-items: center">
+    <div class="row">
+      <div class="col-lg d-flex" style="align-items: center">
+        <div>
+          <img src="../assets/My_diet_logo.png" style="max-width: 500px" />
+          <h6 class="mt-5 w-75 text-center">
+            Physical fitness is the first requisite of happiness, also Let food
+            be thy medicine and medicine be thy food.
+          </h6>
         </div>
-
-        <p class="text-center">or:</p>
-
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <input type="email" id="loginName" class="form-control" />
-          <label class="form-label" for="loginName">Email or username</label>
+      </div>
+      <div class="col-lg">
+        <div class="row w-75 mb-3">
+          <div class="col ps-5">
+            <h6 class="text-center">Choose your login preference</h6>
+          </div>
         </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="row section-login" style="width: 500px">
+              <ul
+                style="padding-left: 13px"
+                class="nav nav-pills nav-justified mb-3"
+                id="pills-tab"
+                role="tablist"
+              >
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    :class="{ active: login }"
+                    @click="changeForm"
+                    id="pills-login-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-login"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-login"
+                    aria-selected="true"
+                  >
+                    <strong>Login</strong>
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    :class="{ active: register }"
+                    @click="changeForm"
+                    id="pills-register-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-register"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-register"
+                    aria-selected="false"
+                  >
+                    <strong>Register</strong>
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content">
+                <div
+                  class="tab-pane fade"
+                  :class="{ 'show active': login }"
+                  id="pills-login"
+                  role="tabpanel"
+                  aria-labelledby="tab-login"
+                  v-if="login"
+                >
+                  <form @submit.prevent="loginAdmin()">
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Email</label>
+                      <input
+                        type="email"
+                        v-model="formLogin.email"
+                        class="form-control"
+                      />
+                    </div>
 
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <input type="password" id="loginPassword" class="form-control" />
-          <label class="form-label" for="loginPassword">Password</label>
-        </div>
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Password</label>
+                      <input
+                        type="password"
+                        v-model="formLogin.password"
+                        class="form-control"
+                      />
+                    </div>
 
-        <!-- 2 column grid layout -->
-        <div class="row mb-4">
-          <div class="col-md-6 d-flex justify-content-center">
-            <!-- Checkbox -->
-            <div class="form-check mb-3 mb-md-0">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                value=""
-                id="loginCheck"
-                checked
-              />
-              <label class="form-check-label" for="loginCheck">
-                Remember me
-              </label>
+                    <!-- GOOGLE LOGIN OAUTH -->
+                    <p class="text-center">or:</p>
+
+                    <div class="text-center mb-3">
+                      <GoogleLogin :callback="callback" />
+                    </div>
+
+                    <!-- Submit button -->
+                    <!-- <submitButton show="Sign in" class="btn-block mb-4" /> -->
+
+                    <button type="submit" class="btn btn-primary w-100">
+                      Sign in
+                    </button>
+
+                    <!-- Register buttons -->
+                    <div class="text-center">
+                      <p>
+                        Not a member?
+                        <a
+                          @click.prevent="changeForm"
+                          style="font-color: black; cursor: pointer"
+                          ><strong> Register</strong></a
+                        >
+                      </p>
+                    </div>
+                  </form>
+                </div>
+
+                <div
+                  class="tab-pane fade"
+                  :class="{ 'show active': register }"
+                  id="pills-register"
+                  role="tabpanel"
+                  aria-labelledby="tab-register"
+                  v-if="register"
+                >
+                  <form @submit.prevent="registerAdmin()">
+                    <!-- Username input -->
+                    <div class="form-outline mb-4">
+                      <label class="">Username</label>
+                      <input
+                        type="text"
+                        v-model="formRegister.username"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Email</label>
+                      <input
+                        type="email"
+                        v-model="formRegister.email"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Password</label>
+                      <input
+                        type="password"
+                        v-model="formRegister.password"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Phone Num input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Phone Number</label>
+                      <input
+                        type="number"
+                        v-model="formRegister.phoneNumber"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Address input -->
+                    <div class="form-outline mb-4">
+                      <label class="form-label">Address</label>
+                      <input
+                        type="text"
+                        v-model="formRegister.address"
+                        class="form-control"
+                      />
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary w-100">
+                      Sign Up
+                    </button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="col-md-6 d-flex justify-content-center">
-            <!-- Simple link -->
-            <a href="#!">Forgot password?</a>
-          </div>
         </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-4">
-          Sign in
-        </button>
-
-        <!-- Register buttons -->
-        <div class="text-center">
-          <p>Not a member? <a href="#!">Register</a></p>
-        </div>
-      </form>
-    </div>
-    <div
-      class="tab-pane fade"
-      id="pills-register"
-      role="tabpanel"
-      aria-labelledby="tab-register"
-    >
-      <form>
-        <div class="text-center mb-3">
-          <p>Sign up with:</p>
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-facebook-f"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-google"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-twitter"></i>
-          </button>
-
-          <button type="button" class="btn btn-link btn-floating mx-1">
-            <i class="fab fa-github"></i>
-          </button>
-        </div>
-
-        <p class="text-center">or:</p>
-
-        <!-- Name input -->
-        <div class="form-outline mb-4">
-          <input type="text" id="registerName" class="form-control" />
-          <label class="form-label" for="registerName">Name</label>
-        </div>
-
-        <!-- Username input -->
-        <div class="form-outline mb-4">
-          <input type="text" id="registerUsername" class="form-control" />
-          <label class="form-label" for="registerUsername">Username</label>
-        </div>
-
-        <!-- Email input -->
-        <div class="form-outline mb-4">
-          <input type="email" id="registerEmail" class="form-control" />
-          <label class="form-label" for="registerEmail">Email</label>
-        </div>
-
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <input type="password" id="registerPassword" class="form-control" />
-          <label class="form-label" for="registerPassword">Password</label>
-        </div>
-
-        <!-- Repeat Password input -->
-        <div class="form-outline mb-4">
-          <input
-            type="password"
-            id="registerRepeatPassword"
-            class="form-control"
-          />
-          <label class="form-label" for="registerRepeatPassword"
-            >Repeat password</label
-          >
-        </div>
-
-        <!-- Checkbox -->
-        <div class="form-check d-flex justify-content-center mb-4">
-          <input
-            class="form-check-input me-2"
-            type="checkbox"
-            value=""
-            id="registerCheck"
-            checked
-            aria-describedby="registerCheckHelpText"
-          />
-          <label class="form-check-label" for="registerCheck">
-            I have read and agree to the terms
-          </label>
-        </div>
-
-        <!-- Submit button -->
-        <button type="submit" class="btn btn-primary btn-block mb-3">
-          Sign in
-        </button>
-      </form>
+      </div>
     </div>
   </div>
-  <!-- Pills content -->
+
+  <!-- <section class="ms-sm-auto col-lg-10 px-md-4 mt-xl-5 pt-xl-5" >
+		<div class="col-12 col-lg-6">
+			
+		</div>
+	</section> -->
 </template>
