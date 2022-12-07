@@ -14,7 +14,12 @@ export default {
 <template>
   <nav class="navbar navbar-dark navbar-expand-lg bg-dark px-5">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="me-4" href="#"
+        ><img
+          src="../assets/My_diet_logo.png"
+          alt="My-diet_logo"
+          style="height: 50px"
+      /></a>
       <button
         class="navbar-toggler"
         type="button"
