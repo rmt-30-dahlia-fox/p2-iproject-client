@@ -1,11 +1,17 @@
 <script>
 export default{
-  props: ["dealer"]
+  props: ["dealer"],
+  emits: ["showOnMap"],
+  methods: {
+    showOnMap(){
+      this.$emit("showOnMap", [+this.dealer.latitude, +this.dealer.longitude], this.dealer.name)
+    }
+  }
 }
 </script>
 
 <template>
-  <a href="#" class="block rounded-lg p-4 shadow-sm shadow-indigo-100">
+  <a @click.prevent="showOnMap" class="cursor-pointer block rounded-lg p-4 shadow-sm shadow-indigo-100">
     <img alt="Home"
       src="https://0a411afb0c598242cc95-1df470064133d6bc5c471837468f475c.ssl.cf3.rackcdn.com/publish/wp-content/uploads/2022/11/Burrows-Toyota-Rotherham-Sep-2022-640x360.jpg"
       class="h-56 w-full rounded-md object-cover" />
