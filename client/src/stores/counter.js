@@ -157,8 +157,14 @@ export const useCounterStore = defineStore('counter', {
       try {
         let query = ''
         if (filter) {
-          query += `&&${filter}`
+          if (this.filterCode){
+            query += `&&${this.filterCode}`
+          }
           this.filterCode = filter.replace("filter=", "")
+
+          if (this.searchInput){
+            query += `&&search=${this.searchInput}`
+          }
         }
 
         const {data} = await axios ({
