@@ -14,7 +14,7 @@ export default{
         }
     },
     methods :{
-        ...mapActions(useCounterStore, ['loginHandler'])
+        ...mapActions(useCounterStore, ['loginHandler','googleLogin'])
     }
 
 }
@@ -65,7 +65,7 @@ export default{
                     </p>
                     <p>or sign up with:</p>
                     <div>
-                        <!-- <GoogleLogin :callback="googleLogin"/> -->
+                        <GoogleLogin :callback="googleLogin"/>
                     </div>
 
                    <!-- <button type="button" class="btn btn-secondary btn-floating mx-1">
