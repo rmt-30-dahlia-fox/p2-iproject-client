@@ -65,12 +65,12 @@ export default {
         <div class="flex items-center justify-between">
           <p class="text-sm text-gray-500">
             No account?
-            <a class="underline" href="">Sign up</a>
+            <router-link to="/register" class="underline" href="">Sign up</router-link>
           </p>
 
           <button
             type="submit"
-            class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+            class="ml-3 inline-block rounded-lg bg-teal-600 px-5 py-3 text-sm font-medium text-white"
           >
             Sign in
           </button>

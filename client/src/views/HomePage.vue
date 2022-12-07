@@ -27,7 +27,7 @@ export default {
 
 <template>
   <!-- Home Page -->
-  <header aria-label="Page Header">
+  <header class="bg-gray-100" aria-label="Page Header">
     <div
       class="mx-auto container px-4 py-8 sm:py-12 sm:px-6 lg:px-8"
     >

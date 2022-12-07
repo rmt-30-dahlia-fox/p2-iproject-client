@@ -18,11 +18,11 @@ export default {
       </a>
     </div>
     <div class="text-center flex flex-col items-center">
-      <p class="text-2xl text-black">{{ user.fullName }}</p>
+      <p class="text-2xl text-black">{{ user ? user.fullName : '' }}</p>
       <p class="text-xl font-bold text-teal-500">{{ user.status }}</p>
       <div class="max-w-xs py-4 font-light text-black text-md">
-        <p>Born at {{ user.dateOfBirth }}</p>
-        <p>Live in {{ user.city }}</p>
+        <p>Born at {{ user ? user.dateOfBirth : '' }}</p>
+        <p>Live in {{ user ? user.city : '' }}</p>
       </div>
     </div>
     <div

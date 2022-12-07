@@ -80,7 +80,7 @@ export default {
         <div class="flex items-center justify-around">
           <button
             type="submit"
-            class="ml-3 inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white"
+            class="ml-3 inline-block rounded-lg bg-teal-600 px-5 py-3 text-sm font-medium text-white"
           >
             Sign Up
           </button>
