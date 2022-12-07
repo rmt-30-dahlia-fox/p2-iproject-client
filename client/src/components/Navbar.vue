@@ -1,4 +1,28 @@
-<script></script>
+<script>
+import { mapWritableState } from 'pinia';
+import { useGlobalStore } from '../stores/global';
+
+export default {
+  computed: {
+    ...mapWritableState(useGlobalStore, ['isLogin', 'goToProfile'])
+  },
+  methods: {
+    goToHome() {
+      if(this.isLogin) {
+        this.$router.push('/home')
+      } else {
+        this.$router.push('/')
+      }
+    },
+    handleLogout() {
+      this.isLogin = false
+      localStorage.clear()
+
+      this.$router.replace('/login')
+    }
+  }
+}
+</script>
 
 <template>
   <!-- Navbar -->
@@ -7,7 +31,7 @@
       <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
           <div class="flex-1 md:flex md:items-center md:gap-12">
-            <a class="block text-teal-600" href="/">
+            <a @click.prevent="goToHome" class="block text-teal-600" href="/">
               <span class="sr-only">Home</span>
               <svg
                 class="h-8"
@@ -28,6 +52,7 @@
               <ul class="flex items-center gap-6 text-sm">
                 <li>
                   <a
+                    @click.prevent="goToHome"
                     class="text-gray-500 transition hover:text-gray-500/75"
                     href="/"
                   >
@@ -35,8 +60,9 @@
                   </a>
                 </li>
 
-                <li>
+                <li v-if="isLogin">
                   <a
+                    @click.prevent="goToProfile"
                     class="text-gray-500 transition hover:text-gray-500/75"
                     href="/"
                   >
@@ -48,7 +74,7 @@
 
             <div class="flex items-center gap-4">
               <div class="sm:flex sm:gap-4">
-                <div class="hidden sm:flex">
+                <!-- <div class="hidden sm:flex">
                   <a
                     class="rounded-md flex border-2 border-[#3b5998] bg-[#3b5998] px-5 py-2.5 text-sm font-medium text-white shadow"
                     href="/"
@@ -66,9 +92,9 @@
                     </svg>
                     Sign in with Facebook
                   </a>
-                </div>
+                </div> -->
 
-                <div class="hidden sm:flex">
+                <!-- <div class="hidden sm:flex">
                   <a
                     class="rounded-md flex bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
                     href="/"
@@ -87,10 +113,20 @@
                     </svg>
                     Sign in with Google
                   </a>
+                </div> -->
+
+                <div v-if="!isLogin" class="hidden sm:flex">
+                  <router-link
+                    class="rounded-md flex bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                    to="/login"
+                  >
+                    Sign in
+                  </router-link>
                 </div>
 
-                <div class="hidden sm:flex">
+                <div v-if="isLogin" class="hidden sm:flex">
                   <a
+                    @click.prevent="handleLogout"
                     class="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600"
                     href="/"
                   >

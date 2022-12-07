@@ -5,6 +5,7 @@ export const useGlobalStore = defineStore('global', {
   state: () => ({ 
     baseUrl: 'http://localhost:3000',
     isLogin: false,
+    user: {},
     loginForm: {
       email: '',
       password: ''
@@ -14,6 +15,20 @@ export const useGlobalStore = defineStore('global', {
     
   },
   actions: {
+    fetchUserLogin() {
+      
+    },
+
+    checkIsLogin() {
+      if(localStorage.access_token) {
+        this.isLogin = true
+      }
+    },
+
+    goToProfile() {
+
+    },
+
     async handleLogin() {
       try {
         console.log('sampe');
