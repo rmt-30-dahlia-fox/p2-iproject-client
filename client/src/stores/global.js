@@ -5,10 +5,23 @@ export const useGlobalStore = defineStore('global', {
   state: () => ({ 
     baseUrl: 'http://localhost:3000',
     isLogin: false,
-    user: {},
+    user: {
+      id: null,
+      email: '',
+      password: '',
+      fullName: '',
+      dateOfBirth: '',
+      city: '',
+      imageProfile: '',
+      status: '',
+      star: null,
+      BadgeId: null,
+      Badge: null,
+    },
     types: [],
     difficulties: [],
     activities: [],
+    myActivities: [],
     exercises: {
       currentPage: 1,
       exercises: []
@@ -70,13 +83,35 @@ export const useGlobalStore = defineStore('global', {
       }
     },
 
+    async fetchActivitiesUser(id) {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/activities/' + id + '/users', {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.myActivities = data.data
+      } catch (error) {
+        console.log(error);  
+      }
+    },
+
     async fetchUserLogin(id) {
       try {
         const { data } = await axios.get(this.baseUrl + '/users/' + id, {
           headers: { access_token: localStorage.access_token }
         })
   
-        this.user = data
+        this.user.id = data.id
+        this.user.email = data.email
+        this.user.fullName = data.fullName
+        this.user.dateOfBirth = new Date(data.dateOfBirth).toLocaleDateString('fr-CA')
+        this.user.city = data.city
+        this.user.imageProfile = data.imageProfile
+        this.user.status = data.status
+        this.user.star = data.star
+        this.user.BadgeId = data.BadgeId
+        this.user.Badge = data.Badge
+
       } catch (error) {
         console.log(error);
       }
@@ -150,8 +185,28 @@ export const useGlobalStore = defineStore('global', {
           headers: { access_token: localStorage.access_token }
         })
 
-        console.log(data);
         this.router.push('/home')
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async handleEditProfile(id) {
+      try {
+        const formData = new FormData();
+
+        formData.append("imageProfile", this.user.imageProfile);
+        formData.append("email", this.user.email);
+        formData.append("fullName", this.user.fullName);
+        formData.append("city", this.user.city);
+        formData.append("dateOfBirth", this.user.dateOfBirth);
+        formData.append("password", this.user.password);
+
+        await axios.put(this.baseUrl + '/users/' + id, formData, {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.router.push(`/profile/${id}`)
       } catch (error) {
         console.log(error);
       }

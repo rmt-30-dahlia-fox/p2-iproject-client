@@ -3,6 +3,8 @@ import LandingPage from "@/views/LandingPage.vue";
 import LoginPage from "@/views/LoginPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
+import ActivitiesPage from "@/views/ActivitiesPage.vue"
+import EditProfilePage from "@/views/EditProfilePage.vue"
 import CreateActivityPage from "@/views/CreateActivityPage.vue";
 import NotFoundPage from "@/views/NotFoundPage.vue";
 
@@ -28,6 +30,16 @@ const router = createRouter({
       path: "/profile/:userId",
       name: "ProfilePage",
       component: ProfilePage,
+    },
+    // {
+    //   path: "/profile/:userId/activities",
+    //   name: "ActivitiesPage",
+    //   component: ActivitiesPage,
+    // },
+    {
+      path: "/profile/:userId/edit-profile",
+      name: "EditProfilePage",
+      component: EditProfilePage,
     },
     ,
     {

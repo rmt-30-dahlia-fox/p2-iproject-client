@@ -8,11 +8,16 @@ export default {
       isLiked: false
     }
   },
-  props: ['activity'],
+  props: ['activity', 'myActivity'],
   computed: {
     ...mapState(useGlobalStore, ['isLogin', 'user']),
     getTime() {
-      let time = new Date(this.activity.createdAt)
+      let time
+      if(this.$route.name == 'HomePage') {
+        time = new Date(this.activity.createdAt)
+      } else if (this.$route.name == 'ActivitiesPage') {
+        time = new Date(this.myActivity.createdAt)
+      }
       return time.toLocaleDateString('id-ID')
     }
   },
@@ -31,19 +36,32 @@ export default {
     <div class="flex items-start p-6 justify-between">
       <a href="#" class="block shrink-0">
         <img
+          v-if="this.$route.name == 'HomePage'"
           alt="Speaker"
           :src="activity.User.imageProfile"
+          class="h-14 w-14 rounded-lg object-cover"
+        />
+
+        <img
+          v-if="this.$route.name == 'ActivitiesPage'"
+          alt="Speaker"
+          :src="myActivity.User.imageProfile"
           class="h-14 w-14 rounded-lg object-cover"
         />
       </a>
 
       <div class="ml-4 grow">
         <h3 class="font-medium sm:text-lg">
-          <a href="#" class="hover:underline"> {{ activity.User.fullName }} </a>
+          <a v-if="this.$route.name == 'HomePage'" class="hover:underline"> {{ activity.User.fullName }} </a>
+          <a v-if="this.$route.name == 'ActivitiesPage'" class="hover:underline"> {{ myActivity.User.fullName }} </a>
         </h3>
 
-        <p class="text-sm text-gray-700 line-clamp-2">
+        <p v-if="this.$route.name == 'HomePage'" class="text-sm text-gray-700 line-clamp-2">
           {{ getTime }} - {{ activity.User.city }}
+        </p>
+
+        <p v-if="this.$route.name == 'ActivitiesPage'" class="text-sm text-gray-700 line-clamp-2">
+          {{ getTime }} - {{ myActivity.User.city }}
         </p>
       </div>
 
