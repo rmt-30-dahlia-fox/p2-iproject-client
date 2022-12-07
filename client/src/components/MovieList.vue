@@ -8,7 +8,7 @@ export default {
 
 <template>
 <div class="movie-list">
-    <h2>{{ title }}</h2>
+    <h2 style="color: black">{{ title }}</h2>
     <div class="cards">
       <MovieCard
         v-for="el in data"

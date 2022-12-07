@@ -69,9 +69,9 @@ export default {
         />
       </div>
       <div>
-        <h1>{{ detail.original_title }}</h1>
-        <h4>Overview</h4>
-        <p>
+        <h1 style="color: black">{{ detail.original_title }}</h1>
+        <h4 style="color: black">Overview</h4>
+        <p style="color: black">
           {{ detail.overview }}
         </p>
         <div class="genre">

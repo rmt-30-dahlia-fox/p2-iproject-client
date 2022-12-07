@@ -16,9 +16,9 @@ export default {
   },
   created() {
     if (this.btnText === "Update")
-      this.btnStyle = { backgroundColor: "#ffcb42", color: "#36383a" };
+      this.btnStyle = { backgroundColor: "black", color: "#f2f6f5" };
     if (this.btnText === "Delete")
-      this.btnStyle = { backgroundColor: "#800000", color: "#f2f6f5" };
+      this.btnStyle = { backgroundColor: "black", color: "#f2f6f5" };
   },
 };
 </script>

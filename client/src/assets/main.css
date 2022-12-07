@@ -1,8 +1,8 @@
 :root {
-  --primary: #ffcb42;
-  --secondary: #9e6b41;
+  --primary: black;
+  --secondary: white;
   --light: #f2f6f5;
-  --dark: #36383a;
+  --dark: rgb(215, 211, 211);
 }
 
 * {
@@ -169,6 +169,7 @@ main .search > * {
 }
 
 main .search > button:nth-child(2) {
+  color: var(--light);
   background-color: var(--primary);
   padding: 0 10px;
   border: none;
@@ -176,7 +177,7 @@ main .search > button:nth-child(2) {
 
 main .search > button:nth-child(3) {
   color: var(--light);
-  background-color: maroon;
+  background-color: var(--primary);
   padding: 0 10px;
   border: none;
 }
@@ -318,7 +319,8 @@ main .movie-list .cards .movie-card > .img > div > h6 {
   margin-right: 3px;
   padding: 3px 8px;
   border-radius: 10px;
-  background-color: var(--secondary);
+  /* background-color: var(--secondary); */
+  background-color: black;
 }
 
 .detail > div:nth-child(1) > div > div:last-child {
@@ -339,7 +341,7 @@ main .movie-list .cards .movie-card > .img > div > h6 {
 .detail div:nth-child(1) div div button:nth-child(2) {
   margin-top: 10px;
   margin-right: 5px;
-  background-color: #800000;
+  background-color: black;
   color: var(--light);
   padding: 5px 10px;
   border-radius: 10px;

@@ -66,10 +66,16 @@ export default {
 <template>
   <footer>
     <div>
-      <img src="../assets/tmdb-logo.svg" />
+      <img
+        src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg"
+      />
     </div>
     <div></div>
-    <div><button @click="donate">Donate</button></div>
+    <div>
+      <button @click="donate" style="color: white; background-color: aqua;">
+        Donate
+      </button>
+    </div>
   </footer>
 </template>
 

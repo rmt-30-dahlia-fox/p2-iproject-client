@@ -16,21 +16,31 @@ export default {
 <template>
   <header>
     <div class="logo">
-      <h1><a>Movie</a><a>Library</a></h1>
+      <h1 style="color: white">Movie Library</h1>
     </div>
     <div>
-      <router-link :to="'/home'" :class="{ active: $route.path === '/home' }"
+      <router-link
+        :to="'/home'"
+        :class="{ active: $route.path === '/home' }"
+        style="color: white"
         >Movie</router-link
       >
       <router-link
         :to="'/bookmark'"
         :class="{ active: $route.path === '/bookmark' }"
+        style="color: white"
         >Bookmark</router-link
       >
     </div>
     <div>
-      <h4 v-if="!isLogin" @click="$router.push({ name: 'login' })">Login</h4>
-      <h4 v-if="isLogin" @click="logout">Logout</h4>
+      <h4
+        v-if="!isLogin"
+        @click="$router.push({ name: 'login' })"
+        style="color: white"
+      >
+        Login
+      </h4>
+      <h4 v-if="isLogin" @click="logout" style="color: white">Logout</h4>
     </div>
   </header>
 </template>
