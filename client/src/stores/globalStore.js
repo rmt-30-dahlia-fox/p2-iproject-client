@@ -28,6 +28,7 @@ export const useGlobalStore = defineStore({
       });
     },
     errorHandler(err) {
+      console.log(err);
       let message;
       if (err.response) message = err.response.data.message;
       else message = err;
