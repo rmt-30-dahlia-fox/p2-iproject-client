@@ -31,11 +31,11 @@ const router = createRouter({
       name: "ProfilePage",
       component: ProfilePage,
     },
-    {
-      path: "/profile/:userId/activities",
-      name: "ActivitiesPage",
-      component: ActivitiesPage,
-    },
+    // {
+    //   path: "/profile/:userId/activities",
+    //   name: "ActivitiesPage",
+    //   component: ActivitiesPage,
+    // },
     {
       path: "/profile/:userId/edit-profile",
       name: "EditProfilePage",

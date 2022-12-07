@@ -21,6 +21,7 @@ export const useGlobalStore = defineStore('global', {
     types: [],
     difficulties: [],
     activities: [],
+    myActivities: [],
     exercises: {
       currentPage: 1,
       exercises: []
@@ -77,6 +78,18 @@ export const useGlobalStore = defineStore('global', {
         })
 
         this.activities = data.data
+      } catch (error) {
+        console.log(error);  
+      }
+    },
+
+    async fetchActivitiesUser(id) {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/activities/' + id + '/users', {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.myActivities = data.data
       } catch (error) {
         console.log(error);  
       }
