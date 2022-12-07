@@ -11,6 +11,23 @@ export const useCounterStore = defineStore('counter', {
     
   }),
   actions: {
+    async googleLogin(response) {
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: this.baseUrl + "/google-sign-in",
+          headers: {
+            "google_oauth_token": response.credential
+          }
+        })
+        localStorage.setItem("access_token", data.access_token);
+        this.router.push('/')
+
+      } catch (error) {
+        this.handleError(error);
+
+      }
+    },
     async registerHandler(dataRegister) {
       try {
         const { data } = await axios({
@@ -82,24 +99,6 @@ export const useCounterStore = defineStore('counter', {
       localStorage.clear()
 
       this.router.push('/login')
-    },
-    async googleLogin(response) {
-      try {
-        const { data } = await axios ({
-          method: "post",
-          url: this.baseUrl + "/public/google-sign-in",
-          headers: {
-            "google_oauth_token": response.credential
-          }
-        })
-        localStorage.setItem("access_token", data.access_token);
-        this.router.push('/')
-
-      } catch (error) {
-        console.log(error);
-        // this.handleError(error);
-
-      }
     },
     handleError(error) {
       Swal.fire({
