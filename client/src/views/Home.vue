@@ -1,11 +1,17 @@
 <script>
+import {mapActions, mapState} from "pinia";
 import PostCard from "../components/PostCard.vue";
+import {useGlobalStore} from "../stores/global";
 
 export default {
   components: {
     PostCard,
   },
+  computed: {
+    ...mapState(useGlobalStore, ["posts"]),
+  },
   methods: {
+    ...mapActions(useGlobalStore, ["fetchPosts"]),
     triggerNewPost() {
       const form = document.getElementById("form-new-post");
       this.newPost(form)
@@ -17,6 +23,9 @@ export default {
 	});
     },
   },
+  created() {
+    this.fetchPosts();
+  }
 };
 </script>
 
@@ -46,11 +55,7 @@ export default {
       </form>
     </div>
     <div id="timeline" class="">
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
-      <PostCard />
+      <PostCard v-for="(data, i) in posts" :key="data.id" :data="data" />
     </div>
   </div>
 </template>

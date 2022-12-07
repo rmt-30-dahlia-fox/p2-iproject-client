@@ -32,6 +32,7 @@ export const useGlobalStore = defineStore('global', {
       globalMessages: [],
       baseURL,
       users: [],
+      posts: [],
     };
   },
   actions: {
@@ -227,6 +228,19 @@ export const useGlobalStore = defineStore('global', {
 	});
 
 	this.users = res.data;
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async fetchPosts() {
+      try {
+	const res = await ax.get("/posts", {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  },
+	});
+
+	this.posts = res.data;
       } catch (err) {
 	return this.handleError(err);
       }
