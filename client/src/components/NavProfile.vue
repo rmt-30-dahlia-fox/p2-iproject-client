@@ -6,7 +6,7 @@
     class="flex max-w-fit mx-auto border-b border-gray-100 text-sm font-medium"
   >
     <router-link
-      :to="`/profile${this.$route.params.userId}`"
+      :to="`/profile/${this.$route.params.userId}`"
       class="-mb-px border-b border-current p-4 text-teal-500"
     >
       My Profile

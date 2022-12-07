@@ -8,6 +8,7 @@ export const useGlobalStore = defineStore('global', {
     user: {
       id: null,
       email: '',
+      password: '',
       fullName: '',
       dateOfBirth: '',
       city: '',
@@ -42,10 +43,6 @@ export const useGlobalStore = defineStore('global', {
       difficulty: '',
       type: '',
       name: ''
-    },
-    changePass: {
-      new: '',
-      old: ''
     }
    }),
   getters: {
@@ -175,8 +172,28 @@ export const useGlobalStore = defineStore('global', {
           headers: { access_token: localStorage.access_token }
         })
 
-        console.log(data);
         this.router.push('/home')
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async handleEditProfile(id) {
+      try {
+        const formData = new FormData();
+
+        formData.append("imageProfile", this.user.imageProfile);
+        formData.append("email", this.user.email);
+        formData.append("fullName", this.user.fullName);
+        formData.append("city", this.user.city);
+        formData.append("dateOfBirth", this.user.dateOfBirth);
+        formData.append("password", this.user.password);
+
+        await axios.put(this.baseUrl + '/users/' + id, formData, {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.router.push(`/profile/${id}`)
       } catch (error) {
         console.log(error);
       }
