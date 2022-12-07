@@ -7,6 +7,10 @@ export const useGlobalStore = defineStore('global', {
     isLogin: false,
     user: {},
     activities: [],
+    exercises: {
+      currentPage: 1,
+      exercises: []
+    },
     loginForm: {
       email: '',
       password: ''
@@ -16,6 +20,23 @@ export const useGlobalStore = defineStore('global', {
     
   },
   actions: {
+    async fetchExercises() {
+      try {
+        const params = {}
+
+        params.page = this.exercises.currentPage
+
+        const { data } = await axios.get(this.baseUrl + '/exercises', {
+          headers: { access_token: localStorage.access_token },
+          params
+        })
+
+        this.exercises = data
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async fetchActivities() {
       try {
         const { data } = await axios.get(this.baseUrl + '/activities', {

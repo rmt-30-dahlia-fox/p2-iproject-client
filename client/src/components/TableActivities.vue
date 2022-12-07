@@ -1,4 +1,35 @@
-<script></script>
+<script>
+import { mapActions, mapWritableState } from "pinia";
+import { useGlobalStore } from "../stores/global";
+import TableRowExercise from '@/components/TableRowExercise.vue'
+
+export default {
+  components: {
+    TableRowExercise
+  },
+  computed: {
+    ...mapWritableState(useGlobalStore, ['exercises'])
+  },
+  methods: {
+    ...mapActions(useGlobalStore, ['fetchExercises']),
+    previousPage()  {
+      if(this.exercises.currentPage > 1) {
+        this.exercises.currentPage--
+      }
+
+      this.fetchExercises()
+    },
+    nextPage() {
+      this.exercises.currentPage++
+
+      this.fetchExercises()
+    }
+  },
+  created() {
+    this.fetchExercises()
+  }
+}
+</script>
 
 <template>
   <!-- Table of Activities -->
@@ -67,11 +98,6 @@
               <th
                 class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
               >
-                <div class="flex items-center gap-2">No</div>
-              </th>
-              <th
-                class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
-              >
                 <div class="flex items-center gap-2">Name</div>
               </th>
               <th
@@ -85,40 +111,65 @@
                 Difficulty
               </th>
               <th
-                class="whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
-              ></th>
+                class="flex justify-around whitespace-nowrap px-4 py-2 text-left font-medium text-gray-900"
+              >
+                <div class="inline-flex justify-center gap-1">
+                  <a
+                    @click.prevent="previousPage"
+                    href="#"
+                    class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+                  >
+                    <span class="sr-only">Prev Page</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-3 w-3"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+
+                  <div class="flex flex-col my-auto">
+                    <label for="PaginationPage" class="sr-only">Page</label>
+                    {{ exercises.currentPage }}
+                  </div>
+
+                  <a
+                  @click.prevent="nextPage"
+                    href="#"
+                    class="inline-flex h-8 w-8 items-center justify-center rounded border border-gray-100"
+                  >
+                    <span class="sr-only">Next Page</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      class="h-3 w-3"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </a>
+                </div>
+              </th>
             </tr>
           </thead>
 
           <tbody class="divide-y divide-gray-200">
-            <tr>
-              <td class="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-                1
-              </td>
-              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                Incline Hammer Curls
-              </td>
-              <td class="whitespace-nowrap px-4 py-2 text-gray-700">
-                strength
-              </td>
-              <td class="whitespace-nowrap px-4 py-2">
-                <strong
-                  class="rounded bg-red-100 px-3 py-1.5 text-xs font-medium text-red-700"
-                >
-                  beginner
-                </strong>
-              </td>
-              <td
-                class="whitespace-nowrap px-4 py-2 text-gray-700 flex justify-end"
-              >
-                <button
-                  type="button"
-                  class="py-2 px-4 bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-fit transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
-                >
-                  Choose
-                </button>
-              </td>
-            </tr>
+            <TableRowExercise
+              v-for="exercise in exercises.exercises"
+              :key="exercise.id"
+              :exercise="exercise"
+              :index="index"
+            />
           </tbody>
         </table>
       </div>

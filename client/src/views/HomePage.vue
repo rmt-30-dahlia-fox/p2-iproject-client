@@ -52,12 +52,13 @@ export default {
         <div
           class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center"
         >
-          <button
+          <router-link
+            to="/new-activity"
             class="block rounded-lg bg-teal-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
             type="button"
           >
             Create Post
-          </button>
+          </router-link>
         </div>
       </div>
     </div>

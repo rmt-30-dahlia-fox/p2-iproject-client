@@ -17,7 +17,7 @@ export default {
       Create New Post
     </h1>
 
-    <!-- <TableActivities /> -->
+    <TableActivities />
 
     <FormAddActivity />
   </div>
