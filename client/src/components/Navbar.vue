@@ -33,10 +33,10 @@ export default {
                     
                     <li class="nav-item mt-2 d-flex align-items-center text-white">
                         <i class="fa-solid fa-gift"></i>
-                        <a class="nav-link" aria-current="page" href="#">Rewards</a>
+                        <a class="nav-link text-white" aria-current="page" href="#">Rewards</a>
                     </li>
                     <li class="nav-item mt-3">
-                        <a class="nav-link" href="#">Your Order</a>
+                        <a class="nav-link text-white" href="#">Your Order</a>
                     </li>
                     <li class="nav-item" style="margin-top: 10px">
                         <a class="nav-link" href="#">
