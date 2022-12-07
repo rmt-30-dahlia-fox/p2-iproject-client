@@ -1,5 +1,11 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 import Swal from "sweetalert2";
+
+import { getAuth, signOut } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import firebaseConfig from "../firebaseConfig";
+firebase.initializeApp(firebaseConfig);
+const auth = getAuth();
 
 const Toast = Swal.mixin({
   toast: true,
