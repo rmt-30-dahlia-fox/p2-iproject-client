@@ -65,3 +65,7 @@ export default {
         </div>
     </div>
 </template>
+
+<style scoped>
+@import '../assets/css/pages/auth.css'
+</style>
