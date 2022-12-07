@@ -4,16 +4,17 @@ import { useGlobalStore } from '../stores/global';
 import ReviewCard from '../components/ProductDetail/ReviewCard.vue';
 export default{
   methods: {
-    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'formatNumber', 'paymentHandler']),
+    ...mapActions(useGlobalStore, ["fetchProductDeteail", 'formatNumber', 'paymentHandler', 'fetchYoutubeVideos']),
     bookHandler(){
       this.paymentHandler(this.$route.params.id, this.product.price, "new")
     }
   },
   computed: {
-    ...mapState(useGlobalStore, ["product"])
+    ...mapState(useGlobalStore, ["product", 'videoUrl'])
   },
-  created(){
-    this.fetchProductDeteail(this.$route.params.id)
+  async created(){
+    await this.fetchProductDeteail(this.$route.params.id);
+    this.fetchYoutubeVideos(this.product.name);
   },
   components: {
     ReviewCard
@@ -69,7 +70,7 @@ export default{
         </div>
         <h2 class="text-2xl my-5 font-bold">Video Review</h2>
         <div class="container">
-          <iframe src="https://www.youtube.com/embed/qQRLlhe_YvQ" title="Honda HR-V 2022 | First Impression | OtoDriver"
+          <iframe :src="videoUrl" title="Honda HR-V 2022 | First Impression | OtoDriver"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen></iframe>

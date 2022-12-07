@@ -16,6 +16,7 @@ export const useGlobalStore = defineStore('global', {
     paidTransaction: [],
     allTransaction: [],
     transactionDetail: {},
+    videoUrl: "https://www.youtube.com/embed/"
   }),
   getters: {
   },
@@ -326,6 +327,22 @@ export const useGlobalStore = defineStore('global', {
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
+      }
+    },
+    async fetchYoutubeVideos(carName){
+      try {
+        console.log(carName);
+        this.isLoad = true;
+        const {data} = await axios({
+          method: "GET",
+          url: `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UC5vz17NqPNmW8g0u1M_l90A&maxResults=1&q=${carName}&key=AIzaSyDpSZx0DgxuxVnEU6evXFbEG9Mh37KdmJA`
+        })
+        this.isLoad = false;
+        console.log(data);
+        this.videoUrl += data.items[0].id.videoId;
+      } catch (error) {
+        this.isLoad = false;
+        this.showNotification("No videos found", "error");
       }
     }
   }
