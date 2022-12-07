@@ -145,3 +145,14 @@ body {
   height: 85vh;
 }
 
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #7595ee;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top left, rgb(156, 186, 242), rgba(246, 243, 255, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top left, rgb(119, 153, 226), rgba(246, 243, 255, 1));
+  background-size:contain;
+  }

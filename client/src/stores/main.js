@@ -9,6 +9,11 @@ export const useMainStore = defineStore('main', {
        cities: [],
        hotels: [],
        totalHotels: '',
+       pendingTransactions: [],
+       paidTransactions: [],
+       paidTransactions: [],
+       selectedHotel: {},
+       transactionStatus: 'pending'
     }
   ),
   getters: {
@@ -105,7 +110,6 @@ export const useMainStore = defineStore('main', {
     async addOrder(obj) {
       try {
         console.log(obj)
-
         const {data} = await axios({
           method: 'post',
           url: this.baseUrl + '/transactions',
@@ -121,7 +125,96 @@ export const useMainStore = defineStore('main', {
       } catch(err) {
         console.log(err)
       }
-    }
+    },
+    async getPendingTransactions () {
+      try {
+        const {data} = await axios({
+          method: 'get',
+          url: this.baseUrl + '/transactions/pending',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        this.pendingTransactions = data
+        this.transactionStatus = 'pending'
+
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async getPaidTransactions() {
+      try {
+
+        const {data} = await axios({
+          method: 'get',
+          url: this.baseUrl + '/transactions/paid',
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        this.paidTransactions = data
+        this.transactionStatus = 'paid'
+
+
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async deleteOrder(id) {
+      try {
+        const {data} = await axios({
+          method: 'delete',
+          url: this.baseUrl + `/transactions/${id}`,
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        await this.getPendingTransactions()
+
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async paymentWithStripe(pendingTransaction) {
+      try {
+        const {data} = await axios({
+          method: 'post',
+          url: this.baseUrl + `/payments/stripe`,
+          headers: {
+            access_token: localStorage.access_token,
+            'Content-application': 'application/json'
+          },
+          data: {
+            pendingTransaction
+          }
+        })
+        window.open(data, '_blank')
+
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async successPayment(id) {
+      try {
+        console.log(id)
+        const {data} = await axios({
+          method: 'patch',
+          url: this.baseUrl + `/transactions/${id}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        console.log(data)
+        this.getPendingTransactions()
+        this.router.push('/transaction')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    
 
   },
 })
