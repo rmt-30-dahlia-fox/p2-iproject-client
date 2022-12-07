@@ -115,7 +115,7 @@ export const useMainStore = defineStore('main', {
     },
 
 
-    async loginCustomer(payload) {
+    async login(payload) {
       try {
         const { data } = await axios({
           url: this.baseUrl + '/publics/login',
@@ -136,7 +136,7 @@ export const useMainStore = defineStore('main', {
       }
     },
 
-    async registerCustomer(payload) {
+    async register(payload) {
       try {
         const { data } = await axios({
           url: this.baseUrl + '/publics/register',
@@ -172,9 +172,9 @@ export const useMainStore = defineStore('main', {
       }
     },
 
-    login() {
-      this.router.push('/login')
-    },
+    // login() {
+    //   this.router.push('/login')
+    // },
 
     logout() {
       this.status = 'Login'
