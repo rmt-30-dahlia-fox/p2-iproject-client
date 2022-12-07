@@ -1,6 +1,8 @@
 import { createApp, markRaw } from "vue";
 import { createPinia } from "pinia";
 
+import vue3GoogleLogin from "vue3-google-login";
+
 import App from "./App.vue";
 import router from "./router";
 
@@ -18,5 +20,9 @@ pinia.use(({ store }) => {
 
 app.use(pinia);
 app.use(router);
+app.use(vue3GoogleLogin, {
+  clientId:
+    "216422944060-i8l4jp0nbld2qgjkinjgmc9kne1nm0e5.apps.googleusercontent.com",
+});
 
 app.mount("#app");
