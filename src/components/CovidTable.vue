@@ -2,16 +2,18 @@
 import { mapActions, mapWritableState } from "pinia"
 import { useCounterStore } from "../stores/counter"
 import TableRow from "../components/TableRow.vue"
+import Loader from "./Loader.vue"
 
 export default {
-  components:{
+  components: {
     TableRow,
+    Loader,
   },
   methods: {
     ...mapActions(useCounterStore, ["fetchCovidData"]),
   },
   computed: {
-    ...mapWritableState(useCounterStore, ["covidData"]),
+    ...mapWritableState(useCounterStore, ["covidData", "loading"]),
   },
   created() {
     this.fetchCovidData()
@@ -34,7 +36,8 @@ export default {
             </tr>
           </thead>
           <tbody>
-            <TableRow v-for="list in covidData" :key="list.key" :list="list" />
+            <Loader v-if="loading" />
+            <TableRow v-for="list in covidData" :key="list.key" :list="list" v-else />
           </tbody>
         </table>
       </div>

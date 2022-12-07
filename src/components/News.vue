@@ -2,11 +2,10 @@
 import { mapActions, mapState, mapWritableState } from "pinia"
 import { useCounterStore } from "../stores/counter"
 import NewsCard from "../components/NewsCard.vue"
-import LoaderVue from "./Loader.vue"
+
 export default {
   components: {
     NewsCard,
-    LoaderVue,
   },
   methods: {
     ...mapActions(useCounterStore, ["fetchNewsData"]),
@@ -26,8 +25,7 @@ export default {
       <h2 class="text-3xl font-bold mb-12 text-center">Latest articles</h2>
 
       <div class="grid lg:grid-cols-3 gap-6">
-        <Loader v-if="isLoading" />
-        <NewsCard v-for="news in newsList" :key="news.title" :news="news" v-else/>
+        <NewsCard v-for="news in newsList" :key="news.title" :news="news" />
       </div>
     </section>
     <!-- Section: Design Block -->

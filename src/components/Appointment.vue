@@ -1,5 +1,23 @@
 <script>
-export default {}
+import { mapActions, mapWritableState } from "pinia"
+import { useCounterStore } from "../stores/counter"
+
+export default {
+  methods: {
+    ...mapActions(useCounterStore, ["fetchAppointment"]),
+  },
+  computed: {
+    ...mapWritableState(useCounterStore, ["appointmentList"]),
+    formatDate() {
+      return this.appointmentList.forEach((el) => {
+        return console.log(typeof el.date)
+      })
+    },
+  },
+  created() {
+    this.fetchAppointment()
+  },
+}
 </script>
 <template>
   <section class="mt-24">
@@ -41,30 +59,24 @@ export default {}
               placeholder="Enter your email"
               class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
           </div>
-          <div class="-mx-3 flex flex-wrap">
-            <div class="w-full px-3 sm:w-1/2">
-              <div class="mb-5">
-                <label for="date" class="mb-3 block text-base font-medium text-[#07074D]">
-                  Date
-                </label>
-                <input
-                  type="date"
-                  name="date"
-                  id="date"
-                  class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-              </div>
-            </div>
-            <div class="w-full px-3 sm:w-1/2">
-              <div class="mb-5">
-                <label for="time" class="mb-3 block text-base font-medium text-[#07074D]">
-                  Time
-                </label>
-                <input
-                  type="time"
-                  name="time"
-                  id="time"
-                  class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-              </div>
+          <div class="-mx-3 flex">
+            <div class="w-full px-3">
+              <label
+                for="countries"
+                class="mb-3 block text-base font-medium text-[#07074D]"
+                >Select an option</label
+              >
+              <select
+                id="countries"
+                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md">
+                <option selected>Choose an appointment</option>
+                <option
+                  :value="appointment.date"
+                  v-for="appointment in appointmentList"
+                  :key="appointment.id">
+                  {{ formatDate }}
+                </option>
+              </select>
             </div>
           </div>
 
