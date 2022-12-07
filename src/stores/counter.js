@@ -9,36 +9,37 @@ export const useCounterStore = defineStore("counter", {
       baseUrl: "http://localhost:3000",
       newsList: [],
       covidData: [],
-      isLoading: false,
+      isLoading: 0,
     }
   },
   actions: {
     async fetchNewsData() {
       try {
+        this.isLoading = 2
         const { data } = await axios({
           method: "GET",
-          url: "https://newsapi.org/v2/top-headlines?country=id&category=health&apiKey=96596792c7d74fefb9765035495b3630",
+          url: "https://newsapi.org/v2/top-headlines?country=gb&category=health&apiKey=96596792c7d74fefb9765035495b3630",
         })
-        this.newsList = data
-        console.log(data)
+        this.newsList = data.articles
       } catch (error) {
         console.log(error)
+      } finally {
+        this.isLoading = 0
       }
     },
 
     async fetchCovidData() {
       try {
-        this.isLoading = true
+        this.isLoading = 1
         const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}/covid-data`,
         })
         this.covidData = data.list_data
-        console.log(data)
       } catch (error) {
         console.log(error)
       } finally {
-        this.isLoading = false
+        this.isLoading = 0
       }
     },
   },

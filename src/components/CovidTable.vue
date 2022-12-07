@@ -34,7 +34,7 @@ export default {
             </tr>
           </thead>
           <tbody>
-            <TableRow v-for="list in covidData" :key="key" :list="list" />
+            <TableRow v-for="list in covidData" :key="list.key" :list="list" />
           </tbody>
         </table>
       </div>
