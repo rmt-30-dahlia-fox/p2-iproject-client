@@ -49,7 +49,17 @@ export default {
               Calculator
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item">BMR</a></li>
+              <li>
+                <router-link
+                  :to="{
+                    name: 'calculator',
+                    params: { feature: 'bmr' },
+                  }"
+                  @click="pageTitle = 'Basal Metabolic Rate'"
+                  class="dropdown-item"
+                  >BMR</router-link
+                >
+              </li>
               <li><a class="dropdown-item">BMI</a></li>
               <li>
                 <router-link

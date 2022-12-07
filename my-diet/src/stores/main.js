@@ -9,6 +9,7 @@ export const useMainStore = defineStore('main', {
     pageTitle: 'Home',
     foodsResult: [],
     calNeedResult: {},
+    bmrResult: {}
   }),
   actions: {
     async searchItems(toSearch) {
@@ -32,6 +33,22 @@ export const useMainStore = defineStore('main', {
         const { data } = await axios({
           method: 'get',
           url: `https://hipermega-fitness-calculator.p.rapidapi.com/caloriesneeds?height=${params.height}&weight=${params.weight}&gender=${params.gender}&age=${params.age}&activity=${params.activity}`,
+          headers: { 'X-RapidAPI-Key': import.meta.env.VITE_RAPID_KEY, 'X-RapidAPI-Host': import.meta.env.VITE_RAPID_HOST },
+        });
+        // console.log(data, '<<<< data from CALC-CaloriesNeed');
+
+        this.calNeedResult = data;
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async Calc_BMR(params) {
+      console.log(params);
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: `https://hipermega-fitness-calculator.p.rapidapi.com/bmr?gender=${params.gender}&age=${params.age}&height=${params.height}&weight=${params.weight}`,
           headers: { 'X-RapidAPI-Key': import.meta.env.VITE_RAPID_KEY, 'X-RapidAPI-Host': import.meta.env.VITE_RAPID_HOST },
         });
         // console.log(data, '<<<< data from CALC-CaloriesNeed');
