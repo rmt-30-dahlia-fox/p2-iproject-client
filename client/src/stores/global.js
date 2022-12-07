@@ -178,6 +178,7 @@ export const useGlobalStore = defineStore('global', {
         this.allTransaction = data;
         this.isLoad = false;
       } catch (error) {
+        this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
       }
     },
@@ -197,7 +198,6 @@ export const useGlobalStore = defineStore('global', {
         })
         this.isLoad = false;
         const transactionId = data.id;
-        console.log(data);
         return transactionId;
       } catch (error) {
         this.isLoad = false;
@@ -261,6 +261,9 @@ export const useGlobalStore = defineStore('global', {
         if(status === "new"){
           transactionId = await this.bookCar(id);
         }
+        if(!transactionId){
+          throw("unauthorized")
+        }
         const fetchTransaction = this.fetchTransaction;
         const notification = this.showNotification;
         const baseUrl = this.baseUrl;
@@ -292,7 +295,7 @@ export const useGlobalStore = defineStore('global', {
                 fetchTransaction("All");
               })
               .catch(err=>{
-                notification(error.response.data.message, "error")
+                notification(err.response.data.message, "error")
               })
           },
           onPending: function(result){
@@ -306,7 +309,11 @@ export const useGlobalStore = defineStore('global', {
           }
         })
       } catch (error) {
-        this.showNotification(err.response.data.message, "error")
+        if(error === "unauthorized"){
+          this.showNotification("Please sign in first!", "error");
+          return this.router.push('/login');
+        }
+        this.showNotification(error.response.data.message, "error")
       }
     },
     async sendReview(id, message){
