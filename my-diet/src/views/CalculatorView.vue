@@ -16,13 +16,10 @@ export default {
     BMRVue,
     BMIVue,
   },
-  // created() {
-  //   if (this.$route.params.feature == "calories_need") {
-  //     this.whatPage = "calories";
-  //   } else if (this.$route.params.feature == "calories_need") {
-  //     this.whatPage = "bmr";
-  //   }
-  // },
+
+  created() {
+    if (localStorage.access_token) this.isLogin = true;
+  },
 };
 </script>
 

@@ -15,6 +15,7 @@ export const useMainStore = defineStore('main', {
     articles: [],
     UserId: '',
     total_price: '',
+    isLogin: false
   }),
   actions: {
     // Home
@@ -196,6 +197,7 @@ export const useMainStore = defineStore('main', {
     logout() {
       // this.status = 'Login'
       localStorage.clear();
+      this.pageTitle = 'Home'
       this.router.push('/login&register')
     },
   }

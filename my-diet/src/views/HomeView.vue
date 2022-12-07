@@ -10,6 +10,12 @@ export default {
     NavbarVue,
     HomeContentVue,
   },
+  computed: {
+    ...mapWritableState(useMainStore, ["isLogin"]),
+  },
+  created() {
+    if (localStorage.access_token) this.isLogin = true;
+  },
 };
 </script>
 

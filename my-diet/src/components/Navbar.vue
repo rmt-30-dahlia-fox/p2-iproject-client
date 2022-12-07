@@ -102,15 +102,15 @@ export default {
               >Articles</router-link
             >
           </li>
-          <!-- <li class="nav-item">
+          <li class="nav-item">
             <router-link
               to="/articles"
-              @click="pageTitle = 'Articles'"
-              class="nav-link active"
+              @click="logout"
+              class="nav-link active btn btn-danger"
               aria-current="page"
-              >Articles</router-link
+              >Logout</router-link
             >
-          </li> -->
+          </li>
         </ul>
       </div>
     </div>

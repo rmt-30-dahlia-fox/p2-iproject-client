@@ -41,7 +41,9 @@ export default {
       this.result = true;
     },
   },
+
   created() {
+    if (localStorage.access_token) this.isLogin = true;
     this.fetchArticles();
 
     if (this.$route.name == "article") {
