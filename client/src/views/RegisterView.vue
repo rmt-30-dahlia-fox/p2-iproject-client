@@ -38,7 +38,7 @@ export default {
     <div class="container shadow-lg rounded">
       <span @click="$router.push('/home')">&#10005;</span>
       <div class="logo">
-        <h1><a>Movie</a><a>Ku</a></h1>
+        <h1><a>Movie</a><a>Library</a></h1>
       </div>
       <form @submit.prevent="register({ username, email, password })">
         <label for="">Username</label>
@@ -49,7 +49,7 @@ export default {
         <input v-model="password" class="form-control" type="password" />
         <label for="">Retype</label>
         <input v-model="retype" class="form-control" type="password" />
-        <router-link :to="{ name: 'login' }">Login</router-link>
+        <router-link :to="'login'">Login</router-link>
         <button>
           <div v-if="isLoading" class="lds-ring">
             <div></div>

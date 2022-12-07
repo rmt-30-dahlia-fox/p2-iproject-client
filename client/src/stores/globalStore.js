@@ -1,12 +1,6 @@
 import { defineStore } from "pinia";
 import Swal from "sweetalert2";
 
-import { getAuth, signOut } from "firebase/auth";
-import firebase from "firebase/compat/app";
-import firebaseConfig from "../firebaseConfig";
-firebase.initializeApp(firebaseConfig);
-const auth = getAuth();
-
 const Toast = Swal.mixin({
   toast: true,
   position: "top-end",
@@ -43,14 +37,9 @@ export const useGlobalStore = defineStore({
       });
     },
     async logout() {
-      try {
-        await signOut(auth);
-        localStorage.clear();
-        this.router.push("/login");
-        this.successHandler("Logout successfully");
-      } catch (error) {
-        this.errorHandler(error);
-      }
+      localStorage.clear();
+      this.router.push("/login");
+      this.successHandler("Logout successfully");
     },
   },
 });
