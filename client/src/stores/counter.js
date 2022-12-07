@@ -28,16 +28,21 @@ export const useCounterStore = defineStore('counter', {
       length: 0
     },
 
+    calledCategories: {
+      items: [],
+      length: 0
+    },
+
     calledProducts: {
-      item: [],
+      items: [],
       length: 0
     }, 
 
-    calledCategories: {
-      item: [],
-      length: 0
-    },
-    
+    pageNumber: 1,
+    pageCount: 1,
+    filterCode: '',
+    searchInput: '',
+
     member: {
       called: {},
       register: {
@@ -48,18 +53,11 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
-    foods: [],
-    categories: [],
-    favorites: [],
-    counterData: {
-      f: 0, c: 0, s: 0
-    }, 
-    filterCode: '',
+    
+
+    
     pageState: '',
     calledFood: {},
-    pageNumber: 1,
-    pageCount: 1,
-    generatedCode: ''
   }),
   getters: {
     doubleCount: (state) => state.count * 2,
@@ -153,6 +151,40 @@ export const useCounterStore = defineStore('counter', {
           text: `${error.response.data.message}`,
         })
       }
+    },
+
+    async fetchProducts(){
+      try {
+        // let query = ''
+        // if (queries) {
+        //   query = `&&${queries}`
+        //   this.filterCode = queries.replace("filter=", "")
+        // }
+
+        const {data} = await axios ({
+          url: this.baseUrl + 'products' + `?page=${this.pageNumber}`,
+          method: 'get',
+          headers: { access_token: localStorage.access_token }
+        })
+        this.calledProducts.items = data.rows
+        this.calledProducts.length = data.count
+
+        if (data.count % 6 !== 0) this.pageCount = Math.ceil(data.count / 6)
+        else this.pageCount = data.count / 6
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
+    },
+
+    movePage(number, opt){
+      if (opt) this.pageNumber += number
+      if (!opt) this.pageNumber = number
+      this.fetchProducts()
     },
   },
 })

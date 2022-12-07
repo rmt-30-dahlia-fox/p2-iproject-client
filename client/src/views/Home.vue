@@ -3,7 +3,7 @@ import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
 
 import Navbar from '../components/Navbar.vue'
-// import FoodCards from "../components/FoodCard.vue"
+import ProductCard from "../components/ProductCard.vue"
 
 export default{
   data(){
@@ -13,19 +13,22 @@ export default{
   },
   components: {
     Navbar,
+    ProductCard
   },
   computed: {
     ...mapState(useCounterStore, []),
-    ...mapWritableState(useCounterStore, ['loggedUser'])
+    ...mapWritableState(useCounterStore, ['loggedUser', 'calledProducts', 'pageCount', 'pageNumber'])
   },
   methods: {
-    ...mapActions(useCounterStore, ['handleAuthentication'])
+    ...mapActions(useCounterStore, ['handleAuthentication', 'fetchProducts', 'movePage'])
   },
   created(){
+    this.fetchProducts()
     
   },
   mounted(){
     this.handleAuthentication()
+    this.fetchProducts()
   }
 }
 </script>
@@ -133,22 +136,37 @@ export default{
               </div>
             </div>
           </div>
+          <div class="container">
+            <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <ProductCard v-for="product in calledProducts.items" :key="product.id" :product="product"></ProductCard>
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination pagination-primary justify-content-center">
+                            <li v-if="(pageNumber !== 1)" @click.prevent="movePage(-1, true)" class="page-item">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li v-for="n in pageCount" @click.prevent="movePage(n)" class="page-item"><a class="page-link"
+                                    href="#">{{n}}</a></li>
+                            <li v-if="(pageNumber !== pageCount)" @click.prevent="movePage(1, true)" class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="row">
+                    
+                </div>
+            </div>
         </div>
-        <!-- <div class="row">
-            <FoodCards v-for="food in foods" :key="food.id" :food="food" :page="page"></FoodCards>
-        </div> -->
+          </div>
+        </div>
     </div>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination pagination-primary  justify-content-center">
-        <li v-if="(pageNumber !== 1)" @click.prevent="movePage(-1, true)" class="page-item">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-        </li>
-        <li v-for="n in pageCount" @click.prevent="movePage(n)" class="page-item"><a class="page-link" href="#">{{n}}</a></li>
-        <li v-if="(pageNumber !== pageCount)" @click.prevent="movePage(1, true)" class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
+    
 </div>
 </template>
 
