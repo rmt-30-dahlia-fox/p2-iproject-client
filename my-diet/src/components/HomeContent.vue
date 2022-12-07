@@ -6,15 +6,21 @@ export default {
     return {
       toSearch: "",
       debounce: null,
+      show: false,
     };
   },
   computed: {
     ...mapWritableState(useMainStore, ["pageTitle", "foodsResult"]),
+    ...mapState(useMainStore, ["foodDetail"]),
   },
   methods: {
-    ...mapActions(useMainStore, ["searchItems"]),
+    ...mapActions(useMainStore, ["searchItems", "getOneItem"]),
 
     triggerSearch() {
+      if (this.foodDetail.food_name) {
+        console.log(this.foodDetail.food_name);
+        this.show = true;
+      }
       if (this.toSearch == "") {
         this.foodsResult = [];
       } else {
@@ -23,6 +29,12 @@ export default {
           this.searchItems(this.toSearch);
         }, 500);
       }
+    },
+    hide() {
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        this.toSearch = "";
+      }, 500);
     },
   },
 };
@@ -50,8 +62,11 @@ export default {
           v-if="toSearch !== ''"
           class="dropdown-menu position-static d-grid gap-1 p-2 rounded-3 shadow"
         >
-          <li v-for="food in foodsResult">
-            <a class="dropdown-item rounded-2">
+          <li v-for="food in foodsResult" v-if="foodsResult">
+            <a
+              class="dropdown-item rounded-2"
+              @click.prevent="getOneItem(food.nix_item_id), hide()"
+            >
               <div class="row">
                 <div class="col-11">
                   <img
@@ -71,6 +86,29 @@ export default {
             <hr />
           </li>
         </ul>
+      </div>
+    </div>
+    <!-- Food Detail -->
+    <div class="container mt-5" v-if="foodDetail.food_name">
+      <h3 class="text-light">Food Details</h3>
+      <div class="row"></div>
+      <div class="justify-content-center">
+        <div class="row">
+          <div class="col-4">
+            <img :src="foodDetail.photo.thumb" alt="food_image" />
+          </div>
+          <div class="col-8">
+            <table class="table text-light">
+              <tbody>
+                <tr>
+                  <th class="w-25">Food Name</th>
+                  <td>:</td>
+                  <td>{{ food_name }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

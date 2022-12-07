@@ -91,8 +91,26 @@ export default {
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link">Articles</a>
+            <router-link
+              :to="{
+                name: 'article',
+                params: { feature: 'articles' },
+              }"
+              @click="pageTitle = 'Articles'"
+              class="nav-link active"
+              aria-current="page"
+              >Articles</router-link
+            >
           </li>
+          <!-- <li class="nav-item">
+            <router-link
+              to="/articles"
+              @click="pageTitle = 'Articles'"
+              class="nav-link active"
+              aria-current="page"
+              >Articles</router-link
+            >
+          </li> -->
         </ul>
       </div>
     </div>
