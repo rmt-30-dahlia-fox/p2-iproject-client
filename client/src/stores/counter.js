@@ -5,7 +5,12 @@ import Swal from "sweetalert2";
 export const useCounterStore = defineStore("counter", {
   state: () => ({
     baseUrl: "http://localhost:3000",
+    baseUrlApi: "https://digimon-api.vercel.app/api/digimon",
     loginStatus: false,
+    levels: [],
+    digimons: [],
+    levelSort: "",
+    search: "",
   }),
 
   getters: {},
@@ -96,6 +101,35 @@ export const useCounterStore = defineStore("counter", {
           title: "Welcome to Archon Digi Card!",
         });
       } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      }
+    },
+
+    async fetchDigimon(page) {
+      try {
+        let urlParam = this.baseUrlApi;
+        if (this.levelSort) {
+          urlParam += "/level/" + this.levelSort;
+        }
+        if (this.search) {
+          urlParam += "/name/" + this.search;
+        }
+        const { data } = await axios({
+          url: urlParam,
+          method: "get",
+        });
+
+        if (page === 1) {
+          this.digimons = data[0];
+        } else {
+          this.digimons = data;
+        }
+        console.log(this.digimons.length, "<<<<<");
+      } catch (error) {
+        console.log(error);
         Swal.fire({
           icon: "error",
           title: error.response.data.message,

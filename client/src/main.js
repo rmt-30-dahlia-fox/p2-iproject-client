@@ -5,6 +5,7 @@ import vue3GoogleLogin from "vue3-google-login";
 import App from "./App.vue";
 import router from "./router";
 import "vue-awesome-paginate/dist/style.css";
+import Paginate from "vuejs-paginate";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -16,6 +17,7 @@ pinia.use(({ store }) => {
 app.use(pinia);
 app.use(router);
 app.use(VueAwesomePaginate);
+app.use(Paginate);
 
 app.use(vue3GoogleLogin, {
   clientId:
