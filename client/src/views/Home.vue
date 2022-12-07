@@ -17,13 +17,14 @@ export default{
   },
   computed: {
     ...mapState(useCounterStore, []),
-    ...mapWritableState(useCounterStore, ['loggedUser', 'calledProducts', 'pageCount', 'pageNumber'])
+    ...mapWritableState(useCounterStore, ['loggedUser', 'calledProducts', 'pageCount', 'pageNumber', 'calledCategories'])
   },
   methods: {
-    ...mapActions(useCounterStore, ['handleAuthentication', 'fetchProducts', 'movePage'])
+    ...mapActions(useCounterStore, ['handleAuthentication', 'fetchProducts', 'movePage', 'fetchCategories'])
   },
   created(){
     this.fetchProducts()
+    this.fetchCategories()
     
   },
   mounted(){
@@ -108,9 +109,9 @@ export default{
                       </div>
                       <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-9">
                         <h6 class="text-muted font-semibold">Filter Category</h6>
-                        <select v-model="filterCode" @change="fetchFoods(`filter=${filterCode}`)" class="form-select" id="inputGroupSelect01">
-                            <option :value="''">Filter Foods</option>
-                            <!-- <option v-for="item in categories" :key="item.id" :value="item.id">{{item.name}}</option> -->
+                        <select v-model="filterCode" @change="fetchProducts(`filter=${filterCode}`)" class="form-select" id="inputGroupSelect01">
+                            <option :value="''">Filter Products</option>
+                            <option v-for="item in calledCategories.items" :key="item.id" :value="item.id">{{item.name}}</option>
                         </select>
                       </div>
                     </div>
@@ -142,7 +143,7 @@ export default{
                 <div class="row">
                     <ProductCard v-for="product in calledProducts.items" :key="product.id" :product="product"></ProductCard>
 
-                    <nav aria-label="Page navigation example">
+                    <nav v-if="(calledProducts.length !== 0)" aria-label="Page navigation example">
                         <ul class="pagination pagination-primary justify-content-center">
                             <li v-if="(pageNumber !== 1)" @click.prevent="movePage(-1, true)" class="page-item">
                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>

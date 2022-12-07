@@ -29,7 +29,7 @@ export default{
     <div class="col-xl-4 col-md-6 col-sm-12">
         <div class="card">
             <div class="card-content d-flex flex-column align-items-stretch">
-                <div class="card-body flex-grow-1">
+                <div class="card-body blog-title">
                     <h4 class="card-title">{{product.name}}</h4>
                 </div>
                 <img class="img-fluid w-100 blog-image" :src="product.image"
@@ -68,9 +68,14 @@ export default{
     border-radius: 10px;
 }
 
+.blog-title {
+  width: 200px;
+	height: 150px;
+}
+
 .blog-image {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
+	width: 100px;
+	height: 300px;
+	object-fit: contain;
 }
 </style>
