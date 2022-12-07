@@ -28,6 +28,24 @@ export default {
         this.errorHandler(error);
       }
     },
+    async handleOnGoogleLogin(response) {
+      try {
+        const { data } = await axios({
+          method: "post",
+          url: this.baseUrl + "/login/google",
+          headers: {
+            google_token: response.credential,
+          },
+        });
+
+        this.successHandler(data.message);
+        localStorage.setItem("access_token", data.access_token);
+        this.$router.push("/home");
+        this.isLoading = false;
+      } catch (error) {
+        this.errorMessage(error);
+      }
+    },
   },
 };
 </script>
@@ -54,6 +72,9 @@ export default {
           </div>
           Login
         </button>
+        <div class="col-md-8 offset-md-2">
+          <GoogleLogin :callback="handleOnGoogleLogin" />
+        </div>
       </form>
     </div>
   </section>
