@@ -51,6 +51,77 @@ export const useMainStore = defineStore('main', {
       } catch(err) {
         console.log(err)
       }
+    },
+    async register(obj) {
+      try {
+        const {email, password, username, address, phoneNumber} = obj
+
+        const result = await axios({
+          method: 'post',
+          url: this.baseUrl + '/users/register',
+          data: {
+            email,
+            password,
+            username, 
+            address, 
+            phoneNumber
+          }
+        });
+
+        const {data} = await axios({
+          method: 'post',
+          url: this.baseUrl + '/users/login',
+          data: {
+            email,
+            password
+          }
+        });
+
+        localStorage.setItem('access_token', data.access_token)
+        this.router.replace('/')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async login(obj) {
+      try {
+        const {email, password} = obj
+
+        const {data} = await axios({
+          method: 'post',
+          url: this.baseUrl + '/login',
+          data: {
+            email,
+            password
+          }
+        });
+
+        localStorage.setItem('access_token', data.access_token)
+        this.router.replace('/')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    async addOrder(obj) {
+      try {
+        console.log(obj)
+
+        const {data} = await axios({
+          method: 'post',
+          url: this.baseUrl + '/transactions',
+          data: {
+            obj
+          },
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+
+        console.log(data)
+      } catch(err) {
+        console.log(err)
+      }
     }
+
   },
 })

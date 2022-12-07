@@ -1,5 +1,7 @@
 <script>
     
+    import { mapStores, mapState } from 'pinia'
+    import { useMainStore } from '../stores/main'
 
     export default {
         props: ['hotel'],
@@ -9,21 +11,27 @@
                 totalPrice: 0
             }
         },
+        computed: {
+            ...mapStores(useMainStore),
+            ...mapState(useMainStore, ['cities'])
+        },
         methods: {
             add() {
+                if(this.hotel.roomLeft) if(Number(this.quantity ) == Number(this.hotel.roomLeft)) return
                 this.quantity++
-                this.totalPrice = this.quantity * this.hotel.price
+                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
             },
             minus() {
+                if(this.quantity == 1) return
                 this.quantity--
-                this.totalPrice = this.quantity * this.hotel.price
+                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
             },
             changeQty() {
-                this.totalPrice = this.quantity * this.hotel.price
+                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
             },
             showOrderForm() {
-                if(localStorage.acces_token) {
-                    document.getElementById('totalPrice').value = this.quantity * this.hotel.price
+                if(localStorage.access_token) {
+                    document.getElementById('totalPrice').value = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
                     document.getElementById('form-imageUrl').src = this.hotel.imageUrl
                     document.getElementById('form-name').innerText = this.hotel.name
                     document.getElementById('form-address').innerText = this.hotel.address
@@ -41,6 +49,12 @@
                 this.totalPrice = 0
                 document.getElementById('modal').classList.remove('active')
                 document.getElementById('overlay').classList.remove('active')
+            },
+            addOrder() {
+                const obj = this.hotel
+                obj.quantity = this.quantity
+                obj.totalPrice = this.totalPrice
+                this.mainStore.addOrder(obj)
             }
         }
     }
@@ -115,9 +129,10 @@
                     </div>
                     <div class="d-flex flex-column align-items-end" style="height: 100%">
                         <h6 class="text-danger" style="font-weight: bold" id="form-price"></h6>
-                        <div class="d-flex" style="max-width: 180px">
+                        <div class="d-flex" style="max-width: 210px">
+                            <h5 class="mr-3">Room(s)</h5>
                             <button @click.prevent="minus" class="btn-primary" id="minus">−</button>
-                            <input min="1" @input="changeQty" v-model="this.quantity" type="number" class="form-control" id="input"/>
+                            <input :max="this.hotel.roomLeft" disabled min="1" @input="changeQty" v-model="this.quantity" type="number" class="form-control" id="input"/>
                             <button @click.prevent="add" class="btn-primary"  id="plus">+</button>
                         </div>
                     </div>
@@ -125,7 +140,7 @@
             </div>
             <div class="d-flex flex-column" style="width: 100%">
                 <div class="d-flex justify-content-center align-items-center">
-                    <h4 class="text-dark" style="width: 200px" >Total Price: </h4>
+                    <h4 class="text-dark" style="width: 350px" >Total Price for {{Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)}} night(s): </h4>
                     <div class="input-group mb-3 bg-white"  style="max-width: 200px">
                         <span class="bg-primary text-white input-group-text" id="basic-addon1">$</span>
                         <input id="totalPrice" v-model="totalPrice" type="text" class="text-danger bg-white form-control text-right" disabled>
@@ -135,7 +150,7 @@
                     <button @click.prevent="closeOrderForm" class="btn btn-danger">
                         Cancel
                     </button>
-                    <button class="btn btn-success">
+                    <button @click.prevent="addOrder" class="btn btn-success">
                         Confirm Order
                     </button>
                 </div>
