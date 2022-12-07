@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "@/views/LandingPage.vue";
+import LoginPage from "@/views/LoginPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
 import CreateActivityPage from "@/views/CreateActivityPage.vue";
@@ -12,6 +13,11 @@ const router = createRouter({
       path: "/",
       name: "LandingPage",
       component: LandingPage,
+    },
+    {
+      path: "/login",
+      name: "LoginPage",
+      component: LoginPage,
     },
     {
       path: "/home",
@@ -36,5 +42,13 @@ const router = createRouter({
     },
   ],
 });
+
+router.beforeEach((to, from) => {
+  if(!localStorage.access_token && !['LandingPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
+    return { name: 'LoginPage' }
+  } else if (localStorage.access_token && ['LandingPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
+    return { name: 'HomePage' }
+  }
+})
 
 export default router;
