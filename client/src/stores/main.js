@@ -8,7 +8,7 @@ export const useMainStore = defineStore('main', {
        baseUrl: 'http://localhost:3000',
        cities: [],
        hotels: [],
-       totalHotels: ''
+       totalHotels: '',
     }
   ),
   getters: {

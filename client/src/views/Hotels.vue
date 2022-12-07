@@ -32,18 +32,22 @@ export default {
         this.selectedCheckOutDate = this.$route.query.date_checkout
     },
     methods: {
-        async handleFetchHotels() {
-            await this.mainStore.fetchHotels({
+        handleFetchHotels() {
+            this.mainStore.fetchHotels({
                 city: this.$route.query.city,
                 date_checkin: this.$route.query.date_checkin,
                 date_checkout: this.$route.query.date_checkout,
                 page: this.$route.query.page,
             })
         },
-        async clickCallback (pageNum) {
-            console.log(pageNum)
+        clickCallback (pageNum) {
             this.$router.push({path: '/hotels', query: {city: this.selectedCity, date_checkin: this.selectedCheckInDate, date_checkout: this.selectedCheckOutDate, page: pageNum}})
-            this.handleFetchHotels()
+            this.mainStore.fetchHotels({
+                city: this.$route.query.city,
+                date_checkin: this.$route.query.date_checkin,
+                date_checkout: this.$route.query.date_checkout,
+                page: this.$route.query.page,
+            })
         },
         showOutput() {
             const price = document.querySelector("#price");
@@ -112,19 +116,19 @@ export default {
         <div class="col-3 d-flex align-items-center">
             <h5 class="mt-2">Stars: </h5>
             <button class="btn bg-transparent">
-                <i class="fa-solid fa-star text-secondary"></i>
+                <i class="fa-solid fa-star text-warning"></i>
             </button>
             <button class="btn bg-transparent">
-                <i class="fa-solid fa-star text-secondary"></i>
+                <i class="fa-solid fa-star text-warning"></i>
             </button>
             <button class="btn bg-transparent">
-                <i class="fa-solid fa-star text-secondary"></i>
+                <i class="fa-solid fa-star text-warning"></i>
             </button>
             <button class="btn bg-transparent">
-                <i class="fa-solid fa-star text-secondary"></i>
+                <i class="fa-solid fa-star text-warning"></i>
             </button>
             <button class="btn bg-transparent">
-                <i class="fa-solid fa-star text-secondary"></i>
+                <i class="fa-solid fa-star text-warning"></i>
             </button>
         </div>
     </div>
@@ -136,7 +140,67 @@ export default {
             <div class="col-3">
                 <div class="card bg-white">
                     <div class="card-body">
-                        <h1>Sort disini</h1>
+
+                        <div class="form-check">
+                            <h4>Sort By</h4>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Price
+                            </label>
+                            </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Star
+                            </label>
+                        </div>
+
+                        <div class="d-flex flex-column mt-4" style="gap: 16px">
+                            <div class="form-check">
+                                <h4>Facilities</h4>
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    <i class="fa-solid fa-wifi"></i>
+                                    Free Wi-Fi
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    <i class="fa-solid fa-person-swimming"></i>
+                                    Swimming Pool
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    <i class="fa-solid fa-utensils"></i>
+                                    Bar and Restaurant
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    <i class="fa-solid fa-dumbbell"></i>
+                                    Fitness and Spa
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    <i class="fa-solid fa-square-parking"></i>
+                                    Parking Area
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
+                                <label class="form-check-label" for="flexCheckChecked">
+                                    <i class="fa-solid fa-dog"></i>
+                                    Pet allowed
+                                </label>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -178,6 +242,39 @@ export default {
             </div>
         </div>
     </div>
+
+    <!-- <div class="order-modal active" id="modal">
+
+        <div class="d-flex flex-column" style="gap: 8px">
+            <div class="text-center" style="border-bottom: 1px solid black">
+                <h4 class="my-auto">Order Detail</h4>
+            </div>
+            <div class="card mx-2 my-2">
+                <div class="d-flex">
+                    <div class="">
+                        <img style="width:200px" src="../assets/e3ecce4b167ed4c06e3502f9c5d8e7ec.jpg" alt="hotel-image">
+                    </div>
+                    <div class="bg-success" style="width: 100%">
+                        <h4>Nama Hotel</h4>
+                        <h5>Alamat</h5>
+                        <h5>date check in</h5>
+                        <h5>date check out</h5>
+                    </div>
+                </div>
+                    
+            </div>
+            <div class="d-flex">
+                
+            </div>
+
+        </div>
+
+    </div>
+
+
+<div class="active" id="overlay"></div> -->
+
+    
 
     
    
