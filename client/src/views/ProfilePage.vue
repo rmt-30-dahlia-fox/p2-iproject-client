@@ -16,7 +16,9 @@ export default {
     ...mapActions(useGlobalStore, ['fetchUserLogin'])
   },
   created() {
-    this.fetchUserLogin(this.$route.params.id)
+    if(this.$route.params.id) {
+      this.fetchUserLogin(this.$route.params.id)
+    }
   }
 }
 </script>

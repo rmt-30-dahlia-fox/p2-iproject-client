@@ -1,10 +1,12 @@
 import { defineStore } from "pinia";
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({ 
     baseUrl: 'http://localhost:3000',
     isLogin: false,
+    users: [],
     user: {
       id: null,
       email: '',
@@ -36,6 +38,11 @@ export const useGlobalStore = defineStore('global', {
       caption: "Hi! Let's stay fit with HackFit!",
       imageActivity: undefined,
     },
+    registerForm: {
+      fullName: '',
+      email: '',
+      password: ''
+    },
     loginForm: {
       email: '',
       password: ''
@@ -50,6 +57,21 @@ export const useGlobalStore = defineStore('global', {
     
   },
   actions: {
+    async fetchUsers() {
+      try {
+        const { data } = await axios.get(this.baseUrl + '/users', {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        this.users = data.data
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
+      }
+    },
+
     async fetchExercises() {
       try {
         const params = {}
@@ -67,7 +89,10 @@ export const useGlobalStore = defineStore('global', {
 
         this.exercises = data
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -79,7 +104,10 @@ export const useGlobalStore = defineStore('global', {
 
         this.activities = data.data
       } catch (error) {
-        console.log(error);  
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -91,7 +119,10 @@ export const useGlobalStore = defineStore('global', {
 
         this.myActivities = data.data
       } catch (error) {
-        console.log(error);  
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -113,7 +144,10 @@ export const useGlobalStore = defineStore('global', {
         this.user.Badge = data.Badge
 
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -125,7 +159,10 @@ export const useGlobalStore = defineStore('global', {
   
         this.types = data.data
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -137,7 +174,10 @@ export const useGlobalStore = defineStore('global', {
   
         this.difficulties = data.data
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -152,6 +192,28 @@ export const useGlobalStore = defineStore('global', {
       this.router.push(`/profile/${this.user.id}`)
     },
 
+    async handleRegister() {
+      try {
+        const { data } = await axios.post(this.baseUrl + '/register', {
+          fullName: this.registerForm.fullName,
+          email: this.registerForm.email,
+          password: this.registerForm.password
+        })
+
+        console.log(data);
+        localStorage.access_token = data.access_token
+        localStorage.userId = data.userId
+
+        this.isLogin = true
+        this.router.push('/home')
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
+      }
+    },
+
     async handleLogin() {
       try {
         const { data } = await axios.post(this.baseUrl + '/login', {
@@ -164,9 +226,16 @@ export const useGlobalStore = defineStore('global', {
         this.isLogin = true
         this.fetchUserLogin(data.userId)
 
+        Swal.fire({
+          icon: 'success',
+          title: 'Success to login!',
+        })
         this.router.push('/home')
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -185,9 +254,16 @@ export const useGlobalStore = defineStore('global', {
           headers: { access_token: localStorage.access_token }
         })
 
+        Swal.fire({
+          icon: 'success',
+          title: 'Success to post your activity!',
+        })
         this.router.push('/home')
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     },
 
@@ -206,9 +282,16 @@ export const useGlobalStore = defineStore('global', {
           headers: { access_token: localStorage.access_token }
         })
 
+        Swal.fire({
+          icon: 'success',
+          title: 'Your profile has been updated!',
+        })
         this.router.push(`/profile/${id}`)
       } catch (error) {
-        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
       }
     }
   },

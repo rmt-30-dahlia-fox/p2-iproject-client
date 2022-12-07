@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LandingPage from "@/views/LandingPage.vue";
+import RegisterPage from "@/views/RegisterPage.vue"
 import LoginPage from "@/views/LoginPage.vue";
 import HomePage from "@/views/HomePage.vue";
 import ProfilePage from "@/views/ProfilePage.vue";
-import ActivitiesPage from "@/views/ActivitiesPage.vue"
 import EditProfilePage from "@/views/EditProfilePage.vue"
 import CreateActivityPage from "@/views/CreateActivityPage.vue";
 import NotFoundPage from "@/views/NotFoundPage.vue";
@@ -15,6 +15,11 @@ const router = createRouter({
       path: "/",
       name: "LandingPage",
       component: LandingPage,
+    },
+    {
+      path: "/register",
+      name: "RegisterPage",
+      component: RegisterPage,
     },
     {
       path: "/login",
@@ -31,11 +36,6 @@ const router = createRouter({
       name: "ProfilePage",
       component: ProfilePage,
     },
-    // {
-    //   path: "/profile/:userId/activities",
-    //   name: "ActivitiesPage",
-    //   component: ActivitiesPage,
-    // },
     {
       path: "/profile/:userId/edit-profile",
       name: "EditProfilePage",
@@ -56,9 +56,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from) => {
-  if(!localStorage.access_token && !['LandingPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
+  if(!localStorage.access_token && !['LandingPage', 'RegisterPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
     return { name: 'LoginPage' }
-  } else if (localStorage.access_token && ['LandingPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
+  } else if (localStorage.access_token && ['LandingPage', 'RegisterPage', 'LoginPage', 'NotFoundPage'].includes(to.name)) {
     return { name: 'HomePage' }
   }
 })

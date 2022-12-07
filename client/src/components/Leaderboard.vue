@@ -1,4 +1,19 @@
-<script></script>
+<script>
+import { mapActions, mapState } from 'pinia';
+import { useGlobalStore } from '../stores/global';
+
+export default {
+  computed: {
+    ...mapState(useGlobalStore, ['users'])
+  },
+  methods: {
+    ...mapActions(useGlobalStore, ['fetchUsers'])
+  },
+  created() {
+    this.fetchUsers()
+  }
+}
+</script>
 
 <template>
   <!-- Leaderboard -->
@@ -14,8 +29,10 @@
           Around the world.
         </p>
       </div>
+
       <ul class="flex flex-col divide-y divide">
-        <li class="flex flex-row">
+
+        <li v-for="user in users" :key="user.id" class="flex flex-row">
           <div class="flex items-center flex-1 p-4 cursor-pointer select-none">
             <div
               class="flex flex-col items-center justify-center w-10 h-10 mr-4"
@@ -23,60 +40,19 @@
               <a href="#" class="relative block">
                 <img
                   alt="profil"
-                  src=""
+                  :src="user.imageProfile"
                   class="mx-auto object-cover rounded-full h-10 w-10"
                 />
               </a>
             </div>
             <div class="flex-1 pl-1 mr-16">
-              <div class="font-medium">Jean Marc</div>
-              <div class="text-sm text-gray-600">Badge</div>
+              <div class="font-medium">{{ user.fullName }}</div>
+              <div class="text-sm text-gray-600">{{ user.Badge.name }}</div>
             </div>
-            <div class="text-sm text-gray-600">Star</div>
+            <div class="text-sm text-gray-600">{{ user.star }}</div>
           </div>
         </li>
 
-        <li class="flex flex-row">
-          <div class="flex items-center flex-1 p-4 cursor-pointer select-none">
-            <div
-              class="flex flex-col items-center justify-center w-10 h-10 mr-4"
-            >
-              <a href="#" class="relative block">
-                <img
-                  alt="profil"
-                  src=""
-                  class="mx-auto object-cover rounded-full h-10 w-10"
-                />
-              </a>
-            </div>
-            <div class="flex-1 pl-1 mr-16">
-              <div class="font-medium">Jean Marc</div>
-              <div class="text-sm text-gray-600">Badge</div>
-            </div>
-            <div class="text-sm text-gray-600">Star</div>
-          </div>
-        </li>
-
-        <li class="flex flex-row">
-          <div class="flex items-center flex-1 p-4 cursor-pointer select-none">
-            <div
-              class="flex flex-col items-center justify-center w-10 h-10 mr-4"
-            >
-              <a href="#" class="relative block">
-                <img
-                  alt="profil"
-                  src=""
-                  class="mx-auto object-cover rounded-full h-10 w-10"
-                />
-              </a>
-            </div>
-            <div class="flex-1 pl-1 mr-16">
-              <div class="font-medium">Jean Marc</div>
-              <div class="text-sm text-gray-600">Badge</div>
-            </div>
-            <div class="text-sm text-gray-600">Star</div>
-          </div>
-        </li>
       </ul>
     </div>
   </div>

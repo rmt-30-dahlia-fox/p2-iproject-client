@@ -4,10 +4,10 @@ import { useGlobalStore } from '../stores/global';
 
 export default {
   computed: {
-    ...mapWritableState(useGlobalStore, ['loginForm'])
+    ...mapWritableState(useGlobalStore, ['registerForm'])
   },
   methods: {
-    ...mapActions(useGlobalStore, ['handleLogin'])
+    ...mapActions(useGlobalStore, ['handleRegister'])
   }
 }
 </script>
@@ -16,16 +16,31 @@ export default {
   <div class="grow bg-gray-100">
     <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-lg text-center">
-        <h1 class="text-2xl font-bold sm:text-3xl">Get started today!</h1>
+        <h1 class="text-2xl font-bold sm:text-3xl">Let's join HackFit!</h1>
       </div>
 
-      <form @submit.prevent="handleLogin" class="mx-auto mt-8 mb-0 max-w-md space-y-4">
+      <form
+        @submit.prevent="handleRegister"
+        class="mx-auto mt-8 mb-0 max-w-md space-y-4"
+      >
+        <div>
+          <label for="password" class="my-2">Full Name</label>
+          <div class="relative">
+            <input
+            v-model="registerForm.fullName"
+              type="text"
+              class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
+              placeholder="Enter password"
+            />
+          </div>
+        </div>
+
         <div>
           <label for="email" class="my-1">Email</label>
 
           <div class="relative">
             <input
-            v-model="loginForm.email"
+            v-model="registerForm.email"
               type="email"
               class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
               placeholder="Enter email"
@@ -54,7 +69,7 @@ export default {
           <label for="password" class="my-2">Password</label>
           <div class="relative">
             <input
-            v-model="loginForm.password"
+            v-model="registerForm.password"
               type="password"
               class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
               placeholder="Enter password"
@@ -62,21 +77,15 @@ export default {
           </div>
         </div>
 
-        <div class="flex items-center justify-between">
-          <p class="text-sm text-gray-500">
-            No account?
-            <router-link to="/register" class="underline" href="">Sign up</router-link>
-          </p>
-
+        <div class="flex items-center justify-around">
           <button
             type="submit"
             class="ml-3 inline-block rounded-lg bg-teal-600 px-5 py-3 text-sm font-medium text-white"
           >
-            Sign in
+            Sign Up
           </button>
         </div>
       </form>
-
     </div>
   </div>
 </template>
