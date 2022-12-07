@@ -9,11 +9,11 @@ export default {
   computed: {
     ...mapWritableState(useCounterStore, ["loginStatus"]),
   },
-  //   created() {
-  //     if (localStorage.access_token) {
-  //       this.loginStatus = true;
-  //     }
-  //   },
+  created() {
+    if (localStorage.access_token) {
+      this.loginStatus = true;
+    }
+  },
 };
 </script>
 
