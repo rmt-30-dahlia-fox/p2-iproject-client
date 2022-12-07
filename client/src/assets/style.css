@@ -92,3 +92,7 @@ iframe {
 #google-button{
   text-align: center;
 }
+
+#list-feature{
+  list-style-type: disc;
+}

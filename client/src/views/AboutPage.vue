@@ -20,7 +20,21 @@
     <p class="text-4xl font-extrabold leading-relaxed mt-8 px-8">About this project.</p>
     <p class="text-lg leading-relaxed px-8">Made by Joshua Natanael</p>
     <p class="text-lg leading-relaxed mt-8 px-8">This project was made during bootcamp program at Hacktiv8 fullstack javascript program.</p>
-    <h2 class="text-4xl my-5 font-extrabold text-center mt-40">Package & Framework</h2>
+    <p class="text-lg leading-relaxed mt-8 px-8">Highlighted project features:</p>
+    <ul id="list-feature" class="px-12">
+      <li>Register function</li>
+      <li>Login function</li>
+      <li>Login using Google OAuth</li>
+      <li>Product list to show all available products</li>
+      <li>Product detail page (show reviews, youtube videos for this product (youtube API), and product detail)</li>
+      <li>Booking product 5% from product price</li>
+      <li>Show selected dealers location</li>
+      <li>Show dealers phone number</li>
+      <li>Show all my cars (cars that already booked and paid)</li>
+      <li>Edit profile (first name, last name, email, phone number, and password)</li>
+      <li>Show all transactions done by user (status: canceled, pending, paid)</li>
+    </ul>
+    <h2 class="text-4xl my-5 font-extrabold text-center mt-40">API, Package & Framework</h2>
     <div class="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-3 mx-8">
       <a href="#" class="block rounded-lg mx-auto">
         <img alt="Vue-logo"
@@ -92,6 +106,33 @@
 
         <h3 class="text-xl text-black/90 text-center pb-8 ">
           Leaflet
+        </h3>
+      </a>
+      <a href="#" class="block rounded-lg mx-auto">
+        <img alt="midtrans-logo"
+          src="https://midtrans.com/assets/img/midtrans-logoo.jpg?v=1658721877"
+          class=" h-28 object-contain mt-10" />
+
+        <h3 class="text-xl text-black/90 text-center pb-8 ">
+          midtrans
+        </h3>
+      </a>
+      <a href="#" class="block rounded-lg mx-auto">
+        <img alt="youtube-logo"
+          src="https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg"
+          class=" h-28 object-contain mt-10" />
+
+        <h3 class="text-xl text-black/90 text-center pb-8 ">
+          Youtube API
+        </h3>
+      </a>
+      <a href="#" class="block rounded-lg mx-auto">
+        <img alt="youtube-logo"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/2048px-Google_%22G%22_Logo.svg.png"
+          class=" h-28 object-contain mt-10" />
+
+        <h3 class="text-xl text-black/90 text-center pb-8 ">
+          Google Oauth
         </h3>
       </a>
     </div>
