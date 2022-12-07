@@ -6,11 +6,29 @@ export const useCounterStore = defineStore('counter', {
     // baseUrl: "https://sipri-movie.up.railway.app",
     baseUrl: "http://localhost:3000",
     dataManga : "",
+    foundManga : "",
     mangaDetail : "",
-    loggedIn : false
+    loggedIn : false,
+    search : ""
     
   }),
   actions: {
+    async findManga() {
+      try {
+        const {data} = await axios({
+          method: 'get',
+          url: this.baseUrl + '/findManga',
+          data : {
+            search : this.search
+          }
+        })
+        this.foundManga = data.data
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async googleLogin(response) {
       try {
         const { data } = await axios({
@@ -77,7 +95,6 @@ export const useCounterStore = defineStore('counter', {
           url: this.baseUrl + '/mangas'
         })
         this.dataManga = data.data
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -90,7 +107,6 @@ export const useCounterStore = defineStore('counter', {
           url: this.baseUrl + `/mangas/${id}`
         })
         this.mangaDetail = data
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
