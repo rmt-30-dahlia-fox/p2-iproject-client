@@ -41,6 +41,7 @@ export default {
             })
         },
         async clickCallback (pageNum) {
+            console.log(pageNum)
             this.$router.push({path: '/hotels', query: {city: this.selectedCity, date_checkin: this.selectedCheckInDate, date_checkout: this.selectedCheckOutDate, page: pageNum}})
             this.handleFetchHotels()
         },

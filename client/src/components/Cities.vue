@@ -7,5 +7,5 @@
 
 <template>
 
-<option :value="city.name">{{city.name}}, {{city.country}}</option>
+<option :value="city.name">{{city.name}}, {{city.country}} : </option>
 </template>
