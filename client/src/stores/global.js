@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({
-    baseUrl: `http://localhost:3000/customers/`,
+    baseUrl: `https://carstore-api-production.up.railway.app/customers/`,
     isLoggedIn: false,
     isLoad: false,
     user: {},
