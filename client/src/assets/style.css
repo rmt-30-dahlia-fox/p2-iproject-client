@@ -40,7 +40,7 @@
   background-image: url("https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fGNhcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60");
   background-size: cover;
   background-position: center;
-  height: 100vh;
+  height: 100%;
 }
 
 .container {
@@ -87,4 +87,8 @@ iframe {
   width: 80%;
   margin: 30px auto;
   z-index: 45;
+}
+
+#google-button{
+  text-align: center;
 }

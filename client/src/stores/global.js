@@ -21,10 +21,10 @@ export const useGlobalStore = defineStore('global', {
   getters: {
   },
   actions: {
-    async registerHandler(data){
+    async registerHandler(data) {
       try {
-        if(data.password !== data.confirmPassword){
-          throw("Unmatching password");
+        if (data.password !== data.confirmPassword) {
+          throw ("Unmatching password");
         }
         this.isLoad = true;
         await axios({
@@ -40,10 +40,10 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async loginHandler(login){
+    async loginHandler(login) {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}login`,
           data: {
@@ -62,10 +62,10 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async fetchUserData(){
+    async fetchUserData() {
       try {
         this.isLoad = true;
-        const{data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}users`,
           headers: {
@@ -79,10 +79,10 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async fetchProducts(filter){
+    async fetchProducts(filter) {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}products`,
           params: filter
@@ -95,17 +95,17 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    fetchBrand(){
-      this.products.forEach(el=>{
-        if(this.brands.findIndex(brand=>brand === el.brand) === -1){
+    fetchBrand() {
+      this.products.forEach(el => {
+        if (this.brands.findIndex(brand => brand === el.brand) === -1) {
           this.brands.push(el.brand);
         }
       })
     },
-    async fetchDealers(){
+    async fetchDealers() {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}dealers`
         })
@@ -116,10 +116,10 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async fetchProductDeteail(id){
+    async fetchProductDeteail(id) {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}products/${id}`
         })
@@ -130,10 +130,10 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async updateProfile(data){
+    async updateProfile(data) {
       try {
-        if(data.password !== data.confirmPassword){
-          throw("Password unmatching")
+        if (data.password !== data.confirmPassword) {
+          throw ("Password unmatching")
         }
         this.isLoad = true;
         await axios({
@@ -142,7 +142,7 @@ export const useGlobalStore = defineStore('global', {
           headers: {
             access_token: localStorage.access_token
           },
-          data: { 
+          data: {
             "firstName": data.firstName,
             "lastName": data.lastName,
             "email": data.email,
@@ -155,23 +155,23 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification("Profile successfully updated", "success");
       } catch (error) {
         this.isLoad = false;
-        if(error === "Password unmatching"){
+        if (error === "Password unmatching") {
           return this.showNotification(error, "error");
         }
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async fetchTransaction(status){
+    async fetchTransaction(status) {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `${this.baseUrl}transactions/${status}`,
           headers: {
             access_token: localStorage.access_token
           }
         })
-        if(status === "Paid"){
+        if (status === "Paid") {
           this.isLoad = false;
           return this.paidTransaction = data;
         }
@@ -182,14 +182,14 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async getTransactionDetail(id){
+    async getTransactionDetail(id) {
       await this.fetchTransaction("Paid");
       this.transactionDetail = this.paidTransaction.find(element => element.id === id);
     },
-    async bookCar(id){
+    async bookCar(id) {
       try {
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}transactions/${id}`,
           headers: {
@@ -204,17 +204,17 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    logoutHandler(){
+    logoutHandler() {
       localStorage.removeItem("access_token");
       this.isSidebarOpen = false;
       this.isLoggedIn = false;
       this.showNotification("Successfully logged out", "success");
       this.router.push('/login');
     },
-    formatNumber(number){
+    formatNumber(number) {
       return number.toLocaleString("da-DK")
     },
-    showNotification(message, type){
+    showNotification(message, type) {
       Swal.fire({
         position: 'top-end',
         toast: true,
@@ -224,7 +224,7 @@ export const useGlobalStore = defineStore('global', {
         timer: 1500
       })
     },
-    async cancelTransaction(id){
+    async cancelTransaction(id) {
       Swal.fire({
         title: 'Are you sure want to cancel this transaction?',
         icon: 'warning',
@@ -244,31 +244,31 @@ export const useGlobalStore = defineStore('global', {
             status: "Cancel"
           }
         })
-          .then(_=>{
+          .then(_ => {
             this.showNotification("Succesfully cancel transaction", "success");
             this.fetchTransaction("All");
             this.isLoad = false;
           })
-          .catch(error=>{
+          .catch(error => {
             this.isLoad = false;
             this.showNotification(error.response.data.message, "error");
           })
       })
     },
-    async paymentHandler(id, price, status){
+    async paymentHandler(id, price, status) {
       try {
         let transactionId = id;
-        if(status === "new"){
+        if (status === "new") {
           transactionId = await this.bookCar(id);
         }
-        if(!transactionId){
-          throw("unauthorized")
+        if (!transactionId) {
+          throw ("unauthorized")
         }
         const fetchTransaction = this.fetchTransaction;
         const notification = this.showNotification;
         const baseUrl = this.baseUrl;
         const redirectPage = this.router.push;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}payments`,
           data: this.user,
@@ -278,7 +278,7 @@ export const useGlobalStore = defineStore('global', {
           }
         })
         window.snap.pay(data.snapToken, {
-          onSuccess: function(result){
+          onSuccess: function (result) {
             notification("Transaction success!", "success");
             axios({
               method: "PATCH",
@@ -290,33 +290,33 @@ export const useGlobalStore = defineStore('global', {
                 status: "Paid"
               }
             })
-              .then(_=>{
+              .then(_ => {
                 redirectPage('/profile')
                 fetchTransaction("All");
               })
-              .catch(err=>{
+              .catch(err => {
                 notification(err.response.data.message, "error")
               })
           },
-          onPending: function(result){
-            notification("Wating your payment!" , "question");
+          onPending: function (result) {
+            notification("Wating your payment!", "question");
           },
-          onError: function(result){
-            notification("payment failed!" , "error");
+          onError: function (result) {
+            notification("payment failed!", "error");
           },
-          onClose: function(){
-            notification('You closed the popup without finishing the payment' , "error");
+          onClose: function () {
+            notification('You closed the popup without finishing the payment', "error");
           }
         })
       } catch (error) {
-        if(error === "unauthorized"){
+        if (error === "unauthorized") {
           this.showNotification("Please sign in first!", "error");
           return this.router.push('/login');
         }
         this.showNotification(error.response.data.message, "error")
       }
     },
-    async sendReview(id, message){
+    async sendReview(id, message) {
       try {
         this.isLoad = true;
         await axios({
@@ -336,11 +336,11 @@ export const useGlobalStore = defineStore('global', {
         this.showNotification(error.response.data.message, "error");
       }
     },
-    async fetchYoutubeVideos(carName){
+    async fetchYoutubeVideos(carName) {
       try {
         console.log(carName);
         this.isLoad = true;
-        const {data} = await axios({
+        const { data } = await axios({
           method: "GET",
           url: `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UC5vz17NqPNmW8g0u1M_l90A&maxResults=1&q=${carName}&key=AIzaSyDpSZx0DgxuxVnEU6evXFbEG9Mh37KdmJA`
         })
@@ -350,6 +350,27 @@ export const useGlobalStore = defineStore('global', {
       } catch (error) {
         this.isLoad = false;
         this.showNotification("No videos found", "error");
+      }
+    },
+    async handleCredentialResponse(response) {
+      try {console.log(response.credential);
+        this.isLoad = true;
+        const { data } = await axios({
+          method: "POST",
+          url: `${this.baseUrl}google/login`,
+          headers: {
+            google_token: response.credential
+          }
+        })
+        localStorage.setItem("access_token", data.access_token);
+        this.isLoggedIn = true;
+        this.fetchUserData();
+        this.router.push('/');
+        this.isLoad = false;
+        this.showNotification("Successfully logged in", "success");
+      } catch (error) {
+        this.isLoad = false;
+        this.showNotification(error.response.data.message, "error");
       }
     }
   }
