@@ -28,6 +28,7 @@
       <li>Product list to show all available products</li>
       <li>Product detail page (show reviews, youtube videos for this product (youtube API), and product detail)</li>
       <li>Booking product 5% from product price</li>
+      <li>Send email after customer pay booking fee</li>
       <li>Show selected dealers location</li>
       <li>Show dealers phone number</li>
       <li>Show all my cars (cars that already booked and paid)</li>
