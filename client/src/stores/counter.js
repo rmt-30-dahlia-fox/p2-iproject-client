@@ -3,7 +3,6 @@ import axios from 'axios'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    // baseUrl: "https://sipri-movie.up.railway.app",
     baseUrl: "http://localhost:3000",
     dataManga : "",
     foundManga : "",
@@ -15,15 +14,19 @@ export const useCounterStore = defineStore('counter', {
   actions: {
     async findManga() {
       try {
+        this.foundManga = ""
+        console.log('>>>',this.search);
         const {data} = await axios({
-          method: 'get',
+          method: 'post',
           url: this.baseUrl + '/findManga',
           data : {
             search : this.search
           }
         })
         this.foundManga = data.data
-        console.log(data);
+        this.router.push('/findManga')
+
+        console.log(this.foundManga );
       } catch (error) {
         console.log(error);
       }
@@ -107,6 +110,7 @@ export const useCounterStore = defineStore('counter', {
           url: this.baseUrl + `/mangas/${id}`
         })
         this.mangaDetail = data
+        console.log(this.mangaDetail);
       } catch (error) {
         console.log(error);
       }

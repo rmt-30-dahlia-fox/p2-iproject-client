@@ -1,5 +1,6 @@
 <script>
 import { mapActions, mapState, mapWritableState } from 'pinia';
+import { useCounterStore } from '../stores/counter';
 
 
 
@@ -11,12 +12,14 @@ export default {
 
     },  
     computed: {
+        ...mapWritableState(useCounterStore,['search'])
     },
     methods: {
         logOut(){
             localStorage.clear()
             this.$router.push('/login')
-        }
+        },
+        ...mapActions(useCounterStore,['findManga'])
     },
     updated(){
         if(localStorage.access_token){
@@ -55,9 +58,9 @@ export default {
                 <!-- Left links -->
 
                 <div class=" align-items-center d-flex justify-content-between">
-                    <div v-if="$route.fullPath == '/'">
-                        <form @submit.prevent="triggered" class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <div>
+                        <form @submit.prevent="findManga(search)" class="d-flex" role="search">
+                            <input v-model="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>

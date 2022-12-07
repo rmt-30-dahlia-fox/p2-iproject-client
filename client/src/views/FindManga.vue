@@ -9,24 +9,24 @@ export default{
     ...mapActions(useCounterStore,['findManga'])
   },
   created(){
-    this.fetchMangaList()
+    this.findManga()
   },
   computed :{
-    ...mapWritableState(useCounterStore,['dataManga'])
+    ...mapWritableState(useCounterStore,['foundManga'])
   },
   components :{
-    MangaCard
+    FoundMangaCard
   }
 }
 </script>
 
 <template>
   <main>
-    <h1 class="text-center ">Top Manga</h1>
+    <h1 class="text-center ">Find Manga</h1>
     <div class="container">
       <div class="row">
         <!-- <pre>{{dataManga}}</pre> -->
-        <MangaCard v-for="manga in dataManga" :key="manga.ranking.rank" :manga="manga" />       
+        <FoundMangaCard v-for="manga in foundManga" :key="manga.id" :manga="manga" />       
 
       </div>
     </div>
