@@ -14,7 +14,7 @@ export default{
   },
   async created(){
     await this.fetchProductDeteail(this.$route.params.id);
-    // this.fetchYoutubeVideos(this.product.name);
+    this.fetchYoutubeVideos(this.product.name);
   },
   components: {
     ReviewCard
