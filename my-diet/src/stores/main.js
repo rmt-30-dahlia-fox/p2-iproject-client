@@ -149,18 +149,15 @@ export const useMainStore = defineStore('main', {
       }
     },
 
-    async loginGoogle(credential) {
+
+    async userRegister(payload) {
       try {
         const { data } = await axios({
+          url: this.baseUrl + '/users/register',
           method: 'post',
-          url: this.baseUrl + '/publics/google-login',
-          headers: { google_token: credential }
+          data: payload
         })
-        // console.log(data);
-        localStorage.setItem('access_token', data.access_token)
-
-        this.status = 'Logout'
-        this.router.push('/')
+        this.router.push('/login&register')
       } catch (error) {
         console.log(error);
         // const msg = error.response.data.message
@@ -177,19 +174,11 @@ export const useMainStore = defineStore('main', {
     // },
 
     logout() {
-      this.status = 'Login'
+      // this.status = 'Login'
       localStorage.clear();
-      this.router.push('/')
+      this.router.push('/login&register')
     },
   }
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   if (localStorage.access_token) {
-//     status = "Logout"
-//     next()
-//   } else {
-//     status = "Login"
-//     next()
-//   }
-// })
+
