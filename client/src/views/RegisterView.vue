@@ -34,7 +34,7 @@ export default {
 </script>
 
 <template>
-<section class="register">
+  <section class="register">
     <div class="container shadow-lg rounded">
       <span @click="$router.push('/home')">&#10005;</span>
       <div class="logo">
