@@ -1,4 +1,6 @@
 <script>
+import { mapWritableState } from "pinia";
+import { useGlobalStore } from "../stores/global";
 import TableActivities from '@/components/TableActivities.vue'
 import FormAddActivity from '@/components/FormAddActivity.vue'
 
@@ -6,6 +8,9 @@ export default {
   components: {
     TableActivities,
     FormAddActivity
+  },
+  computed: {
+    ...mapWritableState(useGlobalStore, ['exerciseChoosen'])
   }
 }
 </script>
@@ -19,6 +24,9 @@ export default {
 
     <TableActivities />
 
-    <FormAddActivity />
+    <FormAddActivity
+    v-if="exerciseChoosen.status"
+    :exerciseChoosen="exerciseChoosen"
+    />
   </div>
 </template>

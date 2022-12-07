@@ -1,24 +1,42 @@
-<script></script>
+<script>
+import { mapActions, mapWritableState } from "pinia";
+import { useGlobalStore } from "../stores/global";
+
+export default {
+  props: ['exerciseChoosen'],
+  computed: {
+    ...mapWritableState(useGlobalStore, ['activityForm'])
+  },
+  methods: {
+    ...mapActions(useGlobalStore, ['handleAddActivity']),
+    setImageToSend(event) {
+      this.activityForm.imageActivity = event.target.files[0];
+      console.log(event.target.files[0]);
+    },
+  }
+}
+</script>
 
 <template>
   <!-- Form Add Post -->
   <div class="flex flex-col mx-auto my-2 max-w-xl">
     <label class="font-bold mt-4 mb-2 text-left"
-      >Activity Name: Incline Hammer Curls</label
+      >Activity Name: {{ exerciseChoosen.name }}</label
     >
-    <label class="font-bold mb-2 text-left">Type: strength</label>
+    <label class="font-bold mb-2 text-left">Type: {{ exerciseChoosen.type }}</label>
     <label class="font-bold mb-4 text-left">
       Difficulty:
       <strong
         class="rounded bg-red-100 px-3 py-1.5 text-xs font-medium text-red-700"
       >
-        beginner
+      {{ exerciseChoosen.difficulty }}
       </strong>
     </label>
 
-    <form class="">
+    <form @submit.prevent="handleAddActivity" class="">
       <label class="font-bold mt-4 mb-2 text-left">Caption: </label>
       <textarea
+        v-model="activityForm.caption"
         id="UserEmail"
         placeholder="Write your story here!"
         class="mt-1 p-2 w-full rounded-md border-gray-200 shadow-sm sm:text-sm"
@@ -27,7 +45,11 @@
       <label class="font-bold mt-4 mb-2 text-left"
         >Upload your image of doing this activity:
       </label>
-      <button
+      <input 
+        type="file"
+        @change="setImageToSend"
+      >
+      <!-- <button
         type="button"
         class="mt-1 max-w-fit py-2 px-4 flex justify-center items-center bg-red-600 hover:bg-red-700 focus:ring-red-500 focus:ring-offset-red-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
       >
@@ -44,11 +66,11 @@
           ></path>
         </svg>
         Upload
-      </button>
+      </button> -->
       <img src="./ERD-iProject-HackFit.jpg" width="1000" alt="" class="my-2" />
 
       <button
-        type="button"
+        type="submit"
         class="my-4 py-2 px-4 bg-teal-600 hover:bg-teal-700 focus:ring-teal-500 focus:ring-offset-teal-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
       >
         Post

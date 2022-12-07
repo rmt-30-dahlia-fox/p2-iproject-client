@@ -13,6 +13,16 @@ export const useGlobalStore = defineStore('global', {
       currentPage: 1,
       exercises: []
     },
+    exerciseChoosen: {
+      status: false,
+      name: '',
+      difficulty: '',
+      type: ''
+    },
+    activityForm: {
+      caption: "Hi! Let's stay fit with HackFit!",
+      imageActivity: undefined,
+    },
     loginForm: {
       email: '',
       password: ''
@@ -120,6 +130,18 @@ export const useGlobalStore = defineStore('global', {
         this.fetchUserLogin(data.userId)
 
         this.router.push('/home')
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async handleAddActivity() {
+      try {
+        const formData = new FormData();
+
+        formData.append("imageActivity", this.activityForm.imageActivity);
+        formData.append("caption", this.activityForm.caption);
+        console.log(formData);
       } catch (error) {
         console.log(error);
       }
