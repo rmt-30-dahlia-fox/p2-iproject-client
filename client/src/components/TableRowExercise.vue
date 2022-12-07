@@ -1,18 +1,30 @@
 <script>
-import { mapWritableState } from "pinia";
+import { mapWritableState, mapState } from "pinia";
 import { useGlobalStore } from "../stores/global";
 
 export default {
   props: ['exercise'],
   computed: {
-    ...mapWritableState(useGlobalStore, ['exerciseChoosen'])
+    ...mapWritableState(useGlobalStore, ['exerciseChoosen']),
+    ...mapState(useGlobalStore, ['types', 'difficulties'])
   },
   methods: {
     chooseExercise() {
       this.exerciseChoosen.status = true
+
+      this.types.forEach(el => {
+        if(el.name == this.exercise.type) {
+          this.exerciseChoosen.type = el
+        }
+      })
+
+      this.difficulties.forEach(el => {
+        if (el.name == this.exercise.difficulty) {
+          this.exerciseChoosen.difficulty = el
+        }
+      })
+
       this.exerciseChoosen.name = this.exercise.name
-      this.exerciseChoosen.type = this.exercise.type
-      this.exerciseChoosen.difficulty = this.exercise.difficulty
     }
   }
 }

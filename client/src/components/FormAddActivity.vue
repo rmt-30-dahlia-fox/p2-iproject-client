@@ -23,13 +23,13 @@ export default {
     <label class="font-bold mt-4 mb-2 text-left"
       >Activity Name: {{ exerciseChoosen.name }}</label
     >
-    <label class="font-bold mb-2 text-left">Type: {{ exerciseChoosen.type }}</label>
+    <label class="font-bold mb-2 text-left">Type: {{ exerciseChoosen.type.name }}</label>
     <label class="font-bold mb-4 text-left">
       Difficulty:
       <strong
         class="rounded bg-red-100 px-3 py-1.5 text-xs font-medium text-red-700"
       >
-      {{ exerciseChoosen.difficulty }}
+      {{ exerciseChoosen.difficulty.name }}
       </strong>
     </label>
 
@@ -67,7 +67,6 @@ export default {
         </svg>
         Upload
       </button> -->
-      <img src="./ERD-iProject-HackFit.jpg" width="1000" alt="" class="my-2" />
 
       <button
         type="submit"

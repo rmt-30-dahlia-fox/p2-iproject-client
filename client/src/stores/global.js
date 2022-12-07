@@ -141,7 +141,17 @@ export const useGlobalStore = defineStore('global', {
 
         formData.append("imageActivity", this.activityForm.imageActivity);
         formData.append("caption", this.activityForm.caption);
-        console.log(formData);
+        formData.append("name", this.exerciseChoosen.name);
+        formData.append("UserId", this.user.id);
+        formData.append("TypeId", this.exerciseChoosen.type.id);
+        formData.append("DifficultyId", this.exerciseChoosen.difficulty.id);
+
+        const { data } = await axios.post(this.baseUrl + '/activities', formData, {
+          headers: { access_token: localStorage.access_token }
+        })
+
+        console.log(data);
+        this.router.push('/home')
       } catch (error) {
         console.log(error);
       }
