@@ -53,11 +53,16 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
-    
+    register : {
+      userName: '',
+      fullName: '',
+      photo: '',
+      role: '',
+      password: '',
+      email: ''
+    },
 
-    
     pageState: '',
-    calledFood: {},
   }),
   getters: {
     doubleCount: (state) => state.count * 2,
@@ -209,6 +214,54 @@ export const useCounterStore = defineStore('counter', {
       if (opt) this.pageNumber += number
       if (!opt) this.pageNumber = number
       this.fetchProducts()
+    },
+
+    handleLogout() {
+      localStorage.clear()
+      this.loginState = false
+      this.router.replace('/login')
+      this.handleAuthentication()
+    },
+    
+    async handleRegis(){
+      try {
+        await axios ({
+          url: this.baseUrl + 'register',
+          method: 'post',
+          data: {
+            userName: this.register.userName,
+            fullName: this.register.fullName,
+            email: this.register.email,
+            password: this.register.password,
+            photo: this.register.photo,
+            role: this.register.role,
+          }
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `${this.register.fullName} succesfully registered`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.register.fullName = ''
+        this.register.userName = ''
+        this.register.email = ''
+        this.register.password = ''
+        this.register.photo = ''
+        this.register.role = ''
+        
+        setTimeout(() => {
+          this.router.replace('/')
+        }, 1500)
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
     },
   },
 })

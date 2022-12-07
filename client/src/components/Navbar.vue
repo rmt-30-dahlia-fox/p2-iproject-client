@@ -11,7 +11,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useCounterStore, ['handleAuthentication']),
+    ...mapActions(useCounterStore, ['handleAuthentication', 'handleLogout']),
   },
   computed: {
     ...mapWritableState(useCounterStore, ['loginState']),
@@ -87,7 +87,7 @@ export default {
                     </li>
 
                     <li v-if="loginState" class="sidebar-item">
-                        <a @click.prevent="checkLogout" href="" class='sidebar-link'>
+                        <a @click.prevent="handleLogout" href="" class='sidebar-link'>
                             <i class="bi bi-door-open-fill"></i>
                             <span>Logout</span>
                         </a>
