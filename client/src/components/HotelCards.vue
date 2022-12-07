@@ -1,6 +1,6 @@
 <script>
     
-    import { mapStores, mapState } from 'pinia'
+    import { mapStores, mapState, mapWritableState } from 'pinia'
     import { useMainStore } from '../stores/main'
 
     export default {
@@ -13,7 +13,8 @@
         },
         computed: {
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['cities'])
+            ...mapState(useMainStore, ['cities', 'selectedHotel']),
+            ...mapWritableState(useMainStore, ['selectedHotel'])
         },
         methods: {
             add() {
@@ -31,7 +32,9 @@
             },
             showOrderForm() {
                 if(localStorage.access_token) {
-                    document.getElementById('totalPrice').value = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                    this.selectedHotel = this.hotel
+                    this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                    document.getElementById('totalPrice').value = this.totalPrice
                     document.getElementById('form-imageUrl').src = this.hotel.imageUrl
                     document.getElementById('form-name').innerText = this.hotel.name
                     document.getElementById('form-address').innerText = this.hotel.address
@@ -51,10 +54,12 @@
                 document.getElementById('overlay').classList.remove('active')
             },
             addOrder() {
-                const obj = this.hotel
+                const obj = this.selectedHotel
                 obj.quantity = this.quantity
                 obj.totalPrice = this.totalPrice
                 this.mainStore.addOrder(obj)
+                document.getElementById('modal').classList.remove('active')
+                document.getElementById('overlay').classList.remove('active')
             }
         }
     }
@@ -63,7 +68,7 @@
 
 <template>
 
-<div class="card card-container">
+<div class="card card-container" >
     <div class="row " style="height: 200px">
         <div class="col-4 hotel-image" style="height: 100%">
             <div class="container-img" style="height: 100%">

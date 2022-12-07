@@ -61,12 +61,10 @@ export default {
     mounted() {
         document.body.classList.add('bg-hotels')
         document.querySelector('.navbar').classList.add('navbar-hotels')
-        document.querySelector('.fa-gift').classList.add('text-primary')
     },
     unmounted() {
         document.body.classList.remove('bg-hotels')
         document.querySelector('.navbar').classList.remove('navbar-hotels')
-        document.querySelector('.fa-gift').classList.remove('text-primary')
     }
 }
 
