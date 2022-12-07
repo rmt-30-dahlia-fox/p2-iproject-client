@@ -16,7 +16,7 @@ export default {
       <a href="#" class="block shrink-0">
         <img
           alt="Speaker"
-          src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
+          :src="activity.User.imageProfile"
           class="h-14 w-14 rounded-lg object-cover"
         />
       </a>
@@ -66,7 +66,7 @@ export default {
     <a href="#" class="px-6 block">
       <img
         alt="Art"
-        src="https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+        :src="activity.imageActivity"
         class="h-96 w-full object-cover"
       />
 
