@@ -1,4 +1,7 @@
 <script>
+import { mapActions } from "pinia";
+import { useMainStore } from "../stores/main";
+
 // import submitButton from "./button-add-form.vue";
 export default {
   data() {
@@ -16,15 +19,12 @@ export default {
     };
   },
   methods: {
-    loginAdmin() {
-      // console.log(this.formLogin)
-      this.$emit("loginAdmin", this.formLogin);
-    },
-    callback(response) {
-      const credential = response.credential;
-      this.$emit("loginGoogle", credential);
-      // console.log(response.credential)
-    },
+    ...mapActions(useMainStore, ["userLogin", "userRegister"]),
+    // callback(response) {
+    //   const credential = response.credential;
+    //   this.$emit("loginGoogle", credential);
+    //   // console.log(response.credential)
+    // },
     changeForm() {
       if (this.login) {
         this.login = false;
@@ -33,11 +33,6 @@ export default {
         this.login = true;
         this.register = false;
       }
-    },
-    registerAdmin() {
-      this.login = true;
-      this.register = false;
-      this.$emit("registerAdmin", this.formRegister);
     },
   },
 };
@@ -112,7 +107,7 @@ export default {
                   aria-labelledby="tab-login"
                   v-if="login"
                 >
-                  <form @submit.prevent="loginAdmin()">
+                  <form @submit.prevent="userLogin(formLogin)">
                     <!-- Email input -->
                     <div class="form-outline mb-4">
                       <label class="form-label">Email</label>
@@ -134,11 +129,11 @@ export default {
                     </div>
 
                     <!-- GOOGLE LOGIN OAUTH -->
-                    <p class="text-center">or:</p>
+                    <!-- <p class="text-center">or:</p>
 
                     <div class="text-center mb-3">
                       <GoogleLogin :callback="callback" />
-                    </div>
+                    </div> -->
 
                     <!-- Submit button -->
                     <!-- <submitButton show="Sign in" class="btn-block mb-4" /> -->
@@ -169,7 +164,7 @@ export default {
                   aria-labelledby="tab-register"
                   v-if="register"
                 >
-                  <form @submit.prevent="registerAdmin()">
+                  <form @submit.prevent="userRegister(formRegister)">
                     <!-- Username input -->
                     <div class="form-outline mb-4">
                       <label class="">Username</label>

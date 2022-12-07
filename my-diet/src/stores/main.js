@@ -13,8 +13,8 @@ export const useMainStore = defineStore('main', {
     bmrResult: [],
     bmiResult: [],
     articles: [],
-
-    midToken: '',
+    UserId: '',
+    total_price: '',
   }),
   actions: {
     // Home
@@ -116,26 +116,40 @@ export const useMainStore = defineStore('main', {
       }
     },
 
+    // history
+    async historyPayment() {
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + '/create-payment',
+          method: 'post',
+          data: { UserId: this.UserId, total_price: this.total_price },
+        })
+        console.log('MASUK historyPayment');
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+
     // Midtrans
-    async getTokenMidtrans(total_price) {
-      console.log('MASUK DI MAIN STORES PINIA');
+    async getTokenMidtrans(price) {
+      // console.log('MASUK DI MAIN STORES PINIA');
+      this.total_price = price
       try {
         const { data } = await axios({
           url: this.baseUrl + '/payment',
           method: 'post',
-          data: { total_price },
+          data: { UserId: this.UserId, total_price: price },
           // headers: {
           // 	access_token: localStorage.access_token
           // }
         })
-
-        this.midToken = data.transactionToken
-        window.snap.pay(this.midToken, {
+        this.historyPayment()
+        window.snap.pay(data.transactionToken, {
           onSuccess: function () {
-            ;
-            this.router.push("/");
-            // nodemailer
-            // this.SuccessSwal('Payment Success!')
+            // console.log(total_price);
+            // this.historyPayment()
+            // this.router.push("/");
           }
         })
       } catch (error) {
@@ -145,28 +159,29 @@ export const useMainStore = defineStore('main', {
     },
 
 
-    async login(payload) {
+    async userLogin(payload) {
       try {
         const { data } = await axios({
-          url: this.baseUrl + '/publics/login',
+          url: this.baseUrl + '/users/login',
           method: 'post',
           data: payload
         })
         localStorage.setItem('access_token', data.access_token)
-        this.status = 'Logout'
+        this.UserId = data.id
+        // this.status = 'Logout'
         this.router.push('/')
       } catch (error) {
-        // console.log('ini clg di loginCustomer() stores');
         const msg = error.response.data.message
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${msg}`
-        })
+        console.log(msg);
+        // Swal.fire({
+        //   icon: 'error',
+        //   title: 'Oops...',
+        //   text: `${msg}`
+        // })
       }
     },
 
-    async register(payload) {
+    async userRegister(payload) {
       try {
         const { data } = await axios({
           url: this.baseUrl + '/publics/register',
@@ -179,28 +194,28 @@ export const useMainStore = defineStore('main', {
       }
     },
 
-    async loginGoogle(credential) {
-      try {
-        const { data } = await axios({
-          method: 'post',
-          url: this.baseUrl + '/publics/google-login',
-          headers: { google_token: credential }
-        })
-        // console.log(data);
-        localStorage.setItem('access_token', data.access_token)
+    // async loginGoogle(credential) {
+    //   try {
+    //     const { data } = await axios({
+    //       method: 'post',
+    //       url: this.baseUrl + '/publics/google-login',
+    //       headers: { google_token: credential }
+    //     })
+    //     // console.log(data);
+    //     localStorage.setItem('access_token', data.access_token)
 
-        this.status = 'Logout'
-        this.router.push('/')
-      } catch (error) {
-        console.log(error);
-        // const msg = error.response.data.message
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: `${error}`
-        })
-      }
-    },
+    //     this.status = 'Logout'
+    //     this.router.push('/')
+    //   } catch (error) {
+    //     console.log(error);
+    //     // const msg = error.response.data.message
+    //     Swal.fire({
+    //       icon: 'error',
+    //       title: 'Oops...',
+    //       text: `${error}`
+    //     })
+    //   }
+    // },
 
     // login() {
     //   this.router.push('/login')
