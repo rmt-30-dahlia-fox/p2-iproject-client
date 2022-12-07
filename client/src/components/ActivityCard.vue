@@ -3,9 +3,25 @@ import { mapState, mapActions } from "pinia";
 import { useGlobalStore } from "../stores/global";
 
 export default {
+  data() {
+    return {
+      isLiked: false
+    }
+  },
   props: ['activity'],
   computed: {
-    ...mapState(useGlobalStore, ['isLogin'])
+    ...mapState(useGlobalStore, ['isLogin', 'user'])
+  },
+  created() {
+    if (this.$route.name == 'HomePage') {
+
+      this.activity.Likes.forEach(el => {
+        console.log(el.UserId, this.user.id);
+        if (el.UserId == this.user.id) this.isLiked = true
+      })
+    }
+
+    console.log('ya', this.isLiked);
   }
 }
 </script>
@@ -26,13 +42,30 @@ export default {
           <a href="#" class="hover:underline"> {{ activity.User.fullName }} </a>
         </h3>
 
-        <p class="text-sm text-gray-700 line-clamp-2">Time - {{ activity.User.city }}</p>
+        <p class="text-sm text-gray-700 line-clamp-2">
+          Time - {{ activity.User.city }}
+        </p>
       </div>
 
-      <div v-if="isLogin" class="flex cursor-pointer items-center justify-center">
+      <div
+        v-if="isLogin"
+        class="flex cursor-pointer items-center justify-center"
+      >
         <div v-if="this.$route.name == 'HomePage'">
-          <img src="../assets/heart-no-fill.png" width="36" height="36" alt="" />
-          <img src="../assets/heart-fill.png" width="36" height="36" alt="" />
+          <img
+            v-if="!isLiked"
+            src="../assets/heart-no-fill.png"
+            width="36"
+            height="36"
+            alt=""
+          />
+          <img
+            v-if="isLiked"
+            src="../assets/heart-fill.png"
+            width="36"
+            height="36"
+            alt=""
+          />
         </div>
 
         <div v-if="this.$route.name == 'ProfilePage'">
@@ -58,7 +91,6 @@ export default {
           <img
             src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAkCAYAAADhAJiYAAAABmJLR0QA/wD/AP+gvaeTAAADdklEQVRYhe3YS2wbRRzH8e9/7CRuC1QRj3KoiF0BF1fQIhRbAgqhQaKIikvqS08cUJxQkMIRqagVnDnwyK44wKEHpKS8BFxopVRCKrZzIUY+FdWOkEAtAQo0qRNn58/BdeTHOg97g3ro7zSe2V19dvTfmV3D7VTzwPeT/cycCjf3y/8OmXWeEIsrsB+4AbgsRd4sDb1cBmgRbmcGZiePiOVzIHKzawcwwc4ywBuwzgw9eOm9Pvt3355V9baE1mWv/MuTr/3a3B/NTCYRuQD0+Zy2VFq6spuhU6stoFjOPWStnkR4RjqcQVEdLSbHP6rvixemehev/zEFvOR7Um+5v3Rw4pppwGSdE6o6I8JwpxgAjGitOZBxX4hlJh8pxFMru+64OwV81XoH/FQ6OHGt2qxhcu4hVZ0BDJAX9B0MeQ8qW7GIhG7MPz76G8C+rPOihc8U/jGqh4vJ8bzPTC2r2GfnB1+92AjKOucVDgN5liKJWtV3mhoG6AVQWPBBPW9g5HJi7Ju1G4JqAVf+7LkuEBaVY8Vk+myQmFoUFgwyXEyk5+KFqd7FfxceKyXHM/XHhAH0r9B9tZoRWc13g4nl3KNW9WwzBkDgHouej2Xd4UI8NQdkmo8xAJ5nQrUOa0Mr3WC0DaYOdZfF7m03btoNbDUDs5NHVHV6PQywgkpqPjH+7baCqiuwfIH/oteAKSXTrY99kKBYzj0qVr7cCCMiIzVMNOumo1lnNHDQZmqmhikOpr8GiOY+vB/UAdxqOyBQ9AcnupmaqccA4JmIb7tbkBqOs4maacBsIh2DBI5thNmogAMD7ct+8DDwaNCYjkEeZqTN0HL909RJOnvfEXkObej5UbHT0PNpafCVYqeYzkGWj9WAqp4LqZm+nExf6gbRNaiYHDsDnAkKUZ/A9rKgchu0UW5NUChkvbUO4623N3UdCevadhOW8KovSPq9qwqrAIpptwIHElVz4Gaz0nfn7qu+oJ8fen0Z5QKARd6KznzSsgsHkb0X392BcrL6S2YK8VTL6/LaOhTCnLbYIYH9urM8G8s5byM6t9XvMr+EoEfVHKhiNA54Kt5pv2MbPqWjOWcM5f3qNbYtHsiJUiLt+g02PGWlwTHHGp5GOEcAM9OUCsh3ijzVDgPr/PsRL0z1lhd/31MR6elW0qNaiey694pfzdzy+Q8N4mmy1oQp/wAAAABJRU5ErkJggg=="
           />
-
         </div>
       </div>
     </div>
@@ -86,7 +118,9 @@ export default {
       <strong
         class="-mr-[2px] -mb-[2px] inline-flex items-center gap-1 rounded-tl-xl rounded-br-xl bg-green-600 py-1.5 px-3 text-white"
       >
-        <span class="text-[10px] font-medium sm:text-xs">{{ activity.Difficulty.name }}</span>
+        <span class="text-[10px] font-medium sm:text-xs">{{
+          activity.Difficulty.name
+        }}</span>
       </strong>
     </div>
   </article>
