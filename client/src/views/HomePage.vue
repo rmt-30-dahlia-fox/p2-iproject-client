@@ -10,7 +10,10 @@ export default {
     Leaderboard
   },
   computed: {
-    ...mapState(useGlobalStore, ['user', 'activities'])
+    ...mapState(useGlobalStore, ['user', 'activities']),
+    badge() {
+      return (this.user.Badge ? this.user.Badge.name : '')
+    }
   },
   methods: {
     ...mapActions(useGlobalStore, ['fetchUserLogin', 'fetchActivities'])
@@ -36,7 +39,7 @@ export default {
 
           <div>
             <div class="my-2">
-              <h2 class="font-medium">{{ user.Badge.name }} - {{ user.star }} / 100 Stars</h2>
+              <h2 class="font-medium">{{ badge }} - {{ user.star }} / 100 Stars</h2>
               <div class="mt-2 overflow-hidden rounded-full bg-gray-200">
                 <div class="h-2 w-2/3 rounded-full bg-teal-500"></div>
               </div>

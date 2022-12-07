@@ -10,18 +10,18 @@ export default {
   },
   props: ['activity'],
   computed: {
-    ...mapState(useGlobalStore, ['isLogin', 'user'])
+    ...mapState(useGlobalStore, ['isLogin', 'user']),
+    getTime() {
+      let time = new Date(this.activity.createdAt)
+      return time.toLocaleDateString('id-ID')
+    }
   },
   created() {
     if (this.$route.name == 'HomePage') {
-
       this.activity.Likes.forEach(el => {
-        console.log(el.UserId, this.user.id);
         if (el.UserId == this.user.id) this.isLiked = true
       })
     }
-
-    console.log('ya', this.isLiked);
   }
 }
 </script>
@@ -43,7 +43,7 @@ export default {
         </h3>
 
         <p class="text-sm text-gray-700 line-clamp-2">
-          Time - {{ activity.User.city }}
+          {{ getTime }} - {{ activity.User.city }}
         </p>
       </div>
 
