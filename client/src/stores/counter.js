@@ -153,16 +153,16 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
-    async fetchProducts(){
+    async fetchProducts(filter){
       try {
-        // let query = ''
-        // if (queries) {
-        //   query = `&&${queries}`
-        //   this.filterCode = queries.replace("filter=", "")
-        // }
+        let query = ''
+        if (filter) {
+          query += `&&${filter}`
+          this.filterCode = filter.replace("filter=", "")
+        }
 
         const {data} = await axios ({
-          url: this.baseUrl + 'products' + `?page=${this.pageNumber}`,
+          url: this.baseUrl + 'products' + `?page=${this.pageNumber}` + query,
           method: 'get',
           headers: { access_token: localStorage.access_token }
         })
@@ -181,6 +181,24 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
+    async fetchCategories(){
+      try {
+        const {data} = await axios({
+          url: this.baseUrl + 'categories',
+          method: 'get',
+        })
+        this.calledCategories.items = data
+        this.calledCategories.length = data.length
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error}`,
+        })
+      }
+    }, 
+    
     movePage(number, opt){
       if (opt) this.pageNumber += number
       if (!opt) this.pageNumber = number
