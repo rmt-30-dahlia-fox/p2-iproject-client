@@ -5,17 +5,17 @@ import { useMainStore } from "../stores/main";
 export default {
   data() {
     return {
-      params: { height: "", weight: "", gender: "", age: "" },
+      params: { height: "", weight: "" },
       info: false,
       result: false,
     };
   },
   computed: {
-    ...mapState(useMainStore, ["bmrResult"]),
+    ...mapState(useMainStore, ["bmiResult"]),
     ...mapWritableState(useMainStore, ["pageTitle"]),
   },
   methods: {
-    ...mapActions(useMainStore, ["Calc_BMR"]),
+    ...mapActions(useMainStore, ["Calc_BMI"]),
     infobutton() {
       if (this.info) {
         this.info = false;
@@ -29,14 +29,14 @@ export default {
     },
     calculate() {
       console.log("calculate() ke trigger");
-      this.Calc_BMR(this.params);
+      this.Calc_BMI(this.params);
       this.info = false;
       this.result = true;
     },
   },
   created() {
-    if (this.$route.params.feature == "bmr") {
-      this.pageTitle = "Basal Metabolic Rate";
+    if (this.$route.params.feature == "bmi") {
+      this.pageTitle = "Body Mass Index";
     }
   },
 };
@@ -54,32 +54,29 @@ export default {
         <button class="btn btn-info" @click="infobutton">info</button>
         <div class="text-light ps-2 pt-2" style="font-size: 14px" v-if="info">
           <p>
-            The Basal Metabolic Rate (BMR) Calculator estimates your basal
-            metabolic rate—the amount of energy expended while at rest in a
-            neutrally temperate environment, and in a post-absorptive state
-            (meaning that the digestive system is inactive, which requires about
-            12 hours of fasting).
+            The Body Mass Index (BMI) Calculator can be used to calculate BMI
+            value and corresponding weight status while taking age into
+            consideration. Use the "Metric Units" tab for the International
+            System of Units or the "Other Units" tab to convert units into
+            either US or metric units. Note that the calculator also computes
+            the Ponderal Index in addition to BMI, both of which are discussed
+            below in detail.
           </p>
           <p>
-            The basal metabolic rate (BMR) is the amount of energy needed while
-            resting in a temperate environment when the digestive system is
-            inactive. It is the equivalent of figuring out how much gas an idle
-            car consumes while parked. In such a state, energy will be used only
-            to maintain vital organs, which include the heart, lungs, kidneys,
-            nervous system, intestines, liver, lungs, sex organs, muscles, and
-            skin. For most people, upwards of ~70% of total energy (calories)
-            burned each day is due to upkeep. Physical activity makes up ~20% of
-            expenditure and ~10% is used for the digestion of food, also known
-            as thermogenesis.
-          </p>
-          <p>
-            The BMR is measured under very restrictive circumstances while
-            awake. An accurate BMR measurement requires that a person's
-            sympathetic nervous system is inactive, which means the person must
-            be completely rested. Basal metabolism is usually the largest
-            component of a person's total caloric needs. The daily caloric need
-            is the BMR value multiplied by a factor with a value between 1.2 and
-            1.9, depending on activity level.
+            BMI is a measurement of a person's leanness or corpulence based on
+            their height and weight, and is intended to quantify tissue mass. It
+            is widely used as a general indicator of whether a person has a
+            healthy body weight for their height. Specifically, the value
+            obtained from the calculation of BMI is used to categorize whether a
+            person is underweight, normal weight, overweight, or obese depending
+            on what range the value falls between. These ranges of BMI vary
+            based on factors such as region and age, and are sometimes further
+            divided into subcategories such as severely underweight or very
+            severely obese. Being overweight or underweight can have significant
+            health effects, so while BMI is an imperfect measure of healthy body
+            weight, it is a useful indicator of whether any additional testing
+            or action is required. Refer to the table below to see the different
+            categories based on BMI that are used by the calculator.
           </p>
         </div>
         <div class="position relative" v-if="result">
@@ -91,50 +88,74 @@ export default {
           <pre></pre>
           <table class="text-light">
             <tr>
-              <td>Your BMR is</td>
+              <td>Your BMI is</td>
               <td>:</td>
               <td class="ps-3">
-                <strong class="fs-3">{{ bmrResult[0].bmrResult }}</strong>
-                Calories/day
+                <strong class="fs-3">{{ bmiResult[0].bmiResult }}</strong>
+                Kg/m<sup>2</sup>
               </td>
+              <!-- <td>
+                <i class="fs-3"> (Normal)</i>
+              </td> -->
             </tr>
           </table>
+          <pre></pre>
+          <h5 class="text-light text-align-center">
+            BMI Result Range for Adult:
+          </h5>
+          <table class="table table-bordered text-light w-50">
+            <thead>
+              <tr>
+                <th scope="col">Category</th>
+                <th scope="col">BMI Range Kg/m<sup>2</sup></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-danger">
+                <td>Severe Thinness</td>
+                <td><strong>Less</strong> than 16</td>
+              </tr>
+              <tr class="table-warning">
+                <td>Moderate Thinness</td>
+                <td>16 - 17</td>
+              </tr>
+              <tr class="table-warning">
+                <td>Mild Thinness</td>
+                <td>17 - 18.5</td>
+              </tr>
+              <tr class="table-primary">
+                <td>Normal</td>
+                <td>18.5 - 25</td>
+              </tr>
+              <tr class="table-warning">
+                <td>Overweight</td>
+                <td>25 - 30</td>
+              </tr>
+              <tr class="table-danger">
+                <td>Obese Class I</td>
+                <td>30 - 35</td>
+              </tr>
+              <tr class="table-danger">
+                <td>Obese Class II</td>
+                <td>35 - 40</td>
+              </tr>
+              <tr class="table-danger">
+                <td>Obese Class III</td>
+                <td><strong>More</strong> than 40</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="text-light">
+            This is the World Health Organization's (WHO) recommended body
+            weight based on BMI values for adults. It is used for both men and
+            women, age 20 or older.
+          </p>
         </div>
       </div>
       <div class="col">
         <div class="ps-4">
           <form @submit.prevent="calculate()" class="position-relative">
-            <!-- Age & Sex -->
-            <div class="row w-100">
-              <div class="col">
-                <div class="mb-3">
-                  <label class="form-label text-light">Age</label>
-                  <div class="input-group mb-2">
-                    <input
-                      v-model="params.age"
-                      type="number"
-                      class="form-control"
-                      aria-describedby="emailHelp"
-                    />
-                    <div class="input-group-prepend">
-                      <div class="input-group-text">y.o.</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="mb-3">
-                  <div class="form-group">
-                    <label class="form-label text-light">Gender</label>
-                    <select v-model="params.gender" class="form-select">
-                      <option selected disabled>-- Choose one --</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
             <!-- Height & Weight -->
             <div class="row w-100">
               <div class="col">

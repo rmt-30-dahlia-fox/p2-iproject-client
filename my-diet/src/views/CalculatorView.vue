@@ -2,6 +2,7 @@
 import NavbarVue from "../components/Navbar.vue";
 import CaloriesNeed from "../components/CaloriesNeed.vue";
 import BMRVue from "../components/BMR.vue";
+import BMIVue from "../components/BMI.vue";
 
 export default {
   data() {
@@ -13,6 +14,7 @@ export default {
     NavbarVue,
     CaloriesNeed,
     BMRVue,
+    BMIVue,
   },
   // created() {
   //   if (this.$route.params.feature == "calories_need") {
@@ -29,4 +31,5 @@ export default {
   <!-- content -->
   <CaloriesNeed v-if="$route.params.feature == 'calories_need'" />
   <BMRVue v-if="$route.params.feature == 'bmr'" />
+  <BMIVue v-if="$route.params.feature == 'bmi'" />
 </template>

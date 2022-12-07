@@ -60,7 +60,18 @@ export default {
                   >BMR</router-link
                 >
               </li>
-              <li><a class="dropdown-item">BMI</a></li>
+              <li>
+                <router-link
+                  :to="{
+                    name: 'calculator',
+                    params: { feature: 'bmi' },
+                  }"
+                  @click="pageTitle = 'Body Mass Index'"
+                  class="dropdown-item"
+                  >BMI</router-link
+                >
+              </li>
+
               <li>
                 <router-link
                   :to="{

@@ -9,7 +9,8 @@ export const useMainStore = defineStore('main', {
     pageTitle: 'Home',
     foodsResult: [],
     calNeedResult: {},
-    bmrResult: {}
+    bmrResult: [],
+    bmiResult: [],
   }),
   actions: {
     async searchItems(toSearch) {
@@ -54,6 +55,21 @@ export const useMainStore = defineStore('main', {
         // console.log(data, '<<<< data from CALC-CaloriesNeed');
         // console.log(data[0].bmrResult);
         this.bmrResult = data;
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async Calc_BMI(params) {
+      // console.log(params);
+      try {
+        const { data } = await axios({
+          method: 'get',
+          url: `https://hipermega-fitness-calculator.p.rapidapi.com/bmi?height=${params.height}&weight=${params.weight}`,
+          headers: { 'X-RapidAPI-Key': import.meta.env.VITE_RAPID_KEY, 'X-RapidAPI-Host': import.meta.env.VITE_RAPID_HOST },
+        });
+        // console.log(data[0].bmiResult);
+        this.bmiResult = data;
       } catch (error) {
         console.log(error)
       }

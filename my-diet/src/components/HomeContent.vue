@@ -34,7 +34,7 @@ export default {
       <h3 class="mt-5">{{ pageTitle }}</h3>
     </div>
   </div>
-  <div class="bg-dark m-5 p-4">
+  <div class="bg-dark m-5 p-4 rounded">
     <div><h5 class="text-light">Search food details</h5></div>
     <div>
       <input
