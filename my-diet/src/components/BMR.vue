@@ -170,45 +170,6 @@ export default {
                 </div>
               </div>
             </div>
-            <!-- Activity -->
-            <!-- <div class="row w-100">
-              <div class="col">
-                <div class="mb-3">
-                  <div class="form-group">
-                    <label class="form-label text-light">Weekly Exercise</label>
-                    <select v-model="params.activity" class="form-select">
-                      <option selected disabled>-- Choose one --</option>
-                      <option value="sedentary">
-                        Sedentary: Have a little or no exercise at all
-                      </option>
-                      <option value="light">
-                        Light: Exercise 1-3 times in a week
-                      </option>
-                      <option value="moderate">
-                        Moderate: Exercise 4-5 times in a week
-                      </option>
-                      <option value="active">
-                        Active: Actively doing daily exercise
-                      </option>
-                      <option value="extreme">
-                        Extreme: Actively doing intense exercise 6-7 times a
-                        week
-                      </option>
-                    </select>
-                    <ul style="font-size: 14px">
-                      <li class="text-light">
-                        <strong>Exercise:</strong> 15-30 minutes of elevated
-                        heart rate activity.
-                      </li>
-                      <li class="text-light">
-                        <strong>Intense exercise:</strong> 45-120 minutes of
-                        elevated heart rate activity
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div> -->
             <!-- submit button -->
             <div class="row w-100">
               <div class="col">
