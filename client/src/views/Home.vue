@@ -17,7 +17,7 @@ export default{
   },
   computed: {
     ...mapState(useCounterStore, []),
-    ...mapWritableState(useCounterStore, ['loggedUser', 'calledProducts', 'pageCount', 'pageNumber', 'calledCategories'])
+    ...mapWritableState(useCounterStore, ['loggedUser', 'calledProducts', 'pageCount', 'pageNumber', 'calledCategories', 'searchInput'])
   },
   methods: {
     ...mapActions(useCounterStore, ['handleAuthentication', 'fetchProducts', 'movePage', 'fetchCategories'])
@@ -90,8 +90,8 @@ export default{
                       </div>
                       <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-9">
                         <h6 class="text-muted font-semibold">Search Product</h6>
-                        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                            <input type="text" class="form-control" id="basicInput" placeholder="Enter Product Name">
+                        <form @change="fetchProducts(`filter=${filterCode}`)" @submit.prevent="fetchProducts(`filter=${filterCode}`)" class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                            <input v-model="searchInput" type="text" class="form-control" id="basicInput" placeholder="Enter Product Name">
                         </form>
                       </div>
                     </div>
