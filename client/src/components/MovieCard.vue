@@ -21,7 +21,6 @@ export default {
       this.btnStyle = { backgroundColor: "#800000", color: "#f2f6f5" };
   },
 };
-
 </script>
 
 <template>
