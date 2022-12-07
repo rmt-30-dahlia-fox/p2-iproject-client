@@ -6,7 +6,7 @@ export default {
   data() {
     return {
       params: { height: "", weight: "" },
-      info: false,
+      info: true,
       result: false,
     };
   },
@@ -48,7 +48,7 @@ export default {
       <h3 class="mt-5">{{ pageTitle }}</h3>
     </div>
   </div> -->
-  <div class="bg-dark m-5 p-4 rounded">
+  <div class="bg-dark m-5 p-4 rounded" style="margin-top: 110px !important">
     <div class="position-relative pt-5">
       <div class="position-absolute top-50 start-50 translate-middle">
         <h3 class="my-5 text-light">{{ pageTitle }}</h3>

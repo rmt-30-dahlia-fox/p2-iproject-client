@@ -54,7 +54,7 @@ export default {
 <template>
   <NavbarVue />
   <!-- content -->
-  <div class="bg-dark m-5 p-4 rounded">
+  <div class="bg-dark m-5 p-4 rounded" style="margin-top: 110px !important">
     <div class="position-relative pt-5">
       <div class="position-absolute top-50 start-50 translate-middle">
         <h3 class="my-5 text-light">{{ pageTitle }}</h3>

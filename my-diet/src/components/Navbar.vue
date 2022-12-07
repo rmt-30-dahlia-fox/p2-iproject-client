@@ -12,7 +12,7 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-dark navbar-expand-lg bg-dark px-5">
+  <nav class="navbar navbar-dark fixed-top navbar-expand-lg bg-dark px-5">
     <div class="container-fluid">
       <a class="me-4" href="#"
         ><img

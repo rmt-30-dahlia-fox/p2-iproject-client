@@ -33,7 +33,7 @@ const router = createRouter({
 })
 
 // router.beforeEach(async (to, from, next) => {
-//   if (!localStorage.access_token && to.name == 'FavPage') {
+//   if (!localStorage.access_token && to.name == 'article') {
 //     next({ name: 'login' })
 //   } else if (localStorage.access_token && to.name == 'login') {
 //     next({ name: 'home' })
