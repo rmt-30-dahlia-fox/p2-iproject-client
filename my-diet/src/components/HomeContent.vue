@@ -41,13 +41,13 @@ export default {
 </script>
 
 <template>
-  <div class="position-relative pt-5">
-    <div class="position-absolute top-50 start-50 translate-middle">
-      <h3 class="mt-5">{{ pageTitle }}</h3>
+  <div class="bg-dark m-5 p-4 rounded" style="min-height: 250px">
+    <div class="position-relative pt-5">
+      <div class="position-absolute top-50 start-50 translate-middle">
+        <h3 class="my-5 text-light">{{ pageTitle }}</h3>
+      </div>
     </div>
-  </div>
-  <div class="bg-dark m-5 p-4 rounded">
-    <div><h5 class="text-light">Search food details</h5></div>
+    <div class="mb-4"><h5 class="text-light">Search food details</h5></div>
     <div>
       <input
         @input="triggerSearch()"

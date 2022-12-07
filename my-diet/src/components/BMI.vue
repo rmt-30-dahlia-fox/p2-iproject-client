@@ -43,13 +43,18 @@ export default {
 </script>
 
 <template>
-  <div class="position-relative pt-5">
+  <!-- <div class="position-relative pt-5">
     <div class="position-absolute top-50 start-50 translate-middle">
       <h3 class="mt-5">{{ pageTitle }}</h3>
     </div>
-  </div>
+  </div> -->
   <div class="bg-dark m-5 p-4 rounded">
-    <div class="row">
+    <div class="position-relative pt-5">
+      <div class="position-absolute top-50 start-50 translate-middle">
+        <h3 class="my-5 text-light">{{ pageTitle }}</h3>
+      </div>
+    </div>
+    <div class="row mt-4">
       <div class="col">
         <button class="btn btn-info" @click="infobutton">info</button>
         <div class="text-light ps-2 pt-2" style="font-size: 14px" v-if="info">

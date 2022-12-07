@@ -49,16 +49,16 @@ export default {
       <div class="col-lg d-flex" style="align-items: center">
         <div>
           <img src="../assets/My_diet_logo.png" style="max-width: 500px" />
-          <h6 class="mt-5 w-75 text-center">
+          <h6 class="mt-5 w-75 text-center fw-bold text-light ps-4">
             Physical fitness is the first requisite of happiness, also Let food
             be thy medicine and medicine be thy food.
           </h6>
         </div>
       </div>
-      <div class="col-lg">
+      <div class="col text-light">
         <div class="row w-75 mb-3">
-          <div class="col ps-5">
-            <h6 class="text-center">Choose your login preference</h6>
+          <div class="col ps-4">
+            <h5 class="text-center">Choose your login preference</h5>
           </div>
         </div>
         <div class="row">
@@ -148,7 +148,7 @@ export default {
                     </button>
 
                     <!-- Register buttons -->
-                    <div class="text-center">
+                    <div class="text-center mt-3">
                       <p>
                         Not a member?
                         <a
