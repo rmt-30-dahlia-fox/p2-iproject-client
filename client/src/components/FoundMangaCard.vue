@@ -8,6 +8,7 @@ export default {
     methods: {
         ...mapActions(useCounterStore, ['fetchMangaDetail'])
     }
+
 }
 
 </script>
