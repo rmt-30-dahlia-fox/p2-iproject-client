@@ -10,7 +10,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useCounterStore, ["login"]),
+    ...mapActions(useCounterStore, ["login", "googleSignInOnLoad"]),
     navRegister() {
       this.$router.push("/register")
     },

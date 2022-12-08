@@ -17,7 +17,7 @@ export default {
       this.$router.push("/favoriteList")
     },
     navArticles() {
-      this.$router.push("/articleList")
+      this.$router.push("/news")
     },
     navData() {
       this.$router.push("/covid-table")
@@ -33,7 +33,12 @@ export default {
   },
 
   computed: {
-    ...mapWritableState(useCounterStore, ["loggedIn", "userDetail", "baseUrl"]),
+    ...mapWritableState(useCounterStore, [
+      "loggedIn",
+      "userDetail",
+      "baseUrl",
+      "googleEmail",
+    ]),
   },
 }
 </script>
@@ -58,11 +63,12 @@ export default {
           <div
             class="overflow-hidden relative w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-600">
             <img
-            v-if="loggedIn"
-            :src="`${this.baseUrl}/avatar/${userDetail.profilePict}`"
-            alt=""
-            class="w-full h-full object-bottom" />
-            <svg v-else
+              v-if="loggedIn"
+              :src="`${this.baseUrl}/avatar/${userDetail.profilePict}`"
+              alt=""
+              class="w-full h-full object-bottom" />
+            <svg
+              v-else
               class="absolute -left-1 w-12 h-12 text-gray-400"
               fill="currentColor"
               viewBox="0 0 20 20"

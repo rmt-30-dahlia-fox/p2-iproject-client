@@ -17,6 +17,7 @@ export const useCounterStore = defineStore("counter", {
       isSpinner: false,
       userDetail: [],
       fileUpload: "",
+      googleEmail : "",
     }
   },
   actions: {
@@ -46,7 +47,7 @@ export const useCounterStore = defineStore("counter", {
           headers: { "google-oauth-token": credential },
         })
         localStorage.setItem("access_token", googleToken.data.access_token)
-
+        this.googleEmail = googleToken.data.email
         this.loggedIn = true
         this.openToast(googleToken.data.message)
         this.router.push("/")
@@ -64,7 +65,6 @@ export const useCounterStore = defineStore("counter", {
         })
         this.newsList = data.articles
       } catch (error) {
-        console.log(error)
       } finally {
         this.loadPict = false
       }
@@ -121,6 +121,7 @@ export const useCounterStore = defineStore("counter", {
 
         localStorage.setItem("access_token", data.access_token)
         this.loggedIn = true
+        this.fetchUserDetail()
         this.router.replace("/")
         this.openToast("Succesfully logged in!")
       } catch (error) {
