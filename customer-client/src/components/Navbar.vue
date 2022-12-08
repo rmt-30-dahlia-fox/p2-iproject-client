@@ -1,13 +1,43 @@
-<script></script>
+<script>
+import { mapState } from "pinia";
+import { useCustomerStore } from '../stores/customer'
+
+export default {
+  computed: {
+    ...mapState(useCustomerStore, ['isLogin'])
+  }
+}
+</script>
 <template>
-  <div class="navbar bg-base-100">
-  <div class="flex-1">
-    <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+  <div class="container mx-auto shadow-lg sticky top-0 z-50 bg-base-100 w-screen">
+    <div class="navbar w-full">
+      <div class="flex-1">
+        <RouterLink to="/">
+          <a class="btn btn-ghost normal-case text-xl">Gaslah</a>
+        </RouterLink>
+      </div>
+      <div class="flex-none">
+        <RouterLink to="/login" v-if="!isLogin">
+          <button class="btn btn-square btn-ghost">
+            <i class="fa-solid fa-right-to-bracket text-xl"></i>
+          </button>
+        </RouterLink>
+        <RouterLink to="/register" v-if="!isLogin">
+          <button class="btn btn-square btn-ghost">
+            <i class="fa-solid fa-user-plus text-xl"></i>
+          </button>
+        </RouterLink>
+        <RouterLink to="/order-form" v-if="isLogin">
+          <button class="btn btn-square btn-ghost">
+            <i class="fa-solid fa-plus text-xl"></i>
+          </button>
+        </RouterLink>
+        <RouterLink to="">
+          <button class="btn btn-square btn-ghost" v-if="isLogin">
+            <i class="fa-solid fa-right-from-bracket text-xl"></i>
+          </button>
+        </RouterLink>
+      </div>
+    </div>
   </div>
-  <div class="flex-none">
-    <button class="btn btn-square btn-ghost">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
-    </button>
-  </div>
-</div>
 </template>

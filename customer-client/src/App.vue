@@ -1,20 +1,30 @@
 <script>
 import { RouterLink, RouterView } from "vue-router";
-import { mapState } from "pinia";
-import { useAdminStore } from './stores/admin'
+import { mapState, mapActions } from "pinia";
+import { useCustomerStore } from './stores/customer'
 import Navbar from './components/Navbar.vue'
 
 export default {
   components: { Navbar },
   computed: {
-    ...mapState(useAdminStore, ['isLogin'])
+    ...mapState(useCustomerStore, ['isLogin'])
+  },
+  methods: {
+    ...mapActions(useCustomerStore, ['fetchUnit'])
+  },
+  async created() {
+    try {
+      this.fetchUnit()
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>
 
 <template>
-  <div :class="isLogin ? 'container' : ''" class="h-screen my-auto">
-    <Navbar />
+  <Navbar />
+  <div class="container mx-auto mt-12">
     <RouterView />
   </div>
 </template>
