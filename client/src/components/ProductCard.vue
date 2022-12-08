@@ -5,6 +5,9 @@ import { useCounterStore } from '../stores/counter';
 export default{
   data(){
     return {
+      productId: this.product.id,
+      amount:'',
+      price:this.product.price,
     }
   },
   components: {
@@ -14,7 +17,15 @@ export default{
     ...mapWritableState(useCounterStore, [])
   },
   methods: {
-    ...mapActions(useCounterStore, [])
+    ...mapActions(useCounterStore, ['postCart']),
+    handlePostCart(){
+      let value = {
+        productId: this.productId,
+        amount:this.amount,
+        price: this.price,
+      }
+      this.postCart(value)
+    }
   },
   props: ['product'],
   created(){
@@ -42,6 +53,11 @@ export default{
                 <div class="fig stats-icon red mb-2">
                     <i class="bi-cart-plus"></i>
                 </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+              <form >
+                <input v-model="amount" type="number" id="amount" name="amount" width="3" placeholder="Amount">
+              </form>
             </div>
         </div>
     </div>

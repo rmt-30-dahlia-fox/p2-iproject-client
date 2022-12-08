@@ -62,6 +62,16 @@ export const useCounterStore = defineStore('counter', {
       email: ''
     },
 
+    calledTransaction: {
+      id: '',
+      reportId: '',
+      cashierId: '',
+      value: '',
+      payment: '',
+      point: '',
+      status: ''
+    },
+
     pageState: '',
   }),
   getters: {
@@ -129,9 +139,7 @@ export const useCounterStore = defineStore('counter', {
             email: this.member.register.email,
             phone: this.member.register.phone
           },
-          headers: {
-            access_token: localStorage.access_token
-          }
+          headers: { access_token: localStorage.access_token }
         })
         Swal.fire({
           position: 'top-end',
@@ -158,21 +166,20 @@ export const useCounterStore = defineStore('counter', {
       }
     },
 
-    async fetchProducts(filter){
+    async fetchProducts(filter, search) {
       try {
+        console.log(this.filterCode, this.searchInput);
         let query = ''
-        if (filter) {
-          if (this.filterCode){
-            query += `&&${this.filterCode}`
-          }
-          this.filterCode = filter.replace("filter=", "")
 
-          if (this.searchInput){
-            query += `&&search=${this.searchInput}`
-          }
+        if (this.filterCode) {
+          query += `&&filter=${this.filterCode}`
         }
 
-        const {data} = await axios ({
+        if (this.searchInput) {
+          query += `&&search=${this.searchInput}`
+        }
+        console.log(query);
+        const { data } = await axios({
           url: this.baseUrl + 'products' + `?page=${this.pageNumber}` + query,
           method: 'get',
           headers: { access_token: localStorage.access_token }
@@ -254,6 +261,134 @@ export const useCounterStore = defineStore('counter', {
         setTimeout(() => {
           this.router.replace('/')
         }, 1500)
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
+    },
+
+    async getCarts(){
+      try {
+        let {data} = await axios ({
+          url: this.baseUrl + 'carts',
+          method: 'get',
+          headers: { access_token: localStorage.access_token }
+        })
+        
+        this.calledCarts.item = data
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
+    },
+
+    async postCart(value){
+      try {
+        await axios ({
+          url: this.baseUrl + 'carts',
+          method: 'post',
+          data: {
+            transactionId: this.calledTransaction.id,
+            productId: value.productId,
+            amount: value.amount,
+            price: value.price,
+            discount: 0
+          }
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `Cart succesfully added`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+        this.getCarts()
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
+    },
+
+    async openTransaction(){
+      try {
+        let {data} = await axios ({
+          url: this.baseUrl + 'transactions',
+          method: 'get',
+          headers: { access_token: localStorage.access_token }
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `Transaction ${data.calledTransaction.status}`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+
+        console.log(data);
+        this.calledTransaction.id = data.calledTransaction.id
+        this.calledTransaction.reportId = data.calledTransaction.reportId
+        this.calledTransaction.cashierId = data.calledTransaction.cashierId
+        this.calledTransaction.value = data.calledTransaction.value
+        this.calledTransaction.payment = data.calledTransaction.payment
+        this.calledTransaction.point = data.calledTransaction.point
+        this.calledTransaction.status = data.calledTransaction.status
+        
+        console.log(this.calledTransaction.id = data.id)
+        console.log(this.calledTransaction.reportId = data.reportId)
+        console.log(this.calledTransaction.cashierId = data.cashierId)
+        console.log(this.calledTransaction.value = data.value)
+        console.log(this.calledTransaction.payment = data.payment)
+        console.log(this.calledTransaction.point = data.point)
+        console.log(this.calledTransaction.status = data.status)
+      } catch (error) {
+        console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error.response.data.message}`,
+        })
+      }
+    },
+
+    async closeTransaction(){
+      try {
+        let {data} = await axios ({
+          url: this.baseUrl + 'transactions',
+          method: 'get',
+          data: {
+            id: this.calledTransaction.id, 
+            payment: 'Cash', 
+            member: ''
+          },
+          headers: { access_token: localStorage.access_token }
+        })
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: `Transactions Closed`,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.calledTransaction.id = ''
+        this.calledTransaction.reportId = ''
+        this.calledTransaction.cashierId = ''
+        this.calledTransaction.value = ''
+        this.calledTransaction.payment = ''
+        this.calledTransaction.point = ''
+        this.calledTransaction.status = ''
       } catch (error) {
         console.log(error);
         Swal.fire({
