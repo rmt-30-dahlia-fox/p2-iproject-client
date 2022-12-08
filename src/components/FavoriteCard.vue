@@ -32,7 +32,7 @@ export default {
         class="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
         style="background-color: rgba(0, 0, 0, 0.4)">
         <button
-          @click.prevent="removeFavorite(favorite.id)"
+          @click.prevent="deleteFavorite(favorite.id)"
           class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
           Remove Favorite
         </button>

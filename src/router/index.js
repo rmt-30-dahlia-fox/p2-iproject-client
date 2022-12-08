@@ -36,8 +36,13 @@ const router = createRouter({
     },
     {
       path: "/favoriteList",
-      name: "favoriteList",
+      name: "favoritePage",
       component: () => import("../views/FavoriteView.vue"),
+    },
+    {
+      path: "/chart",
+      name: "chartcovid",
+      component: () => import("../components/Chart.vue"),
     },
     // {
     //   path: '/about',
@@ -52,8 +57,8 @@ const router = createRouter({
 
 router.beforeEach(function (to, from, next) {
   const isAuthenticated = localStorage.getItem("access_token")
-  if (to.name === "favoriteList" && !isAuthenticated) next({ name: "login" })
-  if ((to.name === "register" || to.name === "login") && isAuthenticated)
+  if (to.name === "favoritePage" && !isAuthenticated) next({ name: "login" })
+  if ((to.name === "registerPage" || to.name === "loginPage") && isAuthenticated)
     next({ name: "home" })
   else next()
 })

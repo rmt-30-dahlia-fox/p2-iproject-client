@@ -58,6 +58,7 @@ export const useCounterStore = defineStore("counter", {
           url: `${this.baseUrl}/covid-data`,
         })
         this.covidData = data.list_data
+        // console.log(this.covidData)
       } catch (error) {
         console.log(error)
       } finally {
@@ -97,8 +98,8 @@ export const useCounterStore = defineStore("counter", {
           url: `${this.baseUrl}/login`,
           data: { email, password },
         })
-        localStorage.setItem("access_token", data.access_token)
         this.loggedIn = true
+        localStorage.setItem("access_token", data.access_token)
         this.router.replace("/")
         this.openToast("Succesfully logged in!")
       } catch (error) {
@@ -106,20 +107,19 @@ export const useCounterStore = defineStore("counter", {
       }
     },
 
-    async logout() {
+    logout() {
       localStorage.clear()
       this.loggedIn = false
       this.router.replace("/login")
       this.openToast("Successfully logged out")
     },
 
-    async addFavorites({ title, description, urlToImage }) {
+    async addFavorites({ title, description, urlToImage, url }) {
       try {
-        console.log(title, description, urlToImage)
         const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}/favorites`,
-          data: { title, description, urlToImage },
+          data: { title, description, urlToImage, url },
           headers: { access_token: localStorage.getItem("access_token") },
         })
       } catch (error) {
@@ -142,22 +142,21 @@ export const useCounterStore = defineStore("counter", {
       }
     },
 
-    async deleteFavorite() {
+    async deleteFavorite(id) {
       try {
-        this.isSpinner = true
         await axios({
           method: "DELETE",
-          url: `${this.baseUrl}/pub/bookmarks/${id}`,
+          url: `${this.baseUrl}/favorites/${id}`,
           headers: {
             access_token: localStorage.access_token,
           },
         })
-        this.openToast("Successfully delete Bookmark")
-        this.fetchBookmark()
+        this.openToast("Successfully delete Favorite")
+        this.fetchFavorite()
         this.isSpinner = false
       } catch (error) {
         this.isSpinner = false
-        this.openToast(error.response.statusText)
+        this.openToast(error)
       }
     },
   },

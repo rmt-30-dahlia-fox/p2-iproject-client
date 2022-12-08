@@ -15,8 +15,8 @@ pinia.use(({ store }) => {
   store.router = markRaw(router)
 })
 
+app.use(pinia)
 app.use(Toastify)
-app.use(createPinia())
 app.use(router)
 
 app.mount("#app")
