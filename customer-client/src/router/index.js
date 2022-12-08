@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import OrderView from '../views/OrderView.vue'
+import { useCustomerStore } from '../stores/customer'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,5 +30,27 @@ const router = createRouter({
     },
   ]
 })
+
+router.beforeEach(async (to, from, next) => {
+  try {
+    const customerStore = useCustomerStore();
+    if (
+      (to.name === "register" && customerStore.isLogin) ||
+      (to.name === "login" && customerStore.isLogin)
+    ) {
+      next({ name: "home" });
+    } else if (to.name === "orderForm") {
+      if (!customerStore.isLogin) {
+        next({ name: "login" });
+      } else {
+        next()
+      }
+    } else {
+      next()
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 export default router

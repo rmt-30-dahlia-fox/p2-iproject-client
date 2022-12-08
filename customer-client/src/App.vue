@@ -10,11 +10,11 @@ export default {
     ...mapState(useCustomerStore, ['isLogin'])
   },
   methods: {
-    ...mapActions(useCustomerStore, ['fetchUnit'])
+    ...mapActions(useCustomerStore, ['loginHandler'])
   },
   async created() {
     try {
-      this.fetchUnit()
+      this.loginHandler()
     } catch (error) {
       console.log(error);
     }

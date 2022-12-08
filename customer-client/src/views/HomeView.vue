@@ -1,20 +1,29 @@
 <script>
-import { mapWritableState } from 'pinia'
+import { mapState, mapWritableState } from 'pinia'
 import { useCustomerStore } from '../stores/customer'
 
 export default {
   computed: {
-    ...mapWritableState(useCustomerStore, ['orderForm'])
+    ...mapState(useCustomerStore, ['isLogin'])
+  },
+  methods: {
+    getStarted() {
+      if(this.isLogin) {
+        this.$router.push({ name: 'orderForm' })
+      } else {
+        this.$router.push({ name: 'login' })
+      }
+    }
   }
 }
 </script>
 <template>
-<div class="hero min-h-screen bg-base-200">
+<div class="hero">
   <div class="hero-content text-center">
     <div class="max-w-md">
-      <h1 class="text-5xl font-bold">Hello there</h1>
-      <p class="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
-      <button class="btn btn-primary">Get Started</button>
+      <h1 class="text-5xl font-bold">Gaslah!</h1>
+      <p class="py-6">Vroom vroom vroom</p>
+      <button class="btn btn-primary" @click="getStarted">Get Started</button>
     </div>
   </div>
 </div>

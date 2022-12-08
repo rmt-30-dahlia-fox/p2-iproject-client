@@ -18,6 +18,10 @@ export default {
       this.map = map
       this.orderForm.pickupLocation = map
     }
+  },
+
+  created() {
+    this.orderForm.pickupLocation = this.map
   }
 }
 </script>

@@ -1,10 +1,13 @@
 <script>
-import { mapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useCustomerStore } from '../stores/customer'
 
 export default {
   computed: {
     ...mapState(useCustomerStore, ['isLogin'])
+  },
+  methods: {
+    ...mapActions(useCustomerStore, ['logout'])
   }
 }
 </script>
@@ -33,7 +36,7 @@ export default {
           </button>
         </RouterLink>
         <RouterLink to="">
-          <button class="btn btn-square btn-ghost" v-if="isLogin">
+          <button class="btn btn-square btn-ghost" v-if="isLogin" @click="logout">
             <i class="fa-solid fa-right-from-bracket text-xl"></i>
           </button>
         </RouterLink>

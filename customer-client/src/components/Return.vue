@@ -21,6 +21,9 @@ export default {
   },
   computed: {
     ...mapWritableState(useCustomerStore, ['orderForm'])
+  },
+  created() {
+    this.orderForm.returnLocation = this.map
   }
 }
 </script>
