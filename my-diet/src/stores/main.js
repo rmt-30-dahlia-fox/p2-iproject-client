@@ -4,8 +4,8 @@ import axios from 'axios'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
-    baseUrl: "http://localhost:3000",
-    // baseUrl: "https://p2-c3-movies-production.up.railway.app",
+    // baseUrl: "http://localhost:3000",
+    baseUrl: "https://iproject-mydiet-production.up.railway.app",
     pageTitle: 'Home',
     foodsResult: [],
     foodDetail: {},
@@ -177,8 +177,8 @@ export const useMainStore = defineStore('main', {
         })
         this.router.push('/login&register')
       } catch (error) {
-        const msg = error.response.data.message
-        console.log(msg);
+        // const msg = error.response.data.message
+        console.log(error);
         // Swal.fire({
         //   icon: 'error',
         //   title: 'Oops...',

@@ -31,7 +31,11 @@ export default {
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div
+        class="collapse navbar-collapse"
+        style="display: flex; justify-content: space-between"
+        id="navbarNavDropdown"
+      >
         <ul class="navbar-nav">
           <li class="nav-item col">
             <router-link
@@ -102,16 +106,16 @@ export default {
               >Articles</router-link
             >
           </li>
-          <li class="nav-item ml">
-            <router-link
-              to="/articles"
-              @click="logout"
-              class="nav-link active btn btn-danger"
-              aria-current="page"
-              >Logout</router-link
-            >
-          </li>
         </ul>
+        <div class="">
+          <router-link
+            to="/articles"
+            @click="logout"
+            class="btn btn-danger"
+            aria-current="page"
+            >Logout</router-link
+          >
+        </div>
       </div>
     </div>
   </nav>

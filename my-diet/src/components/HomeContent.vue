@@ -106,7 +106,47 @@ export default {
                 <tr>
                   <th class="w-25">Food Name</th>
                   <td>:</td>
-                  <td>{{ food_name }}</td>
+                  <td>{{ foodDetail.food_name }}</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Calories</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_calories }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Cholesterol</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_cholesterol }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Potassium</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_potassium }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Protein</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_protein }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Sugars</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_sugars }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Total Carbo</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_total_carbohydrate }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Total Fat</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_total_fat }} gr</td>
+                </tr>
+                <tr>
+                  <th class="w-25">Ingredients</th>
+                  <td>:</td>
+                  <td>{{ foodDetail.nf_ingredient_statement }}</td>
                 </tr>
               </tbody>
             </table>
