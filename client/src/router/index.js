@@ -21,7 +21,7 @@ const router = createRouter({
       component: LoginPage,
     },
     {
-      path: "/digimon-card/:name",
+      path: "/digimons/:name",
       name: "DetailCardPage",
       component: DetailCardPage,
     },
@@ -31,7 +31,7 @@ const router = createRouter({
       component: RegisterPage,
     },
     {
-      path: "/shopping-cart",
+      path: "/cart",
       name: "CartPage",
       component: CartPage,
     },
@@ -46,7 +46,7 @@ const router = createRouter({
       component: NotFoundPage,
     },
     {
-      path: "/digimon-card/404-not-found",
+      path: "/digimons/404-not-found",
       name: "NotFoundDigimon",
       component: NotFoundPage,
     },
@@ -56,7 +56,7 @@ const router = createRouter({
 //navigation guard
 // router.beforeEach((to, from, next) => {
 //   const isAuthenticated = localStorage.access_token;
-//   if (to.name === "CartPage" && !isAuthenticated) {
+//   if ((to.name === "CartPage" || to.name === "OrderHistoryPage") && !isAuthenticated) {
 //     next({ name: "LoginPage" });
 //   } else if (
 //     (to.name === "RegisterPage" || to.name === "LoginPage") &&

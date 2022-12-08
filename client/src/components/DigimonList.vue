@@ -9,21 +9,24 @@ export default {
     DigimonCard,
   },
   data() {
-    return {
-      currentPage: ref(1),
-    };
+    return {};
   },
 
   methods: {
-    ...mapActions(useCounterStore, ["fetchDigimon"]),
+    ...mapActions(useCounterStore, ["fetchDigimon", "paginate"]),
 
     onClickHandler(page) {
-      this.fetchDigimon({ page });
+      this.paginate(page);
     },
   },
 
   computed: {
-    ...mapWritableState(useCounterStore, ["digimons"]),
+    ...mapWritableState(useCounterStore, [
+      "digimons",
+      "currentPage",
+      "totalPage",
+      "activeDigimons",
+    ]),
   },
 };
 </script>
@@ -32,9 +35,9 @@ export default {
   <main>
     <div class="container px-4 px-lg-5 mt-4">
       <vue-awesome-paginate
-        :total-items="digimons.length"
+        :total-items="totalPage"
         :items-per-page="12"
-        :max-pages-shown="22"
+        :max-pages-shown="100"
         v-model="currentPage"
         :on-click="onClickHandler"
       />
@@ -49,7 +52,7 @@ export default {
       </paginate> -->
       <div class="row gy-5">
         <DigimonCard
-          v-for="digimon in digimons"
+          v-for="digimon in activeDigimons"
           :key="digimon"
           :digimon="digimon"
         />
