@@ -3,7 +3,8 @@ import axios from 'axios'
 
 export const useCounterStore = defineStore('counter', {
   state: () => ({
-    baseUrl: "http://localhost:3000",
+    baseUrl: "https://sipri-manga-production.up.railway.app",
+    // baseUrl: "http://localhost:3000",
     dataManga: "",
     foundManga: "",
     mangaDetail: "",
