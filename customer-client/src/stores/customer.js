@@ -169,6 +169,18 @@ export const useCustomerStore = defineStore("customer", {
       }
     },
 
-    async deleteOrder(id) {},
+    async deleteOrder(id) {
+      try {
+        const { data } = await axios.delete(this.baseUrl + '/orders/' + id, {
+          headers: {
+            access_token: localStorage.access_token
+          }
+        })
+        await this.fetchOrders()
+        console.log(data.message);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

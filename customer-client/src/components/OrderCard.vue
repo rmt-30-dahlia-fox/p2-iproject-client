@@ -1,5 +1,5 @@
 <script>
-import { mapWritableState } from 'pinia';
+import { mapActions, mapState, mapWritableState } from 'pinia';
 import { useCustomerStore } from '../stores/customer';
 
 export default {
@@ -16,10 +16,11 @@ export default {
     ...mapWritableState(useCustomerStore, ['orderForm']),
   },
   methods: {
+    ...mapActions(useCustomerStore, ['deleteOrder']),
     getDuration() {
       this.pickupDateFormatted = new Date(this.order.pickupDate).toLocaleDateString('id-ID')
       this.returnDateFormatted = new Date(this.order.returnDate).toLocaleDateString('id-ID')
-    }
+    },
   },
   created() {
     this.getDuration()
@@ -43,7 +44,7 @@ export default {
         <p>Return Date: {{ returnDateFormatted }}</p>
         <p class="mb-4">Total Price: {{ order.totalPrice }}</p>
         <div class="card-actions center">
-          <button class="btn btn-sm btn-wide btn-warning">Delete</button>
+          <button class="btn btn-sm btn-wide btn-warning" @click.prevent="deleteOrder(order.id)">Delete</button>
         </div>
       </div>
     </div>
