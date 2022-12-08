@@ -11,10 +11,10 @@ export default{
 
 <template>
   <section style="box-shadow: 0 14px 25px 0 #000000;" id="navbar"
-    class="sticky top-0 bg-black z-50 bg-opacity-90 h-16">
+    class="sticky top-0 bg-black z-50 bg-opacity-90 h-18 py-3">
     <header aria-label="Site Header">
       <div class="mx-auto flex h-16 max-w-screen-xl items-center gap-8 px-4 sm:px-6 lg:px-8">
-        <a class="block" href="/">
+        <a class="block">
           <span class="sr-only">Home</span>
           <img src="./icons/logo.png" alt="CarStore-Logo" class="w-20 object-fit">
           <p class="text-center font-bold text-white">CarStore</p>

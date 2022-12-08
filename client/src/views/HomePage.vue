@@ -41,7 +41,7 @@ export default{
 
 
     <section id="products">
-      <div class="max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
+      <div class="max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 mx-auto">
         <div class="max-w-xl">
           <h2 class="text-3xl font-bold sm:text-4xl">Products</h2>
         </div>
