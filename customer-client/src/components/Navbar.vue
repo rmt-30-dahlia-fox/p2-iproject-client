@@ -35,6 +35,11 @@ export default {
             <i class="fa-solid fa-plus text-xl"></i>
           </button>
         </RouterLink>
+        <RouterLink to="/orders" v-if="isLogin">
+          <button class="btn btn-square btn-ghost">
+            <i class="fa-solid fa-motorcycle text-xl"></i>
+          </button>
+        </RouterLink>
         <RouterLink to="">
           <button class="btn btn-square btn-ghost" v-if="isLogin" @click="logout">
             <i class="fa-solid fa-right-from-bracket text-xl"></i>

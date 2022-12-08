@@ -1,8 +1,8 @@
-import { defineStore } from "pinia"
-import axios from 'axios'
-export const useCustomerStore = defineStore('customer', {
+import { defineStore } from "pinia";
+import axios from "axios";
+export const useCustomerStore = defineStore("customer", {
   state: () => ({
-    baseUrl: 'http://localhost:3000/customer',
+    baseUrl: "http://localhost:3000/customer",
     isLogin: true,
     formStep: 1,
     orderForm: {
@@ -27,24 +27,27 @@ export const useCustomerStore = defineStore('customer', {
 
     loginForm: {
       email: "",
-      password: ""
+      password: "",
     },
 
     units: [],
 
-    unit: {}
+    unit: {},
+
+    orders: [],
   }),
   actions: {
     async loginHandler() {
       try {
         if (localStorage.access_token) {
           this.isLogin = true;
-          this.router.push({ name: 'home'})
+          this.router.push({ name: "home" });
           await this.fetchUnit();
+          await this.fetchOrders();
         } else {
           await this.fetchUnit();
           this.isLogin = false;
-          this.router.push({ name: 'home'})
+          this.router.push({ name: "home" });
         }
       } catch (error) {
         console.log(error);
@@ -53,8 +56,8 @@ export const useCustomerStore = defineStore('customer', {
 
     async fetchUnit() {
       try {
-        const { data } = await axios.get(this.baseUrl + '/units')
-        this.units = data.units
+        const { data } = await axios.get(this.baseUrl + "/units");
+        this.units = data.units;
       } catch (error) {
         console.log(error);
       }
@@ -63,17 +66,23 @@ export const useCustomerStore = defineStore('customer', {
     async register() {
       try {
         console.log(this.registerForm);
-        const { data } = await axios.post(this.baseUrl + '/register', this.registerForm)
+        const { data } = await axios.post(
+          this.baseUrl + "/register",
+          this.registerForm
+        );
         await this.router.push({ name: "login" });
-        console.log('register successfull');
+        console.log("register successfull");
       } catch (error) {
         console.log(error);
       }
     },
-  
+
     async login() {
       try {
-        const { data } = await axios.post(this.baseUrl + "/login", this.loginForm);
+        const { data } = await axios.post(
+          this.baseUrl + "/login",
+          this.loginForm
+        );
         localStorage.setItem("access_token", data.access_token);
         await this.loginHandler();
         await this.router.push({ name: "home" });
@@ -81,11 +90,11 @@ export const useCustomerStore = defineStore('customer', {
         console.log(error);
       }
     },
-  
+
     async logout() {
       try {
-        localStorage.removeItem('access_token')
-        await this.loginHandler()
+        localStorage.removeItem("access_token");
+        await this.loginHandler();
       } catch (error) {
         console.log(error);
       }
@@ -93,13 +102,17 @@ export const useCustomerStore = defineStore('customer', {
 
     async postOrder() {
       try {
-        const { data } = await axios.post(this.baseUrl + '/orders', this.orderForm, {
-          headers: {
-            access_token: localStorage.access_token
+        const { data } = await axios.post(
+          this.baseUrl + "/orders",
+          this.orderForm,
+          {
+            headers: {
+              access_token: localStorage.access_token,
+            },
           }
-        })
+        );
 
-        this.orderForm = {
+        (this.orderForm = {
           pickupLocation: "",
           pickupDate: "",
           pickupTime: "",
@@ -108,9 +121,8 @@ export const useCustomerStore = defineStore('customer', {
           returnTime: "",
           totalPrice: "",
           UnitId: "",
-        },
-
-        await this.router.push({ name: 'home' })
+        }),
+          await this.router.push({ name: "home" });
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -119,8 +131,8 @@ export const useCustomerStore = defineStore('customer', {
 
     async getUnitById(id) {
       try {
-        const { data } = await axios.get(this.baseUrl + '/units/' + id)
-        this.unit = data.unit
+        const { data } = await axios.get(this.baseUrl + "/units/" + id);
+        this.unit = data.unit;
       } catch (error) {
         console.log(error);
       }
@@ -128,7 +140,7 @@ export const useCustomerStore = defineStore('customer', {
 
     async getPrice() {
       try {
-        await this.getUnitById(this.orderForm.UnitId)
+        await this.getUnitById(this.orderForm.UnitId);
 
         const date1 = new Date(this.orderForm.pickupDate);
         const date2 = new Date(this.orderForm.returnDate);
@@ -137,12 +149,23 @@ export const useCustomerStore = defineStore('customer', {
         console.log(this.unit.price);
         const totalPrice = this.unit.price * diffDays;
         console.log(totalPrice);
-        return totalPrice
+        return totalPrice;
       } catch (error) {
-        console.log(error);  
+        console.log(error);
       }
-    }
+    },
+
+    async fetchOrders() {
+      try {
+        const { data } = await axios.get(this.baseUrl + "/orders", {
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        });
+        this.orders = data.orders;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
-
-})
-
+});

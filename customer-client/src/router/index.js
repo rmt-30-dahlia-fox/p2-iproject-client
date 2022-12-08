@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import OrderView from '../views/OrderView.vue'
+import CustomerOrder from '../views/CustomerOrder.vue'
 import { useCustomerStore } from '../stores/customer'
 
 const router = createRouter({
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/order-form',
       name: 'orderForm',
       component: OrderView
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: CustomerOrder
     },
   ]
 })
