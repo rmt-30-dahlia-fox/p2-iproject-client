@@ -16,7 +16,7 @@ export const useCounterStore = defineStore("counter", {
       favoriteList: [],
       isSpinner: false,
       userDetail: [],
-      fileUpload:""
+      fileUpload: "",
     }
   },
   actions: {
@@ -35,6 +35,24 @@ export const useCounterStore = defineStore("counter", {
         },
         onClick: function () {},
       }).showToast()
+    },
+
+    async googleSignInOnLoad(response) {
+      try {
+        const { credential } = response
+        const googleToken = await axios({
+          method: "POST",
+          url: `${this.baseUrl}/google-login`,
+          headers: { "google-oauth-token": credential },
+        })
+        localStorage.setItem("access_token", googleToken.data.access_token)
+
+        this.loggedIn = true
+        this.openToast(googleToken.data.message)
+        this.router.push("/")
+      } catch (error) {
+        this.openToast(error.response.data.message)
+      }
     },
 
     async fetchNewsData() {

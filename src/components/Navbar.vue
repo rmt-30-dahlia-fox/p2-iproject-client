@@ -16,6 +16,12 @@ export default {
     navFavorite() {
       this.$router.push("/favoriteList")
     },
+    navArticles() {
+      this.$router.push("/articleList")
+    },
+    navData() {
+      this.$router.push("/covid-table")
+    },
     ...mapActions(useCounterStore, ["logout", "fetchUserDetail"]),
   },
 
@@ -24,7 +30,6 @@ export default {
       this.loggedIn = true
     }
     this.fetchUserDetail()
-    console.log(this.baseUrl)
   },
 
   computed: {
@@ -49,49 +54,73 @@ export default {
           >
         </a>
         <div class="flex items-center gap-5">
-          <div >
-            <img :src="(baseUrl/avatar/userDetail.profilePict)" class="w-full h-full"/>
+          <h1 class="">Welcome, {{ userDetail.fullName }}</h1>
+          <div
+            class="overflow-hidden relative w-10 h-10 bg-gray-100 rounded-lg dark:bg-gray-600">
+            <img
+            v-if="loggedIn"
+            :src="`${this.baseUrl}/avatar/${userDetail.profilePict}`"
+            alt=""
+            class="w-full h-full object-bottom" />
+            <svg v-else
+              class="absolute -left-1 w-12 h-12 text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg">
+              <path
+                fill-rule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clip-rule="evenodd"></path>
+            </svg>
           </div>
-          <a
-            @click.prevent="navDetails"
-            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
-            >User Details</a
-          >
-          <a
-            v-if="!loggedIn"
-            @click.prevent="navLogin"
-            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
-            >Login</a
-          >
-          <a
-            v-else
-            @click.prevent="logout"
-            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
-            >Logout</a
-          >
         </div>
       </div>
     </nav>
     <nav class="bg-gray-50">
       <div class="max-w-screen-xl px-4 py-3 mx-auto md:px-6">
-        <div class="flex items-center">
-          <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
-            <li>
-              <a
-                @click.prevent="navHome"
-                class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
-                aria-current="page"
-                >Home</a
-              >
-            </li>
-            <li>
-              <a
-                @click.prevent="navFavorite"
-                class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
-                >Favorites</a
-              >
-            </li>
-          </ul>
+        <div class="flex items-center justify-between">
+          <div class="flex gap-5">
+            <a
+              @click.prevent="navHome"
+              class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              aria-current="page"
+              >Home</a
+            >
+            <a
+              @click.prevent="navFavorite"
+              class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >Favorites</a
+            >
+            <a
+              @click.prevent="navArticles"
+              class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >Articles</a
+            >
+            <a
+              @click.prevent="navData"
+              class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >Chart & Data</a
+            >
+          </div>
+          <div class="flex gap-5">
+            <a
+              @click.prevent="navDetails"
+              class="font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >User Details</a
+            >
+            <a
+              v-if="!loggedIn"
+              @click.prevent="navLogin"
+              class="font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >Login</a
+            >
+            <a
+              v-else
+              @click.prevent="logout"
+              class="font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+              >Logout</a
+            >
+          </div>
         </div>
       </div>
     </nav>
