@@ -15,8 +15,15 @@ export const useMainStore = defineStore('main', {
     articles: [],
     UserId: '',
     total_price: '',
-    isLogin: false
+    isLogin: false,
+    UserAccount: '',
+    contentDetail: {},
   }),
+  getters: {
+    doneTodos(state) {
+      return state.todos.filter(todo => todo.done)
+    }
+  },
   actions: {
     // Home
     async searchItems(toSearch) {
@@ -159,7 +166,7 @@ export const useMainStore = defineStore('main', {
       }
     },
 
-
+    // user
     async userRegister(payload) {
       try {
         const { data } = await axios({
@@ -178,21 +185,44 @@ export const useMainStore = defineStore('main', {
         // })
       }
     },
-
     async userLogin(payload) {
       try {
         const { data } = await axios({
+          // url: this.baseUrl + '/users',
           url: this.baseUrl + '/users/login',
           method: 'post',
           data: payload
         })
         localStorage.setItem('access_token', data.access_token)
+        localStorage.setItem('uid', data.id)
         this.UserId = data.id
         this.router.push('/')
       } catch (error) {
         console.log(error);
       }
     },
+    async accountInfo() {
+      console.log('userAccount ke trigger -->', localStorage.uid);
+      const payload = { id: +localStorage.uid }
+      try {
+        const { data } = await axios({
+          url: this.baseUrl + '/users',
+          method: 'get',
+          params: { id: localStorage.uid },
+          headers: { id: localStorage.uid },
+          data: { id: localStorage.uid },
+        })
+        console.log(data, '<<<<<<<<<<<<');
+        this.UserAccount = data.account
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    changePage(link) {
+      this.router.push(link)
+    },
+
 
     logout() {
       // this.status = 'Login'

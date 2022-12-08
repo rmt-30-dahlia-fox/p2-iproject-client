@@ -21,8 +21,9 @@ export default {
     ...mapState(useMainStore, ["articles"]),
     ...mapWritableState(useMainStore, ["pageTitle"]),
   },
+  created() {},
   methods: {
-    ...mapActions(useMainStore, ["fetchArticles"]),
+    ...mapActions(useMainStore, ["fetchArticles", "accountInfo"]),
     infobutton() {
       if (this.info) {
         this.info = false;
@@ -35,7 +36,6 @@ export default {
       }
     },
     calculate() {
-      console.log("calculate() ke trigger");
       this.Calc_BMI(this.params);
       this.info = false;
       this.result = true;

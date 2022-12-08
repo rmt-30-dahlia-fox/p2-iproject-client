@@ -33,7 +33,7 @@ export default {
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li class="nav-item col">
             <router-link
               to="/"
               @click="pageTitle = 'Home'"
@@ -45,7 +45,7 @@ export default {
 
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link active dropdown-toggle"
               href="#"
               role="button"
               data-bs-toggle="dropdown"
@@ -102,7 +102,7 @@ export default {
               >Articles</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item ml">
             <router-link
               to="/articles"
               @click="logout"

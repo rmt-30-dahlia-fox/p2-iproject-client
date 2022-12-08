@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import Calculator from '../views/CalculatorView.vue'
 import Articles from '../views/ArticlesView.vue'
+import ArticelDetail from "../views/ArticleDetail.vue"
 import LoginRegister from '../views/Login&Register.vue'
 
 
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/articles',
       component: Articles,
       name: 'article'
+    },
+    {
+      path: '/articles-detail',
+      component: ArticelDetail,
+      name: 'articleDetail'
     },
     {
       path: '/login&register',

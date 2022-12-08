@@ -13,9 +13,30 @@ export default {
   },
   created() {
     this.params.type = this.content.type;
+    this.accountInfo();
+    // console.log(this.UserId, " --- ", this.UserAccount);
+  },
+  computed: {
+    ...mapState(useMainStore, ["UserId", "UserAccount"]),
+    ...mapWritableState(useMainStore, ["contentDetail"]),
   },
   methods: {
-    ...mapActions(useMainStore, ["fetchArticles", "getTokenMidtrans"]),
+    ...mapActions(useMainStore, [
+      "fetchArticles",
+      "getTokenMidtrans",
+      "accountInfo",
+      "changePage",
+    ]),
+
+    premiumHandler() {
+      this.accountInfo();
+
+      if (this.UserAccount === "normal") this.getTokenMidtrans(15612);
+      else {
+        this.contentDetail = this.content;
+        this.changePage("/articles-detail");
+      }
+    },
   },
 };
 </script>
@@ -52,7 +73,7 @@ export default {
       <a
         href="#"
         class="btn btn-primary w-100"
-        @click.prevent="getTokenMidtrans(1000)"
+        @click.prevent="premiumHandler()"
         >Read more</a
       >
     </div>
