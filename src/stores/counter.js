@@ -1,6 +1,6 @@
-import { ref, computed } from "vue"
 import { defineStore } from "pinia"
 import axios from "axios"
+import Toastify from "toastify-js"
 
 export const useCounterStore = defineStore("counter", {
   state() {
@@ -13,6 +13,8 @@ export const useCounterStore = defineStore("counter", {
       loadPict: false,
       appointmentList: [],
       loggedIn: false,
+      favoriteList: [],
+      isSpinner: false,
     }
   },
   actions: {
@@ -56,6 +58,7 @@ export const useCounterStore = defineStore("counter", {
           url: `${this.baseUrl}/covid-data`,
         })
         this.covidData = data.list_data
+        // console.log(this.covidData)
       } catch (error) {
         console.log(error)
       } finally {
@@ -75,52 +78,85 @@ export const useCounterStore = defineStore("counter", {
       }
     },
 
-    async register(body) {
+    async register({ email, password }) {
       try {
         const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}/register`,
-          data: body,
+          data: { email, password },
         })
-        this.router.push("/login")
         this.openToast("Successfully register!")
       } catch (error) {
-        this.openToast(error.response.data.message)
+        this.openToast(error)
       }
     },
 
-    async login(body) {
+    async login({ email, password }) {
       try {
         const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}/login`,
-          data: body,
+          data: { email, password },
         })
-        localStorage.setItem("access_token", data.access_token)
         this.loggedIn = true
+        localStorage.setItem("access_token", data.access_token)
         this.router.replace("/")
         this.openToast("Succesfully logged in!")
       } catch (error) {
-        this.openToast(error.response.data.message)
+        this.openToast(error)
       }
     },
 
-    async logout() {
+    logout() {
       localStorage.clear()
       this.loggedIn = false
-      this.router.push("/login")
+      this.router.replace("/login")
       this.openToast("Successfully logged out")
     },
 
-    async addFavorites({ title, description, urlToImage }) {
+    async addFavorites({ title, description, urlToImage, url }) {
       try {
         const { data } = await axios({
           method: "POST",
           url: `${this.baseUrl}/favorites`,
+          data: { title, description, urlToImage, url },
           headers: { access_token: localStorage.getItem("access_token") },
         })
       } catch (error) {
         console.log(error)
+      }
+    },
+
+    async fetchFavorite() {
+      try {
+        const { data } = await axios({
+          method: "GET",
+          url: `${this.baseUrl}/favorites`,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        })
+        this.favoriteList = data.FavoritesList
+      } catch (error) {
+        this.openToast(error)
+      }
+    },
+
+    async deleteFavorite(id) {
+      try {
+        await axios({
+          method: "DELETE",
+          url: `${this.baseUrl}/favorites/${id}`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        this.openToast("Successfully delete Favorite")
+        this.fetchFavorite()
+        this.isSpinner = false
+      } catch (error) {
+        this.isSpinner = false
+        this.openToast(error)
       }
     },
   },

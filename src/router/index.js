@@ -15,6 +15,11 @@ const router = createRouter({
       component: () => import("../views/LoginView.vue"),
     },
     {
+      path: "/register",
+      name: "registerPage",
+      component: () => import("../views/RegisterView.vue"),
+    },
+    {
       path: "/news",
       name: "newsSection",
       component: () => import("../components/News.vue"),
@@ -29,6 +34,16 @@ const router = createRouter({
       name: "appointment",
       component: () => import("../components/Appointment.vue"),
     },
+    {
+      path: "/favoriteList",
+      name: "favoritePage",
+      component: () => import("../views/FavoriteView.vue"),
+    },
+    {
+      path: "/chart",
+      name: "chartcovid",
+      component: () => import("../components/Chart.vue"),
+    },
     // {
     //   path: '/about',
     //   name: 'about',
@@ -38,6 +53,14 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // }
   ],
+})
+
+router.beforeEach(function (to, from, next) {
+  const isAuthenticated = localStorage.getItem("access_token")
+  if (to.name === "favoritePage" && !isAuthenticated) next({ name: "login" })
+  if ((to.name === "registerPage" || to.name === "loginPage") && isAuthenticated)
+    next({ name: "home" })
+  else next()
 })
 
 export default router

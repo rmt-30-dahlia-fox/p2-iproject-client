@@ -3,11 +3,13 @@ import { mapActions, mapWritableState } from "pinia"
 import { useCounterStore } from "../stores/counter"
 import TableRow from "../components/TableRow.vue"
 import Loader from "./Loader.vue"
+import ChartVue from "./Chart.vue"
 
 export default {
   components: {
     TableRow,
     Loader,
+    ChartVue,
   },
   methods: {
     ...mapActions(useCounterStore, ["fetchCovidData"]),
@@ -23,6 +25,7 @@ export default {
 <template>
   <section class="mt-36 container mx-auto">
     <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+      <ChartVue />
       <div class="flex flex-col gap-10">
         <table class="w-full text-left text-gray-500">
           <thead class="text-gray-700 uppercase bg-gray-50">

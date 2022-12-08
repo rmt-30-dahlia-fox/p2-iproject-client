@@ -1,16 +1,31 @@
 <script>
+import { mapActions, mapWritableState } from "pinia"
+import { useCounterStore } from "../stores/counter"
+
 export default {
   methods: {
     navLogin() {
       this.$router.push("/login")
     },
-    navHome(){
+    navHome() {
       this.$router.push("/")
     },
-    navAppointment(){
+    navAppointment() {
       this.$router.push("/appointment")
-    }
+    },
+    navFavorite(){
+      this.$router.push("/favoriteList")
+    },
+    ...mapActions(useCounterStore, ["logout"]),
+  },
 
+  components: {
+    ...mapWritableState(useCounterStore, ["loggedIn", "buttonClass"]),
+  },
+  created() {
+    if (localStorage.getItem("access_token")) {
+      this.loggedIn = true
+    }
   },
 }
 </script>
@@ -19,13 +34,13 @@ export default {
     <nav class="bg-white border-gray-200">
       <div
         class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-4 md:px-6 py-2.5">
-        <a class="flex items-center">
+        <a class="flex items-center active:scale-95 duration-200 cursor-pointer select-none" @click.prevent="navHome">
           <img
             src="../assets/images/logo-medicalinia.jpeg"
             class="h-6 mr-3 sm:h-9"
-            alt="Flowbite Logo" />
+            alt="Medicalinia Logo" />
           <span
-            @click.prevent="navHome"
+            
             class="self-center text-xl font-semibold whitespace-nowrap"
             >Medicalinia</span
           >
@@ -38,13 +53,20 @@ export default {
           >
           <a
             @click.prevent="navAppointment"
-            class="text-sm font-medium text-blue-600 hover:underline"
+            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
             >Book Appointment</a
           >
           <a
+            v-if="!loggedIn"
             @click.prevent="navLogin"
-            class="text-sm font-medium text-blue-600 hover:underline"
+            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
             >Login</a
+          >
+          <a
+            v-else
+            @click.prevent="logout"
+            class="text-sm font-medium text-blue-600 hover:underline active:scale-95 duration-200 cursor-pointer select-none"
+            >Logout</a
           >
         </div>
       </div>
@@ -54,12 +76,12 @@ export default {
         <div class="flex items-center">
           <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
             <li>
-              <a href="#" class="text-gray-900 hover:underline" aria-current="page"
+              <a @click.prevent="navHome" class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none" aria-current="page"
                 >Home</a
               >
             </li>
             <li>
-              <a href="#" class="text-gray-900 hover:underline">Company</a>
+              <a @click.prevent="navFavorite" class="text-gray-900 hover:underline active:scale-95 duration-200 cursor-pointer select-none">Favorites</a>
             </li>
             <li>
               <a href="#" class="text-gray-900 hover:underline">Team</a>

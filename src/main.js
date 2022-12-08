@@ -1,9 +1,11 @@
 import { createApp } from "vue"
 import { createPinia } from "pinia"
+import Toastify from "toastify-js"
 
 import App from "./App.vue"
 import router from "./router"
-import Toastify from "toastify-js"
+import { markRaw } from "vue"
+
 import "toastify-js/src/toastify.css"
 
 const app = createApp(App)
@@ -13,8 +15,8 @@ pinia.use(({ store }) => {
   store.router = markRaw(router)
 })
 
+app.use(pinia)
 app.use(Toastify)
-app.use(createPinia())
 app.use(router)
 
 app.mount("#app")
