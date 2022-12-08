@@ -6,10 +6,10 @@ import { useGlobalStore } from "../stores/global.js";
 export default {
   props: ["data"],
   computed: {
-    ...mapWritableState(useGlobalStore, ["baseURL"]),
+    ...mapWritableState(useGlobalStore, ["user", "baseURL"]),
   },
   methods: {
-    ...mapActions(useGlobalStore, ["likePost"]),
+    ...mapActions(useGlobalStore, ["likePost", "sharePost", "deletePost"]),
     triggerLike(id) {
       this.likePost(id)
 	.then(route => {
@@ -20,6 +20,14 @@ export default {
     },
     triggerShare(id) {
       this.sharePost(id)
+	.then(route => {
+	  if (route) {
+	    this.$route.push(route);
+	  }
+	});
+    },
+    triggerDelete(id) {
+      this.deletePost(id)
 	.then(route => {
 	  if (route) {
 	    this.$route.push(route);
@@ -64,7 +72,7 @@ export default {
 	  </span>
 	</a>
 	<a
-	  class="inline-block rounded-full bg-sky-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+	  class="inline-block mr-2 rounded-full bg-sky-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
 	  href="#"
 	  @click.prevent="triggerLike(1)"
 	>
@@ -73,6 +81,19 @@ export default {
 	  >
 	    <i class="cursor-pointer far fa-heart"></i>
 	    Share
+	  </span>
+	</a>
+	<a
+	  v-if="user.id === data.UserId"
+	  class="inline-block mr-2 rounded-full bg-red-500 p-[2px] hover:text-white focus:outline-none focus:ring active:text-opacity-75"
+	  href="#"
+	  @click.prevent="triggerDelete(data.id)"
+	>
+	  <span
+	    class="block px-8 py-3 text-sm font-medium bg-white rounded-full hover:bg-transparent"
+	  >
+	    <i class="cursor-pointer far fa-heart"></i>
+	    Delete
 	  </span>
 	</a>
       </div>

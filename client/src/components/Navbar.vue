@@ -38,7 +38,7 @@ export default {
 </script>
 
 <template>
-<header aria-label="Page Header" class="mb-4 shadow-lg bg-gray-50">
+<header v-if="user" aria-label="Page Header" class="mb-4 shadow-lg bg-gray-50">
   <div class="px-4 py-8 mx-auto max-w-screen-xl sm:px-6 lg:px-8">
     <div class="flex items-center">
       <router-link class="flex flex-row items-center flex-grow" to="/">
@@ -50,7 +50,7 @@ export default {
       <router-link to="/profile" class="flex items-center block p-2 bg-white rounded-full shadow shrink-0 group hover:bg-sky-100 transition">
         <img
           alt="Profile"
-          :src="user?.Avatar?.hash ? `${baseURL}/media/${user.Avatar.hash}` : 'https://thispersondoesnotexist.com/image'"
+          :src="user.Avatar?.hash ? `${baseURL}/media/${user.Avatar.hash}` : 'https://thispersondoesnotexist.com/image'"
           class="object-cover w-10 h-10 rounded-full"
         />
 	<p class="hidden ml-2 text-xs text-left sm:block">

@@ -33,6 +33,7 @@ export const useGlobalStore = defineStore('global', {
       baseURL,
       users: [],
       posts: [],
+      inputText: "",
     };
   },
   actions: {
@@ -178,6 +179,10 @@ export const useGlobalStore = defineStore('global', {
 	    if (post) post.likeCount++;
 	    return;
 	  }
+	  else if (msg.op === "delete") {
+	    this.posts = this.posts.filter(po => po.id !== Number(msg.id));
+	    return;
+	  }
 	  this.posts.unshift(msg);
 	}
 	else if (msg.type === "global") {
@@ -306,7 +311,7 @@ export const useGlobalStore = defineStore('global', {
 	});
 
 	console.log(res.data);
-	// 1this.posts.push(res.data);
+	// this.posts.push(res.data);
       } catch (err) {
 	return this.handleError(err);
       }
@@ -320,6 +325,17 @@ export const useGlobalStore = defineStore('global', {
 	});
 
 	this.posts.find(post => post.id === Number(id)).likeCount++;
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async deletePost(id) {
+      try {
+	const res = await ax.delete("/posts/"+id, {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  }
+	});
       } catch (err) {
 	return this.handleError(err);
       }

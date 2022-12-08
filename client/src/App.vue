@@ -4,6 +4,21 @@ import Navbar from "./components/Navbar.vue";
 import FriendCard from "./components/FriendCard.vue";
 import {useGlobalStore} from "./stores/global";
 
+window.fbAsyncInit = function() {
+  FB.init({
+    appId            : '434716772000667',
+    autoLogAppEvents : true,
+    xfbml            : true,
+    version          : 'v15.0'
+  });
+
+  FB.AppEvents.logPageView();   
+
+  FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+  });
+};
+
 export default {
   components: {
     Navbar,
@@ -13,8 +28,10 @@ export default {
     ...mapState(useGlobalStore, ["user", "users"]),
   },
   methods: {
+    ...mapActions(useGlobalStore, ["fetchGlobalMessages"]),
     goGlobal() {
-      this.$router.push("/global")
+      this.$router.push("/global");
+      this.fetchGlobalMessages();
     },
   },
 }
@@ -47,7 +64,7 @@ export default {
 	  </p>
 	</div>
     </div>
-    <FriendCard v-for="(data, i) in users" :key="data.id" :data="data" />
+    <FriendCard v-for="(data, i) in users.filter(u => u.id !== Number($route.params.id))" :key="data.id" :data="data" />
   </div>
 </section>
 </template>

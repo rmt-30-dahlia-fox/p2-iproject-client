@@ -1,14 +1,16 @@
 <script>
-import { mapActions, mapState } from "pinia";
+import { mapWritableState, mapActions, mapState } from "pinia";
 import { useGlobalStore } from "../stores/global";
 import MessageCard from "../components/MessageCard.vue";
+import { getRandomJoke } from "../dad-jokes/dj";
 
 export default {
   components: {
     MessageCard,
   },
   computed: {
-    ...mapState(useGlobalStore, ["globalMessages", "userMessages", "users"]),
+    ...mapState(useGlobalStore, ["globalMessages", "userMessages", "users", "inputText"]),
+    ...mapWritableState(useGlobalStore, ["inputText"]),
     recipient() {
       return this.users.find(u => u.id === Number(this.$route.params.id));
     },
@@ -36,6 +38,12 @@ export default {
 	  formData.reset();
 	});
     },
+    async randomJoke() {
+      const res = await getRandomJoke();
+      console.log(res.data);
+      const str = `${res.data.body[0].setup} ${res.data.body[0].punchline}`;
+      this.inputText = str;
+    }
   },
   created() {
     if (!this.globalChat) this.fetchUserMessages(this.$route.params.id);
@@ -52,12 +60,12 @@ export default {
 	<h1 v-else class="text-xl font-bold">Chat with {{ recipient.username }}</h1>
       </div>
       <div id="chat-messages" style="height: calc(100vh - 140px);" class="overflow-y-auto border-2 border-solid">
-	<MessageCard v-for="(data, i) in globalMessages" :key="data.id" :data="data" />
+	<MessageCard v-for="(data, i) in (globalChat ? globalMessages : userMessages[$route.params.id])" :key="data.id" :data="data" />
       </div>
       <div>
 	<form id="form-message" @submit.prevent="triggerSendChatMessage()" action="" method="POST" enctype="multipart/form-data" class="flex flex-col border-2 border-solid bg-sky-50">
 	  <div class="flex items-center flex-grow">
-	    <input class="w-full" name="content" type="text" placeholder="Write something...">
+	    <input class="w-full" name="content" type="text" v-model="inputText" placeholder="Write something...">
 	    <div>
 	      <input
 		class="block px-5 py-3 m-4 text-sm font-medium text-white bg-indigo-600 rounded-lg cursor-pointer transition hover:bg-indigo-700 focus:outline-none focus:ring"
@@ -71,6 +79,10 @@ export default {
 	      <input type="file" id="attachment" name="attachment" accept="audio/*, video/*, image/*">
 	    </div>
 	  </div>
+	  <button
+	    @click.prevent="randomJoke"
+	    class="block px-5 py-3 m-4 text-sm font-medium text-white bg-indigo-600 rounded-lg cursor-pointer transition hover:bg-indigo-700 focus:outline-none focus:ring"
+	  >Get random joke</button>
 	</form>
       </div>
     </div>
