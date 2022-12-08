@@ -24,6 +24,11 @@ const router = createRouter({
       component: Signup,
     },
     {
+      path: '/global',
+      name: 'global',
+      component: Chat,
+    },
+    {
       path: '/chat/:id',
       name: 'dm',
       component: Chat,

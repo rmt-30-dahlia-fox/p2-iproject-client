@@ -12,6 +12,11 @@ export default {
   computed: {
     ...mapState(useGlobalStore, ["user", "users"]),
   },
+  methods: {
+    goGlobal() {
+      this.$router.push("/global")
+    },
+  },
 }
 // Navbar v-if="user"
 </script>
@@ -29,6 +34,19 @@ export default {
   <router-view></router-view>
   <div v-if="user && !['/profile'].includes($route.path)" id="friend-list" class="w-1/5 p-4 shadow-lg h-100 bg-gray-50">
     <h1>People</h1>
+    <div @click.prevent="goGlobal()" v-if="!['/global',].includes($route.path)" class="flex p-2 pr-6 my-2 rounded-lg cursor-pointer hover:bg-gray-200">
+      <img
+	  alt="Profile"
+	  src="https://www.texturesbackgrounds.com/files/large/world-globe-icon.jpg"
+	  class="object-cover w-10 h-10 rounded-full"
+	/>
+	<div class="flex items-center">
+	  <p class="hidden ml-2 text-xs text-left sm:block">
+	    <strong class="font-medium">Global</strong><br/>
+	    <span class="text-gray-500">Join global chat</span>
+	  </p>
+	</div>
+    </div>
     <FriendCard v-for="(data, i) in users" :key="data.id" :data="data" />
   </div>
 </section>

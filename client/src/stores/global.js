@@ -133,7 +133,7 @@ export const useGlobalStore = defineStore('global', {
       try {
 	const res = await this.socket.sendGlobalChatMessage(form);
 
-	this.globalMessages.push(res.data);
+	// this.globalMessages.push(res.data);
       } catch (err) {
 	return this.handleError(err);
       }
@@ -142,13 +142,13 @@ export const useGlobalStore = defineStore('global', {
       try {
 	const res = await this.socket.sendDirectMessage(form, recipientId);
 
-	recipientId = Number(recipientId)
+	// recipientId = Number(recipientId)
 
-	if (!this.userMessages[recipientId]) {
-	  this.userMessages[recipientId] = [];
-	}
+	// if (!this.userMessages[recipientId]) {
+	//   this.userMessages[recipientId] = [];
+	// }
 
-	this.userMessages[recipientId].push(res.data);
+	// this.userMessages[recipientId].push(res.data);
       } catch (err) {
 	return this.handleError(err);
       }
@@ -168,6 +168,36 @@ export const useGlobalStore = defineStore('global', {
 	return this.handleError(err);
       }
     },
+    msgHandler(data) {
+      // console.log(msg);
+      try {
+	const msg = JSON.parse(data.data);
+	if (msg.type === undefined) {
+	  if (msg.op === "like") {
+	    const post = this.posts.find(po => po.id === msg.id);
+	    if (post) post.likeCount++;
+	    return;
+	  }
+	  this.posts.unshift(msg);
+	}
+	else if (msg.type === "global") {
+	  this.globalMessages.push(msg);
+	}
+	else if (msg.type === "dm") {
+	  let { RecipientId: recipient_id } = msg;
+
+	  recipient_id = Number(recipient_id);
+
+	  if (isNaN(recipient_id)) throw new TypeError("Expected number, got " + typeof recipient_id);
+
+	  if (!this.userMessages[recipient_id]) this.userMessages[recipient_id] = [];
+
+	  this.userMessages[recipient_id].push(msg);
+	}
+      } catch (err) {
+	console.error(err);
+      }
+    },
     startSocket() {
       this.socket = new SessionSocket({
 	userId: this.user.id,
@@ -175,30 +205,50 @@ export const useGlobalStore = defineStore('global', {
 	wsUri: serverSocket,
 	secureHttp: false,
 	secureWs: false,
-      }, (msg) => {
-	// console.log(msg);
-	try {
-	  if (msg.type === "global") {
-	    this.globalMessages.push(msg);
-	  }
-	  else if (msg.type === "dm") {
-	    let { recipient_id } = msg;
-
-	    recipient_id = Number(recipient_id);
-
-	    if (isNaN(recipient_id)) throw new TypeError("Expected number, got " + typeof recipient_id);
-
-	    if (!this.userMessages[recipient_id]) this.userMessages[recipient_id] = [];
-
-	    this.userMessages[recipient_id].push(msg);
-	  }
-	} catch (err) {
-	  console.error(err);
-	}
-      });
+      }, this.msgHandler);
 
       // testing purpose
       // window.socket = this.socket;
+    },
+    async fetchGlobalMessages() {
+      try {
+	const res = await ax.get("/messages/global", {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  },
+	});
+
+	this.globalMessages = res.data;
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async fetchUsers() {
+      try {
+	const res = await ax.get("/users", {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  },
+	});
+
+	this.users = res.data;
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async fetchPosts() {
+      try {
+	const res = await ax.get("/posts", {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  },
+	});
+
+	console.log(res.data);
+	this.posts = res.data;
+      } catch (err) {
+	return this.handleError(err);
+      }
     },
     async fetchUserMessages(id) {
       try {
@@ -240,7 +290,36 @@ export const useGlobalStore = defineStore('global', {
 	  },
 	});
 
+	console.log(res.data);
 	this.posts = res.data;
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async newPost(formData) {
+      try {
+	const res = await ax.post("/posts", formData, {
+	  headers: {
+	    "Content-Type": "multipart/form-data",
+	    access_token: localStorage.getItem("access_token"),
+	  }
+	});
+
+	console.log(res.data);
+	// 1this.posts.push(res.data);
+      } catch (err) {
+	return this.handleError(err);
+      }
+    },
+    async likePost(id) {
+      try {
+	const res = await ax.post("/posts/"+id+"/like", null, {
+	  headers: {
+	    access_token: localStorage.getItem("access_token"),
+	  }
+	});
+
+	this.posts.find(post => post.id === Number(id)).likeCount++;
       } catch (err) {
 	return this.handleError(err);
       }

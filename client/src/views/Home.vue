@@ -11,15 +11,15 @@ export default {
     ...mapState(useGlobalStore, ["posts"]),
   },
   methods: {
-    ...mapActions(useGlobalStore, ["fetchPosts"]),
+    ...mapActions(useGlobalStore, ["fetchPosts", "newPost"]),
     triggerNewPost() {
       const form = document.getElementById("form-new-post");
       this.newPost(form)
 	.then(route => {
 	  if (route) {
 	    this.$route.push(route);
-	    form.reset();
 	  }
+	  form.reset();
 	});
     },
   },
@@ -55,7 +55,7 @@ export default {
       </form>
     </div>
     <div id="timeline" class="">
-      <PostCard v-for="(data, i) in posts" :key="data.id" :data="data" />
+      <PostCard vi-f="posts.length" v-for="(data, i) in posts" :key="data.id" :data="data" />
     </div>
   </div>
 </template>

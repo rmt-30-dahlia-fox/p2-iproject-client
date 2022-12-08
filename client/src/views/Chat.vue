@@ -8,16 +8,27 @@ export default {
     MessageCard,
   },
   computed: {
-    ...mapState(useGlobalStore, ["userMessages", "users"]),
+    ...mapState(useGlobalStore, ["globalMessages", "userMessages", "users"]),
     recipient() {
       return this.users.find(u => u.id === Number(this.$route.params.id));
     },
+    globalChat() {
+      return this.$route.path === "/global";
+    },
   },
   methods: {
-    ...mapActions(useGlobalStore, ["fetchUserMessages", "sendDirectMessage"]),
+    ...mapActions(useGlobalStore, ["fetchUserMessages", "sendDirectMessage", "sendGlobalChatMessage", "fetchGlobalMessages"]),
     triggerSendChatMessage() {
       const formData = document.getElementById("form-message");
-      this.sendDirectMessage(formData, this.$route.params.id)
+      if (!this.globalChat) this.sendDirectMessage(formData, this.$route.params.id)
+	.then(route => {
+	  if (route) {
+	    this.$route.push(route);
+	  }
+	  formData.reset();
+	});
+
+      else this.sendGlobalChatMessage(formData)
 	.then(route => {
 	  if (route) {
 	    this.$route.push(route);
@@ -27,19 +38,21 @@ export default {
     },
   },
   created() {
-    this.fetchUserMessages(this.$route.params.id);
+    if (!this.globalChat) this.fetchUserMessages(this.$route.params.id);
+    else this.fetchGlobalMessages();
   },
 };
 </script>
 
 <template>
-  <div v-if="recipient" id="chat-container" class="flex flex-row flex-grow h-100">
+  <div id="chat-container" class="flex flex-row flex-grow h-100">
     <div class="flex flex-col flex-grow">
       <div class="text-center">
-	<h1 class="text-xl font-bold">Chat with {{ recipient.username }}</h1>
+	<h1 v-if="globalChat" class="text-xl font-bold">Global Chat</h1>
+	<h1 v-else class="text-xl font-bold">Chat with {{ recipient.username }}</h1>
       </div>
       <div id="chat-messages" style="height: calc(100vh - 140px);" class="overflow-y-auto border-2 border-solid">
-	<MessageCard v-for="(data, i) in userMessages[$route.params.id]" :key="data.id" :data="data" />
+	<MessageCard v-for="(data, i) in globalMessages" :key="data.id" :data="data" />
       </div>
       <div>
 	<form id="form-message" @submit.prevent="triggerSendChatMessage()" action="" method="POST" enctype="multipart/form-data" class="flex flex-col border-2 border-solid bg-sky-50">
