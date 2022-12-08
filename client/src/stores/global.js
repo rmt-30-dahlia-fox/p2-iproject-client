@@ -339,14 +339,12 @@ export const useGlobalStore = defineStore('global', {
     },
     async fetchYoutubeVideos(carName) {
       try {
-        console.log(carName);
         this.isLoad = true;
         const { data } = await axios({
           method: "GET",
           url: `https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UC5vz17NqPNmW8g0u1M_l90A&maxResults=1&q=${carName}&key=AIzaSyDpSZx0DgxuxVnEU6evXFbEG9Mh37KdmJA`
         })
         this.isLoad = false;
-        console.log(data);
         this.videoUrl += data.items[0].id.videoId;
       } catch (error) {
         this.isLoad = false;
@@ -354,7 +352,7 @@ export const useGlobalStore = defineStore('global', {
       }
     },
     async handleCredentialResponse(response) {
-      try {console.log(response.credential);
+      try {
         this.isLoad = true;
         const { data } = await axios({
           method: "POST",
