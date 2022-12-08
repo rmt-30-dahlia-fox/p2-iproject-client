@@ -7,9 +7,9 @@ import TransactionSuccess from '../components/TransactionSuccess.vue'
 
 
 const routes = [
-  { path: '/', component: Dashboard },
+  { path: '/', name:'Dashboard', component: Dashboard },
   { path: '/hotels', component: Hotels },
-  { path: '/login', component: Login },
+  { path: '/login', name:'Login', component: Login },
   { path: '/transaction', component: Transaction },
   { path: '/transaction/success', component: TransactionSuccess },
 ]
@@ -17,6 +17,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes, // short for `routes: routes`
+})
+
+router.beforeEach((to, from, next) => {
+
+  const notLoggedIn = !localStorage.getItem('access_token')
+
+  if(to.path === '/transaction' && notLoggedIn) next({name: 'Login'})
+  else if (to.path === '/transaction/success' && notLoggedIn) next({name: 'Login'})
+  else if (to.path === '/login' && !notLoggedIn) next({name: 'Dashboard'})
+  else next()
 })
 
 export default router;

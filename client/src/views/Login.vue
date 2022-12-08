@@ -17,6 +17,14 @@ export default {
         ...mapStores(useMainStore),
     },
     mounted() {
+        google.accounts.id.initialize({
+            client_id: "268771724902-2oinm8bb7m5bj6cnh90ls3mpv6js9u0n.apps.googleusercontent.com",
+            callback: this.handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+            document.getElementById("buttonDiv"),
+            { theme: "outline", size: "large" }  // customization attributes
+        );
         document.querySelector('.navbar').classList.add('bg-primary')
     }, 
     unmounted() {
@@ -53,6 +61,9 @@ export default {
             this.mainStore.login(obj)
             this.email = ''
             this.password = ''
+        },
+        handleCredentialResponse(response) {
+            this.mainStore.handleCredentialResponse(response)
         }
     }
 }
@@ -85,11 +96,17 @@ export default {
                 <button class="btn btn-primary btn-lg btn-block" type="submit">Login</button>
                 </div>
 
+                
+
                 <p class="small mb-5 pb-lg-2"><a class="text-muted" href="#!">Forgot password?</a></p>
+
                 <p>Don't have an account? <a @click.prevent="changeToRegister" href="#!" class="link-info">Register here</a></p>
+
+                <div class="mx-auto" id="buttonDiv"></div>
 
             </form>
 
+            
 
             <form @submit.prevent="handleRegister" style="width: 23rem;" v-if="!this.isLoginPage">
 

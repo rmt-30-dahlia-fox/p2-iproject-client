@@ -6,7 +6,7 @@ import { useMainStore } from '../stores/main'
             ...mapStores(useMainStore),
         },
         created() {
-            this.mainStore.successPayment(this.$route.query.id)
+            this.mainStore.successPayment(this.$route.query.id, this.$route.query.verification)
         }
     }
 

@@ -5,7 +5,7 @@ import axios from 'axios'
 export const useMainStore = defineStore('main', {
   state: () => (
     { 
-       baseUrl: 'http://localhost:3000',
+       baseUrl: 'https://travel-alliance-production.up.railway.app',
        cities: [],
        hotels: [],
        totalHotels: '',
@@ -14,7 +14,9 @@ export const useMainStore = defineStore('main', {
        paidTransactions: [],
        selectedHotel: {},
        transactionStatus: 'pending',
-       loginStatus: false
+       loginStatus: false,
+       totalPrice: '',
+       quantity: ''
     }
   ),
   getters: {
@@ -118,7 +120,6 @@ export const useMainStore = defineStore('main', {
     },
     async addOrder(obj) {
       try {
-        console.log(obj)
         const {data} = await axios({
           method: 'post',
           url: this.baseUrl + '/transactions',
@@ -173,6 +174,7 @@ export const useMainStore = defineStore('main', {
     },
     async deleteOrder(id) {
       try {
+        console.log(id)
         const {data} = await axios({
           method: 'delete',
           url: this.baseUrl + `/transactions/${id}`,
@@ -180,7 +182,7 @@ export const useMainStore = defineStore('main', {
             access_token: localStorage.access_token
           }
         })
-
+        console.log(data)
         await this.getPendingTransactions()
 
       } catch(err) {
@@ -200,15 +202,17 @@ export const useMainStore = defineStore('main', {
             pendingTransaction
           }
         })
-        window.open(data, '_blank')
+        localStorage.setItem('verification', data.randomNumber)
+        window.open(data.url, '_blank')
 
       } catch(err) {
         console.log(err)
       }
     },
-    async successPayment(id) {
+    async successPayment(id, randomNumber) {
       try {
-        console.log(id)
+        console.log(localStorage.verification, randomNumber)
+        if(localStorage.verification !== randomNumber) throw('Forbidden')
         const {data} = await axios({
           method: 'patch',
           url: this.baseUrl + `/transactions/${id}`,
@@ -216,13 +220,36 @@ export const useMainStore = defineStore('main', {
             access_token: localStorage.access_token,
           },
         })
-        console.log(data)
+
+        localStorage.removeItem('verification')
         this.getPendingTransactions()
-        this.router.push('/transaction')
+        this.router.replace('/transaction')
       } catch(err) {
         console.log(err)
       }
     },
+    async handleCredentialResponse(response) {
+      try {
+          const {data} = await axios({
+              method: 'POST',
+              url: this.baseUrl + '/users/google-login',
+              headers: {
+                  'google-oauth-token': response.credential
+              }
+          })
+
+         
+          this.loginStatus = true
+          localStorage.access_token = data.access_token
+          
+          await this.fetchCities()
+
+          this.router.push('/')
+
+      } catch (err) {
+        console.log(err)
+      }
+  },
     
 
   },

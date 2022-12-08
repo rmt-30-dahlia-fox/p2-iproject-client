@@ -7,40 +7,40 @@
         props: ['hotel'],
         data() {
             return {
-                quantity: 1,
-                totalPrice: 0
+  
             }
         },
         computed: {
             ...mapStores(useMainStore),
             ...mapState(useMainStore, ['cities', 'selectedHotel']),
-            ...mapWritableState(useMainStore, ['selectedHotel'])
+            ...mapWritableState(useMainStore, ['selectedHotel', 'quantity', 'totalPrice'])
         },
         methods: {
             add() {
-                if(this.hotel.roomLeft) if(Number(this.quantity ) == Number(this.hotel.roomLeft)) return
+                // if(this.hotel.roomLeft) if(Number(this.quantity ) == Number(this.hotel.roomLeft)) return
                 this.quantity++
-                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                this.totalPrice = this.quantity * this.selectedHotel.price * Math.round((new Date(this.selectedHotel.dateCheckOut) - new Date(this.selectedHotel.dateCheckIn)) / 86400000)
             },
             minus() {
                 if(this.quantity == 1) return
                 this.quantity--
-                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                this.totalPrice = this.quantity * this.selectedHotel.price * Math.round((new Date(this.selectedHotel.dateCheckOut) - new Date(this.selectedHotel.dateCheckIn)) / 86400000)
             },
             changeQty() {
-                this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                this.totalPrice = this.quantity * this.selectedHotel.price * Math.round((new Date(this.selectedHotel.dateCheckOut) - new Date(this.selectedHotel.dateCheckIn)) / 86400000)
             },
             showOrderForm() {
                 if(localStorage.access_token) {
                     this.selectedHotel = this.hotel
-                    this.totalPrice = this.quantity * this.hotel.price * Math.round((new Date(this.hotel.dateCheckOut) - new Date(this.hotel.dateCheckIn)) / 86400000)
+                    this.quantity = 1
+                    this.totalPrice = this.quantity * this.selectedHotel.price * Math.round((new Date(this.selectedHotel.dateCheckOut) - new Date(this.selectedHotel.dateCheckIn)) / 86400000)
                     document.getElementById('totalPrice').value = this.totalPrice
-                    document.getElementById('form-imageUrl').src = this.hotel.imageUrl
-                    document.getElementById('form-name').innerText = this.hotel.name
-                    document.getElementById('form-address').innerText = this.hotel.address
-                    document.getElementById('form-dateCheckIn').innerText = `Date Check-In: ${this.hotel.dateCheckIn}`
-                    document.getElementById('form-dateCheckOut').innerText = `Date Check-Out: ${this.hotel.dateCheckOut}`
-                    document.getElementById('form-price').innerText = `USD ${this.hotel.price}`
+                    document.getElementById('form-imageUrl').src = this.selectedHotel.imageUrl
+                    document.getElementById('form-name').innerText = this.selectedHotel.name
+                    document.getElementById('form-address').innerText = this.selectedHotel.address
+                    document.getElementById('form-dateCheckIn').innerText = `Date Check-In: ${this.selectedHotel.dateCheckIn}`
+                    document.getElementById('form-dateCheckOut').innerText = `Date Check-Out: ${this.selectedHotel.dateCheckOut}`
+                    document.getElementById('form-price').innerText = `USD ${this.selectedHotel.price}`
                     document.getElementById('modal').classList.add('active')
                     document.getElementById('overlay').classList.add('active')
                 } else {
@@ -58,6 +58,7 @@
                 obj.quantity = this.quantity
                 obj.totalPrice = this.totalPrice
                 this.mainStore.addOrder(obj)
+                console.log(this.totalPrice)
                 document.getElementById('modal').classList.remove('active')
                 document.getElementById('overlay').classList.remove('active')
             }
