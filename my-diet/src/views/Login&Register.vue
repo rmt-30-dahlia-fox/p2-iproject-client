@@ -11,7 +11,7 @@ export default {
         username: "",
         email: "",
         password: "",
-        phoneNumber: "",
+        phoneNum: "",
         address: "",
       },
       login: true,

@@ -1,6 +1,7 @@
 // import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export const useMainStore = defineStore('main', {
   state: () => ({
@@ -50,9 +51,15 @@ export const useMainStore = defineStore('main', {
           //data: 'params',
         });
         this.foodDetail = data.foods[0];
-        console.log(data.foods[0], '<<<< data in getOne');
+        // console.log(data.foods[0], '<<<< data in getOne');
       } catch (error) {
-        console.log(error)
+        // const msg = error.response.data.message
+        // console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error}`
+        })
       }
     },
 
@@ -134,7 +141,13 @@ export const useMainStore = defineStore('main', {
         })
         console.log('MASUK historyPayment');
       } catch (error) {
-        console.log(error);
+        // const msg = error.response.data.message
+        // console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${error}`
+        })
       }
     },
 
@@ -169,6 +182,7 @@ export const useMainStore = defineStore('main', {
 
     // user
     async userRegister(payload) {
+      console.log(payload, "<<<<<<<<<<<<<<");
       try {
         const { data } = await axios({
           url: this.baseUrl + '/users/register',
@@ -177,13 +191,13 @@ export const useMainStore = defineStore('main', {
         })
         this.router.push('/login&register')
       } catch (error) {
-        // const msg = error.response.data.message
-        console.log(error);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: `${msg}`
-        // })
+        const msg = error.response.data.message[0]
+        // console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${msg}`
+        })
       }
     },
     async userLogin(payload) {
@@ -199,7 +213,13 @@ export const useMainStore = defineStore('main', {
         this.UserId = data.id
         this.router.push('/')
       } catch (error) {
-        console.log(error);
+        const msg = error.response.data.message
+        // console.log(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: `${msg}`
+        })
       }
     },
     async accountInfo() {
