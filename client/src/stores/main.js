@@ -13,7 +13,8 @@ export const useMainStore = defineStore('main', {
        paidTransactions: [],
        paidTransactions: [],
        selectedHotel: {},
-       transactionStatus: 'pending'
+       transactionStatus: 'pending',
+       loginStatus: false
     }
   ),
   getters: {
@@ -83,6 +84,7 @@ export const useMainStore = defineStore('main', {
         });
 
         localStorage.setItem('access_token', data.access_token)
+        this.loginStatus = true
         this.router.replace('/')
       } catch(err) {
         console.log(err)
@@ -94,7 +96,7 @@ export const useMainStore = defineStore('main', {
 
         const {data} = await axios({
           method: 'post',
-          url: this.baseUrl + '/login',
+          url: this.baseUrl + '/users/login',
           data: {
             email,
             password
@@ -102,10 +104,17 @@ export const useMainStore = defineStore('main', {
         });
 
         localStorage.setItem('access_token', data.access_token)
+        this.loginStatus = true
         this.router.replace('/')
       } catch(err) {
         console.log(err)
       }
+    },
+    async logout() {
+      localStorage.clear()
+      this.loginStatus = false
+      // window.location.reload()
+      this.router.replace('/')
     },
     async addOrder(obj) {
       try {

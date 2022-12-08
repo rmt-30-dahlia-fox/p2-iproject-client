@@ -1,22 +1,25 @@
 <script>
+import { mapStores, mapState } from 'pinia'
+import { useMainStore } from '../stores/main'
 
 export default {
     data() {
         return {
-            loginStatus: false
+
         }
     },
     created() {
-        this.checkAccessToken( )
+
+    },
+    computed: {
+        ...mapStores(useMainStore),
+        ...mapState(useMainStore, ['loginStatus']),
     },
     methods: {
-        checkAccessToken() {
-            if(localStorage.access_token) this.loginStatus = true
-            else this.loginStatus = false
-        }
+
     },
     mounted() {
-        
+
     },
     unmounted() {
         document.body.classList.remove('bg-dashb')
@@ -39,8 +42,8 @@ export default {
                         <img src="../assets/travel-alliance-low-resolution-logo-color-on-transparent-background.png" alt="company-logo">
                     </a>
                                 
-                    <router-link to="/"  v-if="this.$route.path !== '/'" class="nav-link text-primary" aria-current="page" href="#" style="margin-top:16px">Home</router-link>
-                    <router-link to="/"  v-if="this.$route.path == '/'" class="nav-link text-white" aria-current="page" href="#" style="margin-top:16px">Home</router-link>
+                    <router-link to="/"  v-if="(this.$route.path == '/' || this.$route.path == '/login')" class="nav-link text-white" aria-current="page" href="#" style="margin-top:16px">Home</router-link>
+                    <router-link to="/"  v-else="this.$route.path == '/'" class="nav-link text-primary" aria-current="page" href="#" style="margin-top:16px">Home</router-link>
                 </div>
                 <ul class="navbar-nav">
                     
@@ -56,17 +59,17 @@ export default {
                     </li>
                     <li class="nav-item" style="margin-top: 10px" v-if="!this.loginStatus">
                         <a class="nav-link" href="#">
-                            <button class="btn btn-primary align-items-center">Sign In</button>
+                            <router-link to="/login" class="btn btn-primary align-items-center">Sign In</router-link>
                         </a>
                     </li>
                     <li class="nav-item" style="margin-top: 10px" v-if="!this.loginStatus">
                         <a class="nav-link ">
-                            <button class="btn btn-primary align-items-center">Register</button>
+                            <router-link to="/login" class="btn btn-primary align-items-center">Register</router-link>
                         </a>
                     </li>
                     <li class="nav-item" style="margin-top: 10px" v-if="this.loginStatus">
                         <a class="nav-link ">
-                            <button class="btn btn-primary align-items-center">Log Out</button>
+                            <button @click.prevent="this.mainStore.logout" class="btn btn-primary align-items-center">Log Out</button>
                         </a>
                     </li>
                 </ul>
