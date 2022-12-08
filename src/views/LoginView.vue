@@ -10,7 +10,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useCounterStore, ["login"]),
+    ...mapActions(useCounterStore, ["login", "googleSignInOnLoad"]),
     navRegister() {
       this.$router.push("/register")
     },
@@ -53,6 +53,9 @@ export default {
           class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
           Login to your account
         </button>
+        <div class="flex justify-center">
+                <GoogleLogin :callback="googleSignInOnLoad" />
+              </div>
         <div class="text-sm font-medium text-gray-500">
           Not registered?
           <a @click.prevent="navRegister" class="text-blue-700 hover:underline"

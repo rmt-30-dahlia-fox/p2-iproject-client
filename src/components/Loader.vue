@@ -8,7 +8,7 @@ export default {
 }
 </script>
 <template>
-  <div v-if="isLoading === 1">
+  <div>
     <div class="loader">
       <div role="status" class="max-w-sm animate-pulse">
         <div class="h-2.5 bg-gray-200 rounded-full w-48 mb-4"></div>

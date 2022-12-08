@@ -8,13 +8,15 @@ export default {
     return {
       avatar: "",
       baseUrl: "http://localhost:3000",
-      fullName: "",
-      gender:"",
-      telephone: "",
-      address: ""
+      // fullName: "",
+      // gender: "",
+      // telephone: "",
+      // address: "",
+      userDetail: [],
     }
   },
   methods: {
+    ...mapActions(useCounterStore, ["openToast"]),
     uploadFile(event) {
       console.log(event.target.files[0])
       this.avatar = event.target.files[0]
@@ -23,10 +25,10 @@ export default {
       try {
         const fd = new FormData()
         fd.append("avatar", this.avatar)
-        fd.append("fullName", this.fullName)
-        fd.append("gender", this.gender)
-        fd.append("telephone", this.telephone)
-        fd.append("address", this.address)
+        fd.append("fullName", this.userDetail.fullName)
+        fd.append("gender", this.userDetail.gender)
+        fd.append("telephone", this.userDetail.telephone)
+        fd.append("address", this.userDetail.address)
 
         await axios({
           method: "PUT",
@@ -34,19 +36,38 @@ export default {
           headers: { access_token: localStorage.getItem("access_token") },
           data: fd,
         })
+        this.openToast("Your profile Updated!")
+        this.fetchDetail()
       } catch (error) {
         console.log(error)
+      } finally {
+        this.fetchDetail()
       }
     },
 
-    ...mapActions(useCounterStore, ["fetchUserDetail"])
+    async fetchDetail() {
+      try {
+        const { data } = await axios({
+          method: "GET",
+          url: `${this.baseUrl}/user-detail`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        this.userDetail = data
+        console.log(this.userDetail)
+      } catch (error) {
+        this.isSpinner = false
+      }
+    },
   },
-  computed:{
-    ...mapWritableState(useCounterStore, ["userDetail"])
+  created() {
+    this.fetchDetail()
   },
-  created(){
-    this.fetchUserDetail()
-  }
+
+  computed: {
+    ...mapWritableState(useCounterStore, ["loading"]),
+  },
 }
 </script>
 
@@ -120,7 +141,11 @@ export default {
       <div class="mt-1 text-sm text-gray-500" id="user_avatar_help">
         A profile picture is useful to confirm your are logged into your account
       </div>
-      <button type="submit" class="bg-amber-200 rounded-sm text-sky-900 font-semibold py-2 px-5 border mt-5 mx-auto block">Update Profile!</button>
+      <button
+        type="submit"
+        class="bg-amber-200 rounded-sm text-sky-900 font-semibold py-2 px-5 border mt-5 mx-auto block">
+        Update Profile!
+      </button>
     </form>
   </section>
 </template>
