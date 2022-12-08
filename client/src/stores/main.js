@@ -1,6 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from 'axios'
+import Toastify from 'toastify-js'
 
 export const useMainStore = defineStore('main', {
   state: () => (
@@ -34,7 +35,13 @@ export const useMainStore = defineStore('main', {
         this.cities = data
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
 
     },
@@ -57,7 +64,13 @@ export const useMainStore = defineStore('main', {
         this.totalHotels = data.length
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async register(obj) {
@@ -89,7 +102,13 @@ export const useMainStore = defineStore('main', {
         this.loginStatus = true
         this.router.replace('/')
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async login(obj) {
@@ -109,7 +128,13 @@ export const useMainStore = defineStore('main', {
         this.loginStatus = true
         this.router.replace('/')
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async logout() {
@@ -131,9 +156,21 @@ export const useMainStore = defineStore('main', {
           }
         })
 
-        console.log(data)
+        await Toastify({
+          text: data,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async getPendingTransactions () {
@@ -150,7 +187,13 @@ export const useMainStore = defineStore('main', {
         this.transactionStatus = 'pending'
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async getPaidTransactions() {
@@ -169,7 +212,13 @@ export const useMainStore = defineStore('main', {
 
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async deleteOrder(id) {
@@ -186,7 +235,13 @@ export const useMainStore = defineStore('main', {
         await this.getPendingTransactions()
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async paymentWithStripe(pendingTransaction) {
@@ -206,7 +261,13 @@ export const useMainStore = defineStore('main', {
         window.open(data.url, '_blank')
 
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async successPayment(id, randomNumber) {
@@ -225,7 +286,13 @@ export const useMainStore = defineStore('main', {
         this.getPendingTransactions()
         this.router.replace('/transaction')
       } catch(err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
     },
     async handleCredentialResponse(response) {
@@ -247,7 +314,13 @@ export const useMainStore = defineStore('main', {
           this.router.push('/')
 
       } catch (err) {
-        console.log(err)
+        Toastify({
+          text: err,
+          className: "info",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+          }
+        }).showToast();
       }
   },
     

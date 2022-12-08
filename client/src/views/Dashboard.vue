@@ -36,7 +36,7 @@ import Cities from '../components/Cities.vue'
 
                 this.dateStatus = true
                 
-                if(this.inputCheckInDate < this.inputCheckOutDate) {
+                if((this.inputCheckInDate < this.inputCheckOutDate) && (new Date() < new Date(this.inputCheckInDate))) {
                     this.$router.push({path: '/hotels', query: {city: this.inputCity, date_checkin: this.inputCheckInDate, date_checkout: this.inputCheckOutDate, page: 1}})
                     document.body.classList.remove('bg-dashboard')
                     this.inputCity = ''
@@ -90,7 +90,7 @@ import Cities from '../components/Cities.vue'
 
         <div class="row justify-content-center">
             <div v-if="!this.dateStatus" class="col-9 text-warning d-flex justify-content-start" style="font-weight: bold;">
-                <h4>Check-in date must be before check-out date</h4>
+                <h4>Check-in date must be before today and check-out date</h4>
             </div>
         </div>
 
