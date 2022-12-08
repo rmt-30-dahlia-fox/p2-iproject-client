@@ -17,7 +17,7 @@ export default {
 
 <template>
   <!-- Leaderboard -->
-  <div class="col-start-2 col-span-4">
+  <div class="col-start-2 col-span-3">
     <div
       class="container flex flex-col items-center justify-center w-full mx-auto bg-white rounded-lg shadow"
     >
@@ -30,10 +30,10 @@ export default {
         </p>
       </div>
 
-      <ul class="flex flex-col divide-y divide">
+      <ul class="flex flex-col divide-y divide w-full">
 
         <li v-for="user in users" :key="user.id" class="flex flex-row">
-          <div class="flex items-center flex-1 p-4 cursor-pointer select-none">
+          <div class="flex items-center justify-around flex-1 p-4 cursor-pointer select-none">
             <div
               class="flex flex-col items-center justify-center w-10 h-10 mr-4"
             >

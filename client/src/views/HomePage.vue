@@ -68,7 +68,7 @@ export default {
   <div class="container gap-10 grid grid-cols-10 mx-auto my-4 justify-around px-6 mx-auto">
     <Leaderboard />
 
-    <div class="justify-center col-end-10 col-span-4 flex flex-col gap-4 w-full justify-center">
+    <div class="justify-center col-end-10 col-span-5 flex flex-col gap-4 w-full justify-center">
       <ActivityCard
       v-for="activity in activities"
       :key="activity.id"
