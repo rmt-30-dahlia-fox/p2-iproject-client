@@ -112,7 +112,7 @@ export const useCustomerStore = defineStore("customer", {
           }
         );
 
-        (this.orderForm = {
+        this.orderForm = {
           pickupLocation: "",
           pickupDate: "",
           pickupTime: "",
@@ -121,8 +121,9 @@ export const useCustomerStore = defineStore("customer", {
           returnTime: "",
           totalPrice: "",
           UnitId: "",
-        }),
-          await this.router.push({ name: "home" });
+        };
+        await this.fetchOrders()
+        await this.router.push({ name: "home" });
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -167,5 +168,7 @@ export const useCustomerStore = defineStore("customer", {
         console.log(error);
       }
     },
+
+    async deleteOrder(id) {},
   },
 });
