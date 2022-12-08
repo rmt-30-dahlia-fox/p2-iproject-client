@@ -15,6 +15,8 @@ export const useCounterStore = defineStore("counter", {
       loggedIn: false,
       favoriteList: [],
       isSpinner: false,
+      userDetail: [],
+      fileUpload:""
     }
   },
   actions: {
@@ -98,7 +100,7 @@ export const useCounterStore = defineStore("counter", {
           url: `${this.baseUrl}/login`,
           data: { email, password },
         })
-        
+
         localStorage.setItem("access_token", data.access_token)
         this.loggedIn = true
         this.router.replace("/")
@@ -158,6 +160,22 @@ export const useCounterStore = defineStore("counter", {
       } catch (error) {
         this.isSpinner = false
         this.openToast(error)
+      }
+    },
+
+    async fetchUserDetail() {
+      try {
+        const { data } = await axios({
+          method: "GET",
+          url: `${this.baseUrl}/user-detail`,
+          headers: {
+            access_token: localStorage.access_token,
+          },
+        })
+        this.userDetail = data
+        console.log(this.userDetail)
+      } catch (error) {
+        this.isSpinner = false
       }
     },
   },

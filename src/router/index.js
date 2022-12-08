@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router"
 import HomeView from "../views/HomeView.vue"
+import UserDetailView from "../views/UserDetailView.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,9 +31,9 @@ const router = createRouter({
       component: () => import("../components/CovidTable.vue"),
     },
     {
-      path: "/appointment",
-      name: "appointment",
-      component: () => import("../components/Appointment.vue"),
+      path: "/user-detail",
+      name: "userDetail",
+      component: UserDetailView,
     },
     {
       path: "/favoriteList",
@@ -57,8 +58,9 @@ const router = createRouter({
 
 router.beforeEach(function (to, from, next) {
   const isAuthenticated = localStorage.getItem("access_token")
-  if (to.name === "favoritePage" && !isAuthenticated) next({ name: "login" })
-  if ((to.name === "registerPage" || to.name === "loginPage") && isAuthenticated)
+  if (to.name === "favoritePage" && !isAuthenticated) next({ name: "loginPage" })
+  else if (to.name === "userDetail" && !isAuthenticated) next({ name: "loginPage" })
+  else if ((to.name === "registerPage" || to.name === "loginPage") && isAuthenticated)
     next({ name: "home" })
   else next()
 })
