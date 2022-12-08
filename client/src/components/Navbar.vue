@@ -57,6 +57,13 @@ export default {
           </li>
           <li class="nav-item" v-if="loginStatus">
             <h4>
+              <router-link to="/order-history" class="nav-link text-dark"
+                >Order History</router-link
+              >
+            </h4>
+          </li>
+          <li class="nav-item" v-if="loginStatus">
+            <h4>
               <router-link to="/cart" class="nav-link text-dark"
                 >Cart</router-link
               >

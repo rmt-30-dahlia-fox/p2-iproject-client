@@ -25,6 +25,7 @@ export default {
 
 <template>
   <div class="text-end col-2">
+    <h3>All price in USD</h3>
     <form @submit.prevent="searchDigi" class="w-5/6">
       <span class="border border-gray-300 rounded-md py-3">
         <input
