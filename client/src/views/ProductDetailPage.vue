@@ -14,6 +14,9 @@ export default{
   },
   async created(){
     await this.fetchProductDeteail(this.$route.params.id);
+    if(!this.product.name){
+      return
+    }
     this.fetchYoutubeVideos(this.product.name);
   },
   components: {
@@ -24,8 +27,7 @@ export default{
 
 <template>
   <section id="product-detail-section">
-
-    <section>
+    <section v-if="product.name">
       <div class="relative mx-auto max-w-screen-xl px-4 py-8">
         <div>
           <h1 class="text-2xl font-bold lg:text-3xl">{{product.brand}} {{product.name}}</h1>
