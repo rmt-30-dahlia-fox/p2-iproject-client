@@ -11,7 +11,7 @@ export default {
     },
 
     computed: {
-      ...mapWritableState(globalStore, ['players', 'currentPage'])
+      ...mapWritableState(globalStore, ['players', 'currentPage', 'news'])
     },
 
     methods: {
@@ -75,7 +75,7 @@ export default {
         </div>
         <!-- End Landing Page -->
 
-        <!-- Menu -->
+        <!-- Player -->
         <section class="col-md-12 text-white mt-3">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 ms-3 mb-3 border-bottom border-warning">
             <h1 class="fw-bold text-secondary">Players</h1>
@@ -101,7 +101,7 @@ export default {
                   <a @click.prevent="onClickCurrent(3)" class="page-link" href="#">3</a>
                 </li>
                 <li class="page-item" :class="style(4)">
-                  <a @click.prevent="onClickCurrent(4)" class="page-link" href="#">3</a>
+                  <a @click.prevent="onClickCurrent(4)" class="page-link" href="#">4</a>
                 </li>
                 <li class="page-item" :class="stylePrevNext(4)">
                   <a @click.prevent="onClickNext" class="page-link" href="#">Next</a>
@@ -109,7 +109,40 @@ export default {
               </ul>
           </nav>
         </section>
-        <!-- End Menu -->
+        <!-- End Player -->
+
+        <!-- News -->
+
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">News</h5>
+                    <h1 class="mb-5">Most Popular News</h1>
+                </div>
+                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                    
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <div v-for="info in news" :key="info.author" class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span>{{ info.title }}</span>
+                                            </h5>
+                                            <small class="fst-italic">{{ info.description }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End News -->
       </div>
     </section>
 </template>
