@@ -5,7 +5,7 @@ export default{
 </script>
 
 <template>
-  <a href="#" class="shadow-xl relative block overflow-hidden group">
+  <a class="shadow-xl relative block overflow-hidden group">
     <img :src="transaction.Car.imgUrl" alt="Car-Photo"
       class="object-cover w-full h-64 transition duration-500 group-hover:scale-105 sm:h-72" />
 
