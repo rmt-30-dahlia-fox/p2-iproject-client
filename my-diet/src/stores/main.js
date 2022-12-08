@@ -189,6 +189,22 @@ export const useMainStore = defineStore('main', {
           method: 'post',
           data: payload
         })
+        const Toast = Swal.mixin({
+          toast: true,
+          position: 'top-end',
+          showConfirmButton: false,
+          timer: 3000,
+          timerProgressBar: true,
+          didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+          }
+        })
+
+        Toast.fire({
+          icon: 'success',
+          title: 'Signed Up successfully'
+        })
         this.router.push('/login&register')
       } catch (error) {
         const msg = error.response.data.message[0]
