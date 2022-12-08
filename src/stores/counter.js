@@ -98,8 +98,9 @@ export const useCounterStore = defineStore("counter", {
           url: `${this.baseUrl}/login`,
           data: { email, password },
         })
-        this.loggedIn = true
+        
         localStorage.setItem("access_token", data.access_token)
+        this.loggedIn = true
         this.router.replace("/")
         this.openToast("Succesfully logged in!")
       } catch (error) {

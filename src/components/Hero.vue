@@ -13,9 +13,15 @@ export default {
 
 <template>
   <section class="bg-white flex flex-col items-center justify-center h-screen">
+    <div class="w-44">
+      <img
+        src="http://localhost:3000/avatar/dedee6b71c574a54f901db1ed888bfef"
+        alt="asda"
+        class="w-full h-full object-cover" />
+    </div>
     <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
       <a
-        @click.prevent="navNews" 
+        @click.prevent="navNews"
         class="inline-flex justify-between items-center py-1 px-1 pr-4 mb-7 text-sm text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 cursor-pointer active:scale-95 duration-200"
         role="alert">
         <span class="text-xs bg-orange-600 rounded-full text-white px-4 py-1.5 mr-3"
