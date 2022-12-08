@@ -6,7 +6,7 @@ import { useCounterStore } from '../stores/counter';
 export default {
     props: ['manga'],
     methods: {
-        ...mapActions(useCounterStore, [''])
+        ...mapActions(useCounterStore, ['patchStatusWantToRead','deleteWantToRead'])
     }
 
 }
@@ -16,25 +16,28 @@ export default {
 <template>
     <div class="card mx-3 my-3 d-flex flex-column justify-content-between" style="width: 18rem;">
 
-
         <div>
-            <img :src="manga.node.main_picture.large" class="card-img-top" style="height: 300px; object-fit:cover;" />
+            <img :src="manga.mainPicture" class="card-img-top" style="height: 300px; object-fit:cover;" />
             <div class="card-body text-dark text-center">
-                <h5 class="card-title">{{ manga.node.title }}</h5>
+                <h5 class="card-title">{{manga.title }}</h5>
             </div>
         </div>
 
-        <div class="card-body d-flex flex-column justify-content-end gap-2">
-           
-            <RouterLink :to="`/mangas/${manga.node.id}`" class="mx-auto">
+        <div class="card-body d-flex flex-column justify-content-end gap-2 align-items-center">
+            <select @change="patchStatusWantToRead(manga.id,manga.statusRead)" v-model="manga.statusRead" style="width: 100px;">
+                <option value="Finished">Finished</option>
+                <option value="Unfinished">Unfinished</option>
+            </select>
+         <div >
+            <RouterLink :to="`/mangas/${manga.MangaId}`" style="margin-right: 5px;" >
                 <button class="btn btn-info">See Detail</button>
             </RouterLink>
-
+            <button @click="deleteWantToRead(manga.id)" class="btn btn-info" style="margin-left: 5px;">Delete </button>
+         </div>
+            
         </div>
     </div>
 </template>
-
-
 
 <style scoped>
 button {
