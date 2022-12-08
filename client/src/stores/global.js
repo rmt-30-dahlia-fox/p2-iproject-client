@@ -128,6 +128,7 @@ export const useGlobalStore = defineStore('global', {
       } catch (error) {
         this.isLoad = false;
         this.showNotification(error.response.data.message, "error");
+        this.router.push('/NotFound');
       }
     },
     async updateProfile(data) {
