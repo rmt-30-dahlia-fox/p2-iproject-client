@@ -17,7 +17,7 @@ export const useCounterStore = defineStore("counter", {
       isSpinner: false,
       userDetail: [],
       fileUpload: "",
-      googleEmail : "",
+      googleEmail: "",
     }
   },
   actions: {
@@ -80,7 +80,7 @@ export const useCounterStore = defineStore("counter", {
         this.covidData = data.list_data
         // console.log(this.covidData)
       } catch (error) {
-        console.log(error)
+        this.openToast(error.response.data.message)
       } finally {
         this.loading = false
       }
@@ -94,7 +94,7 @@ export const useCounterStore = defineStore("counter", {
         })
         this.appointmentList = data.findAppointment
       } catch (error) {
-        console.log(error)
+        this.openToast(error.response.data.message)
       }
     },
 
@@ -125,7 +125,7 @@ export const useCounterStore = defineStore("counter", {
         this.router.replace("/")
         this.openToast("Succesfully logged in!")
       } catch (error) {
-        this.openToast(error)
+        this.openToast(error.response.data.message)
       }
     },
 
@@ -144,8 +144,9 @@ export const useCounterStore = defineStore("counter", {
           data: { title, description, urlToImage, url },
           headers: { access_token: localStorage.getItem("access_token") },
         })
+        this.openToast("Successfully added to Favorite!")
       } catch (error) {
-        console.log(error)
+        this.openToast(error.response.data.message)
       }
     },
 
@@ -160,7 +161,7 @@ export const useCounterStore = defineStore("counter", {
         })
         this.favoriteList = data.FavoritesList
       } catch (error) {
-        this.openToast(error)
+        this.openToast(error.response.data.message)
       }
     },
 
@@ -178,7 +179,7 @@ export const useCounterStore = defineStore("counter", {
         this.isSpinner = false
       } catch (error) {
         this.isSpinner = false
-        this.openToast(error)
+        this.openToast(error.response.data.message)
       }
     },
 
@@ -194,6 +195,7 @@ export const useCounterStore = defineStore("counter", {
         this.userDetail = data
         console.log(this.userDetail)
       } catch (error) {
+        this.openToast(error.response.data.message)
         this.isSpinner = false
       }
     },
