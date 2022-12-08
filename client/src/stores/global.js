@@ -4,7 +4,7 @@ import Swal from 'sweetalert2'
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({ 
-    baseUrl: 'http://localhost:3000',
+    baseUrl: 'https://hackfit-production.up.railway.app',
     isLogin: false,
     users: [],
     user: {

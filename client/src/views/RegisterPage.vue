@@ -30,7 +30,7 @@ export default {
             v-model="registerForm.fullName"
               type="text"
               class="w-full rounded-lg border-gray-200 p-4 pr-12 text-sm shadow-sm"
-              placeholder="Enter password"
+              placeholder="Enter your full name"
             />
           </div>
         </div>
