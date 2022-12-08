@@ -274,11 +274,12 @@ export const useCounterStore = defineStore('counter', {
     async getCarts(){
       try {
         let {data} = await axios ({
-          url: this.baseUrl + 'carts',
+          url: this.baseUrl + 'carts' + `${this.calledTransaction.id}`,
           method: 'get',
           headers: { access_token: localStorage.access_token }
         })
         
+        console.log(data);
         this.calledCarts.item = data
       } catch (error) {
         console.log(error);
@@ -301,7 +302,8 @@ export const useCounterStore = defineStore('counter', {
             amount: value.amount,
             price: value.price,
             discount: 0
-          }
+          },
+          headers: { access_token: localStorage.access_token }
         })
         Swal.fire({
           position: 'top-end',
@@ -332,27 +334,20 @@ export const useCounterStore = defineStore('counter', {
         Swal.fire({
           position: 'top-end',
           icon: 'success',
-          title: `Transaction ${data.calledTransaction.status}`,
+          title: `Transaction ${data.status}`,
           showConfirmButton: false,
           timer: 1500
         })
 
         console.log(data);
-        this.calledTransaction.id = data.calledTransaction.id
-        this.calledTransaction.reportId = data.calledTransaction.reportId
-        this.calledTransaction.cashierId = data.calledTransaction.cashierId
-        this.calledTransaction.value = data.calledTransaction.value
-        this.calledTransaction.payment = data.calledTransaction.payment
-        this.calledTransaction.point = data.calledTransaction.point
-        this.calledTransaction.status = data.calledTransaction.status
+        this.calledTransaction.id = data.id
+        this.calledTransaction.reportId = data.reportId
+        this.calledTransaction.cashierId = data.cashierId
+        this.calledTransaction.value = data.value
+        this.calledTransaction.payment = data.payment
+        this.calledTransaction.point = data.point
+        this.calledTransaction.status = data.status
         
-        console.log(this.calledTransaction.id = data.id)
-        console.log(this.calledTransaction.reportId = data.reportId)
-        console.log(this.calledTransaction.cashierId = data.cashierId)
-        console.log(this.calledTransaction.value = data.value)
-        console.log(this.calledTransaction.payment = data.payment)
-        console.log(this.calledTransaction.point = data.point)
-        console.log(this.calledTransaction.status = data.status)
       } catch (error) {
         console.log(error);
         Swal.fire({

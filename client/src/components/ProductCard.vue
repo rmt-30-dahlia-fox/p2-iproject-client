@@ -50,7 +50,7 @@ export default{
                 <div class="blog-category py-1 px-2 rounded-xl row align-items-center">
                     Rp. {{product.price}}
                 </div>
-                <div class="fig stats-icon red mb-2">
+                <div @click.prevent="handlePostCart" class="fig stats-icon red mb-2">
                     <i class="bi-cart-plus"></i>
                 </div>
             </div>
