@@ -147,7 +147,8 @@ export const useMainStore = defineStore('main', {
         const { data } = await axios({
           url: this.baseUrl + '/payment',
           method: 'post',
-          data: { UserId: this.UserId, total_price: price },
+          data: { UserId: localStorage.getItem('uid'), total_price: price },
+          params: { UserId: localStorage.uid }
           // headers: {
           // 	access_token: localStorage.access_token
           // }
