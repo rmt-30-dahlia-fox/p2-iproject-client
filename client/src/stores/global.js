@@ -37,6 +37,9 @@ export const useGlobalStore = defineStore('global', {
         this.isLoad = false;
       } catch (error) {
         this.isLoad = false;
+        if(err === "Unmatching password"){
+          return this.showNotification(err, "error");  
+        }
         this.showNotification(error.response.data.message, "error");
       }
     },
