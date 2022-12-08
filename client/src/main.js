@@ -3,11 +3,11 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-// import VueAwesomePaginate from 'vue-awesome-paginate';
+import VueAwesomePaginate from 'vue-awesome-paginate';
 import vue3GoogleLogin from 'vue3-google-login'
 
 
-// import "vue-awesome-paginate/dist/style.css";
+import "vue-awesome-paginate/dist/style.css";
 
 
 // import './assets/main.css'
@@ -21,7 +21,7 @@ pinia.use(({ store }) => {
   })
 
 app.use(pinia)
-// app.use(VueAwesomePaginate)
+app.use(VueAwesomePaginate)
 app.use(router)
 app.use(vue3GoogleLogin, {
   clientId: '147073641425-tjf03hf0ccpdmpqtlj73tjk4tuorur0i.apps.googleusercontent.com'

@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import MangaDetail from '../views/MangaDetail.vue'
 import FindManga from '../views/FindManga.vue'
+import WantToRead from '../views/WantToRead.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,14 +25,19 @@ const router = createRouter({
       component : Register
     },
     {
-      path: '/mangas/:id',
-      name: 'mangaDetail',
-      component : MangaDetail
-    },
-    {
       path: '/findManga',
       name: 'findManga',
       component : FindManga
+    },
+    {
+      path: '/wantToRead',
+      name: 'wantToRead',
+      component : WantToRead
+    },
+    {
+      path: '/mangas/:id',
+      name: 'mangaDetail',
+      component : MangaDetail
     }
   ]
 })
@@ -41,9 +47,9 @@ router.beforeEach((to, from, next) => {
   if ((to.name == 'login' || to.name == 'register') && loggedIn) {
     next({ name: 'Home' })
   }
-  // else if(to.name!=='login' && to.name!=='register' && to.name!=='home'  && !loggedIn){
-  //   next({name : 'login'})
-  // }
+  else if(to.name == 'wantToRead' && !loggedIn){
+    next({name : 'login'})
+  }
   else {next()}
 })
 

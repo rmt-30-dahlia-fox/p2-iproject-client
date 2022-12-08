@@ -1,51 +1,53 @@
-<script>
+<script >
 import { mapActions, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
+import WantToReadCard from '../components/WantToReadCard.vue'
 
 
 export default {
-    computed: {
-        ...mapWritableState(useCounterStore, ['mangaDetail'])
-    },
     methods: {
-        ...mapActions(useCounterStore, ['fetchMangaDetail','addToWantToRead'])
+        ...mapActions(useCounterStore, ['fetchWantToRead', 'fetchQuote','mailWantToRead'])
     },
     created() {
-        this.fetchMangaDetail(this.$route.params.id)
+        this.fetchWantToRead()
+        this.fetchQuote()
+    },
+    computed: {
+        ...mapWritableState(useCounterStore, ['wantToRead', 'quote'])
+    },
+    components: {
+        WantToReadCard
     }
 }
-
 </script>
+
 <template>
-    <div class="container " style="margin-top: 20px ;">
-        <h1 class="text-center">{{ mangaDetail ? mangaDetail.title : "" }}</h1>
-        <div class="d-flex">
-            <div style="margin-top: 15px ;">
-                <img :src="mangaDetail ? mangaDetail.main_picture.large : ''" alt="image here" width="500" />
-            </div>
-
-            <div style="margin-top: 20px ;">
-                <div class="d-flex justify-content-between">
-                    <div class="mx-5 my-3">
-                        <h4>Rating : {{ mangaDetail ? mangaDetail.mean : `` }}</h4>
-                        <div style="margin-top: 25px ;"><text>{{ mangaDetail ? mangaDetail.synopsis : `` }}</text></div>
-
-                    </div>
-                </div>
-
-
-                <div class="d-flex flex-row-reverse">
-                    <button @click="addToWantToRead">Add to Want To Read</button>
-                </div>
-
-            </div>
-
+    <main>
+        <h1 class="text-center ">Want To Read List</h1>
+        <div class="d-flex justify-content-between">
+            <div></div>
+            <button @click="mailWantToRead" style="margin-right: 15px; font-style:italic;">Mail me this list</button>
         </div>
-    </div>
+        <div class="container">
+            <div class="row">
+                <!-- <pre>{{dataManga}}</pre> -->
+                <WantToReadCard v-for="manga in wantToRead" :key="manga.id" :manga="manga" />
+
+            </div>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <text style="margin-right: 15px; font-style:italic;">{{ quote.quote }}</text><br>
+                    <text>~{{ quote.character }}, from {{quote.anime}}</text>
+                </div>
+
+            </div>
+        </div>
+    </main>
 </template>
 
-<style scoped>
 
+
+<style scoped>
 button {
                     display: inline-block;
                     outline: none;
@@ -70,4 +72,4 @@ button {
                     transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
                    
                 }
-                </style>
+</style>

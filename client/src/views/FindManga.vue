@@ -1,7 +1,7 @@
 <script >
 import { mapActions, mapWritableState } from 'pinia';
 import { useCounterStore } from '../stores/counter';
-import FoundMangaCard from '../components/FoundMangaCard.vue'
+import MangaCard from '../components/MangaCard.vue'
 
 
 export default{
@@ -9,13 +9,17 @@ export default{
     ...mapActions(useCounterStore,['findManga'])
   },
   created(){
-    this.findManga()
+    if(this.search.length<3 || !this.search){
+        this.$router.push('/')
+    }else{
+        this.findManga()
+    }
   },
   computed :{
-    ...mapWritableState(useCounterStore,['foundManga'])
+    ...mapWritableState(useCounterStore,['foundManga','search'])
   },
   components :{
-    FoundMangaCard
+    MangaCard
   }
 }
 </script>
@@ -26,17 +30,9 @@ export default{
     <div class="container">
       <div class="row">
         <!-- <pre>{{dataManga}}</pre> -->
-        <FoundMangaCard v-for="manga in foundManga" :key="manga.id" :manga="manga" />       
+        <MangaCard v-for="manga in foundManga" :key="manga.id" :manga="manga" />       
 
       </div>
-    </div>
-        <!-- <div class="d-flex justify-content-center">
-          <vue-awesome-paginate
-         :total-items="totalMovie" 
-         :items-per-page="8" 
-         :max-pages-shown="8" 
-         v-model="currentPage" 
-         @click="fetchMovies" />
-        </div> -->
+    </div>      
   </main>
 </template>
