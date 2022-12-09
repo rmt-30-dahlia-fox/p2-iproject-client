@@ -10,11 +10,12 @@ export default {
     ...mapState(useCustomerStore, ['isLogin'])
   },
   methods: {
-    ...mapActions(useCustomerStore, ['loginHandler'])
+    ...mapActions(useCustomerStore, ['loginHandler', 'getWeather'])
   },
   async created() {
     try {
       this.loginHandler()
+      this.getWeather()
     } catch (error) {
       console.log(error);
     }

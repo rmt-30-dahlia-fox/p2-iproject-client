@@ -182,5 +182,22 @@ export const useCustomerStore = defineStore("customer", {
         console.log(error);
       }
     },
+
+    async getWeather() {
+      try {
+        const { data } = await axios({
+          method: 'GET',
+          url: 'https://api.api-ninjas.com/v1/weather?city=' + 'denpasar',
+          headers: {
+            'X-Api-Key': 'zrwGPZDgvbfd2Q6SdnHUKw==on5aMzpcTzaWCMMc',
+            'Content-Type': 'application/json',
+          }
+        })
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
   },
+
 });

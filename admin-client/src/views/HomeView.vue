@@ -1,35 +1,36 @@
 <script>
+import { useAdminStore } from '../stores/admin';
+import { mapState } from 'pinia'
+
+export default {
+  computed: {
+    ...mapState(useAdminStore, ['units', 'orders'])
+  }
+}
 </script>
 
 <template>
-  <div class="overflow-x-auto max-w-screen-xl shadow-lg mx-auto">
-    <table class="table w-full">
-      <thead>
-        <tr class="text-center">
-          <th>Model Name</th>
-          <th>Image</th>
-          <th>Type</th>
-          <th>Price / day</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="text-center">
-          <td>
-            <div class="font-bold">Hart Hagerty</div>
-          </td>
-          <td style="max-width: 100px"><img src="https://ik.imagekit.io/zlt25mb52fx/ahmcdn/tr:w-550,f-auto/uploads/product/thumbnail/thumbnail-product-1-02112022-042907.png" alt=""></td>
-          <td>Matic</td>
-          <td>50000</td>
-          <td class="">
-            <div class="flex justify-center gap-4">
-              <button class="btn btn-group btn-circle"><i class="fa-solid fa-pen-to-square text-xl"></i></button>
-              <button class="btn btn-group btn-circle"><i class="fa-solid fa-trash text-xl"></i></button>
-            </div>
-            
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="container mx-auto">
+    <h1 class="text-2xl mb-4 text-center">Dashboard</h1>
+    <div class="flex justify-center">
+      <div class="stats shadow">
+
+        <div class="stat place-items-center">
+          <div class="stat-title">Total Units</div>
+          <div class="stat-value">{{ units.length }}</div>
+        </div>
+
+        <div class="stat place-items-center">
+          <div class="stat-title">Pending Orders</div>
+          <div class="stat-value text-secondary">{{ orders.filter(el => el.status === 'Pending').length}}</div>
+        </div>
+
+        <div class="stat place-items-center">
+          <div class="stat-title">Ongoing Orders</div>
+          <div class="stat-value">{{ orders.filter(el => el.status === 'Ongoing').length }}</div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </template>
