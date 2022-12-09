@@ -4,6 +4,9 @@ import { useAdminStore } from '../stores/admin';
 export default {
   computed: {
     ...mapWritableState(useAdminStore, ['unitForm'])
+  },
+  methods: {
+    ...mapActions(useAdminStore, ['addUnit'])
   }
 }
 </script>
@@ -13,7 +16,7 @@ export default {
     <div class="card flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
       <div class="card-body">
         <h1 class="text-center font-bold text-3xl">Add Unit</h1>
-        <form action="" @submit.prevent="">
+        <form action="" @submit.prevent="addUnit">
           <div class="form-control">
             <label class="label">
               <span class="label-text">Model Name</span>

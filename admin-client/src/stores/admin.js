@@ -216,16 +216,54 @@ export const useAdminStore = defineStore("admin", {
 
     async fetchOrderById(id) {
       try {
-        const { data } = await axios.get(this.baseUrl + '/orders/' + id, {
+        const { data } = await axios.get(this.baseUrl + "/orders/" + id, {
           headers: {
-            access_token: localStorage.access_token
-          }
-        })
-        this.orderById = data.order
-        this.router.push({ path: `/orders/${id}`})
+            access_token: localStorage.access_token,
+          },
+        });
+        this.orderById = data.order;
+        this.router.push({ path: `/orders/${id}` });
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+
+    async addUnit() {
+      try {
+        const { data } = await axios.post(
+          this.baseUrl + "/units",
+          this.unitForm,
+          {
+            headers: {
+              access_token: localStorage.access_token,
+            },
+          }
+        );
+        await this.fetchUnit();
+        this.router.push({ name: "units" });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async updateOrderStatus(id, status) {
+      try {
+        if(status !== this.orderById.status) {
+          const { data } = await axios.patch(
+            this.baseUrl + "/orders/" + id,
+            { status: status },
+            {
+              headers: {
+                access_token: localStorage.access_token,
+              },
+            }
+          );
+          await this.fetchOrders();
+          this.router.push({ name: "orders" });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

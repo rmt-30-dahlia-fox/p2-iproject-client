@@ -1,16 +1,32 @@
 <script>
-import { mapState } from 'pinia';
+import { mapActions, mapState } from 'pinia';
 import { useAdminStore } from '../stores/admin';
 
 export default {
   computed: {
     ...mapState(useAdminStore, ['orderById'])
+  },
+  methods: {
+    ...mapActions(useAdminStore, ['updateOrderStatus', 'fetchOrderById'])
+  },
+  async created() {
+    try {
+      await this.fetchOrderById(this.$route.params.id)
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 </script>
 <template>
   <h1 class="text-center font-bold text-3xl mb-4">Order {{ orderById.id }} Details</h1>
-  <h2 class="text-center font-bold text-xl">Status: {{ orderById.status }}</h2>
+  <div class="w-full flex justify-center">
+    <select class="select select-bordered w-full max-w-xs" @change="updateOrderStatus(orderById.id, $event.target.value)">
+      <option value="Pending" :class="orderById.status === 'Pending' ? 'selected' : ''">Pending</option>
+      <option value="Ongoing" :class="orderById.status === 'Ongoing' ? 'selected' : ''">Ongoing</option>
+      <option value="Returned" :class="orderById.status === 'Returned' ? 'selected' : ''">Returned</option>
+    </select>
+  </div>
   <div class="divider"></div>
   <div>
     <div class="flex gap-16 w-full">

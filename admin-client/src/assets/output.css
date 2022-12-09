@@ -1926,6 +1926,21 @@ html {
   width: 0.125rem;
 }
 
+.select-lg {
+  height: 4rem;
+  padding-left: 1.5rem;
+  padding-right: 2rem;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  line-height: 2;
+  min-height: 4rem;
+}
+
+[dir="rtl"] .select-lg {
+  padding-right: 1.5rem;
+  padding-left: 2rem;
+}
+
 .btn-group .btn:not(:first-child):not(:last-child), .btn-group.btn-group-horizontal .btn:not(:first-child):not(:last-child) {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -2070,6 +2085,10 @@ html {
   max-width: 1280px;
 }
 
+.max-w-xs {
+  max-width: 20rem;
+}
+
 .flex-shrink-0 {
   flex-shrink: 0;
 }
@@ -2088,6 +2107,10 @@ html {
 
 .place-items-center {
   place-items: center;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .justify-center {
