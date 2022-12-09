@@ -11,7 +11,6 @@ export default {
     ...mapActions(useGlobalStore, ['handleAddActivity']),
     setImageToSend(event) {
       this.activityForm.imageActivity = event.target.files[0];
-      console.log(event.target.files[0]);
     },
   }
 }

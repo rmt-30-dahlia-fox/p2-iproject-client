@@ -30,7 +30,7 @@ export default {
     <header aria-label="Site Header" class="container mx-auto">
       <div class="px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between">
-          <div class="flex-1 md:flex md:items-center md:gap-12">
+          <div class="flex-1 md:flex md:items-center md:gap-6">
             <a @click.prevent="goToHome" class="block text-teal-600" href="/">
               <span class="sr-only">Home</span>
               <svg
@@ -63,6 +63,8 @@ export default {
                 />
               </svg>
             </a>
+
+            <h1 class="font-medium text-3xl text-teal-600">HackFit</h1>
           </div>
 
           <div class="md:flex md:items-center md:gap-12">
