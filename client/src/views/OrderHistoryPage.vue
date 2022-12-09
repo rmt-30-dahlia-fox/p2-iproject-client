@@ -31,9 +31,5 @@ export default {
         :history="history"
       />
     </div>
-
-    <br />
-    <br />
-    <h3>Total price: {{ totalPrice }}</h3>
   </div>
 </template>

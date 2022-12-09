@@ -18,16 +18,18 @@ export default {
 </script>
 
 <template>
-  <div class="card bg-dark text-white col-6 mx-auto col-sm-4">
-    <img :src="card.img" class="card-img-top mb-3 d-flex" width="100" />
-    <h5 class="card-header d-flex">{{ card.name }}</h5>
-    <div class="card-body">
-      <p class="card-text">Level: {{ card.level }}</p>
-      <p class="card-text">Price: {{ card.price }}</p>
+  <div class="pb-5">
+    <div class="card bg-dark text-white col-6 mx-auto col-sm-4">
+      <img :src="card.img" class="card-img-top mb-3 d-flex" width="100" />
+      <h5 class="card-header d-flex">{{ card.name }}</h5>
+      <div class="card-body">
+        <p class="card-text">Level: {{ card.level }}</p>
+        <p class="card-text">Price: {{ card.price }}</p>
 
-      <button @click="addCartHandler(card)" class="btn btn-info ms-3">
-        Add to Cart
-      </button>
+        <button @click="addCartHandler(card)" class="btn btn-info ms-3">
+          Add to Cart
+        </button>
+      </div>
     </div>
   </div>
 </template>

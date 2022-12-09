@@ -3,7 +3,7 @@ import { mapActions, mapWritableState } from "pinia";
 import { useCounterStore } from "../stores/counter";
 
 export default {
-  props: ["digimon", "cart"],
+  props: ["digimon", "cart", "history"],
   methods: {
     ...mapActions(useCounterStore, ["deleteCartHandler"]),
   },
@@ -49,7 +49,7 @@ export default {
     </button>
   </div>
 
-  <!-- <div class="col-3" v-if="history">
+  <div class="col-3" v-if="history">
     <RouterLink class="btn btn-warning me-2" :to="`/digimons/${history.name}`">
       <div class="card bg-dark text-white h-100">
         <img :src="history.img" class="card-img-top mb-3 h-100 d-flex" />
@@ -61,5 +61,5 @@ export default {
         </div>
       </div>
     </RouterLink>
-  </div> -->
+  </div>
 </template>
