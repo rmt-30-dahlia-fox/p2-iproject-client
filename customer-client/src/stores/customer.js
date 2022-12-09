@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 export const useCustomerStore = defineStore("customer", {
   state: () => ({
-    baseUrl: "http://localhost:3000/customer",
+    baseUrl: "https://abrupt-sky-production.up.railway.app/customer",
     isLogin: true,
     formStep: 1,
     orderForm: {
