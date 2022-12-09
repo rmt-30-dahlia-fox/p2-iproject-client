@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 export const useGlobalStore = defineStore('global', {
   state: () => ({ 
     baseUrl: 'https://hackfit-production.up.railway.app',
+    // baseUrl: 'http://localhost:3000',
     isLogin: false,
     isLoading: false,
     users: [],
@@ -322,6 +323,40 @@ export const useGlobalStore = defineStore('global', {
           title: 'Your profile has been updated!',
         })
         this.router.push(`/profile/${id}`)
+      } catch (error) {
+        this.isLoading = false
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
+      }
+    },
+
+    async handleLike(id) {
+      try {
+        this.isLoading = true
+        const { data } = await axios.post(this.baseUrl + '/likes/' + id, {}, {
+          headers: { access_token: localStorage.access_token }
+        })
+        
+        this.isLoading = false
+      } catch (error) {
+        this.isLoading = false
+        Swal.fire({
+          icon: 'error',
+          title: error.response.data.message,
+        })
+      }
+    },
+
+    async handleUnlike(id) {
+      try {
+        this.isLoading = true
+        const { data } = await axios.delete(this.baseUrl + '/likes/' + id, {
+          headers: { access_token: localStorage.access_token }
+        })
+        
+        this.isLoading = false
       } catch (error) {
         this.isLoading = false
         Swal.fire({
