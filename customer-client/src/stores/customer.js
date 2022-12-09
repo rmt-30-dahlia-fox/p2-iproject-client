@@ -35,6 +35,12 @@ export const useCustomerStore = defineStore("customer", {
     unit: {},
 
     orders: [],
+
+    weather: {
+      denpasar: {name: 'Denpasar', cloud_pct: "", temp: ""},
+      sanur: { name: 'Sanur', cloud_pct: "", temp: ""},
+      kuta: { name: 'Kuta', cloud_pct: "", temp: ""},
+    }
   }),
   actions: {
     async loginHandler() {
@@ -185,7 +191,7 @@ export const useCustomerStore = defineStore("customer", {
 
     async getWeather() {
       try {
-        const { data } = await axios({
+        const denpasarWeather = await axios({
           method: 'GET',
           url: 'https://api.api-ninjas.com/v1/weather?city=' + 'denpasar',
           headers: {
@@ -193,7 +199,34 @@ export const useCustomerStore = defineStore("customer", {
             'Content-Type': 'application/json',
           }
         })
-        console.log(data);
+
+        const sanurWeather = await axios({
+          method: 'GET',
+          url: 'https://api.api-ninjas.com/v1/weather?city=' + 'sanur',
+          headers: {
+            'X-Api-Key': 'zrwGPZDgvbfd2Q6SdnHUKw==on5aMzpcTzaWCMMc',
+            'Content-Type': 'application/json',
+          }
+        })
+
+        const kutaWeather = await axios({
+          method: 'GET',
+          url: 'https://api.api-ninjas.com/v1/weather?city=' + 'kuta',
+          headers: {
+            'X-Api-Key': 'zrwGPZDgvbfd2Q6SdnHUKw==on5aMzpcTzaWCMMc',
+            'Content-Type': 'application/json',
+          }
+        })
+        
+        this.weather.denpasar.cloud_pct = denpasarWeather.data.cloud_pct
+        this.weather.denpasar.temp = denpasarWeather.data.temp
+
+        this.weather.kuta.cloud_pct = kutaWeather.data.cloud_pct
+        this.weather.kuta.temp = kutaWeather.data.temp
+
+        this.weather.sanur.cloud_pct = sanurWeather.data.cloud_pct
+        this.weather.sanur.temp = sanurWeather.data.temp
+
       } catch (error) {
         console.log(error);
       }
