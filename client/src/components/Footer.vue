@@ -35,6 +35,8 @@
               fill="#17CF97"
             />
           </svg>
+
+          <h1 class="font-medium text-3xl text-teal-600 mx-4">HackFit</h1>
         </div>
 
         <p class="mt-4 text-center text-sm text-gray-500 lg:mt-0 lg:text-right">

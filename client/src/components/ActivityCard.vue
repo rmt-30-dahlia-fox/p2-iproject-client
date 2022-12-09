@@ -21,6 +21,20 @@ export default {
       return time.toLocaleDateString('id-ID')
     }
   },
+  methods: {
+    ...mapActions(useGlobalStore, ['fetchActivities', 'handleLike', 'handleUnlike']),
+    clickLike() {
+      if (!this.isLiked) {
+        this.handleLike(this.activity.id)
+        this.isLiked = true
+        this.fetchActivities()
+      } else {
+        this.handleUnlike(this.activity.id)
+        this.isLiked = false
+        this.fetchActivities()
+      }
+    }
+  },
   created() {
     if (this.$route.name == 'HomePage') {
       this.activity.Likes.forEach(el => {
@@ -69,7 +83,7 @@ export default {
         v-if="isLogin"
         class="flex cursor-pointer items-center justify-center"
       >
-        <div v-if="this.$route.name == 'HomePage'">
+        <div v-if="this.$route.name == 'HomePage'" @click.prevent="clickLike">
           <img
             v-if="!isLiked"
             src="../assets/heart-no-fill.png"
