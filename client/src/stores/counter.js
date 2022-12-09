@@ -5,7 +5,9 @@ import { ref } from "vue";
 
 export const useCounterStore = defineStore("counter", {
   state: () => ({
-    baseUrl: "http://localhost:3000",
+    // baseUrl: "http://localhost:3000",
+
+    baseUrl: "https://i-project-v2-production.up.railway.app",
     baseUrlApi: "https://digimon-api.vercel.app/api/digimon",
     loginStatus: false,
     levels: [],
@@ -16,9 +18,11 @@ export const useCounterStore = defineStore("counter", {
     search: "",
     card: "",
     totalPrice: 0,
+    totalPriceIdr: 0,
     currentPage: ref(1),
     activeDigimons: [],
     totalPage: 0,
+    isLoader: false,
   }),
 
   getters: {},
@@ -183,8 +187,6 @@ export const useCounterStore = defineStore("counter", {
         for (let i = 0; i < this.carts.length; i++) {
           this.totalPrice += Number(this.carts[i].price);
         }
-
-        console.log(data.cards);
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -208,7 +210,6 @@ export const useCounterStore = defineStore("counter", {
           icon: "success",
           title: "Card Successfully added to Shopping Cart",
         });
-        console.log(data);
       } catch (error) {
         Swal.fire({
           icon: "error",
@@ -286,7 +287,7 @@ export const useCounterStore = defineStore("counter", {
       }
     },
 
-    async addOrderHandler(card) {
+    async addOrderHandler() {
       try {
         const { data } = await axios({
           url: this.baseUrl + "/pay",
@@ -294,9 +295,12 @@ export const useCounterStore = defineStore("counter", {
           headers: {
             access_token: localStorage.access_token,
           },
-          data: card,
         });
+
         this.fetchOrderHistory();
+        this.fetchCart();
+        this.totalPrice = 0;
+        this.totalPriceIdr = 0;
         Swal.fire({
           icon: "success",
           title: "Your Payment is successfull",
@@ -306,6 +310,35 @@ export const useCounterStore = defineStore("counter", {
           icon: "error",
           title: error.response.data.message,
         });
+      }
+    },
+
+    async convertHandler() {
+      try {
+        this.isLoader = true;
+        const { data } = await axios({
+          url: this.baseUrl + "/convert",
+          method: "post",
+          headers: {
+            access_token: localStorage.access_token,
+          },
+          data: {
+            amount: this.totalPrice,
+          },
+        });
+
+        this.totalPriceIdr = Math.floor(data.result);
+        Swal.fire({
+          icon: "success",
+          title: "Convert Successfull",
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: error.response.data.message,
+        });
+      } finally {
+        this.isLoader = false;
       }
     },
   },

@@ -54,16 +54,19 @@ const router = createRouter({
 });
 
 //navigation guard
-// router.beforeEach((to, from, next) => {
-//   const isAuthenticated = localStorage.access_token;
-//   if ((to.name === "CartPage" || to.name === "OrderHistoryPage") && !isAuthenticated) {
-//     next({ name: "LoginPage" });
-//   } else if (
-//     (to.name === "RegisterPage" || to.name === "LoginPage") &&
-//     isAuthenticated
-//   ) {
-//     next({ name: "HomePage" });
-//   } else next();
-// });
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.access_token;
+  if (
+    (to.name === "CartPage" || to.name === "OrderHistoryPage") &&
+    !isAuthenticated
+  ) {
+    next({ name: "LoginPage" });
+  } else if (
+    (to.name === "RegisterPage" || to.name === "LoginPage") &&
+    isAuthenticated
+  ) {
+    next({ name: "HomePage" });
+  } else next();
+});
 
 export default router;
