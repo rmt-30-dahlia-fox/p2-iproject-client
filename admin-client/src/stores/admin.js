@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 export const useAdminStore = defineStore("admin", {
   state: () => ({
-    baseUrl: "http://localhost:3000/admin",
+    baseUrl: "https://abrupt-sky-production.up.railway.app/admin",
     isLogin: true,
     formStep: 1,
 
@@ -265,5 +265,16 @@ export const useAdminStore = defineStore("admin", {
         console.log(error);
       }
     },
+
+    async logout() {
+      try {
+        localStorage.removeItem('access_token')
+        await this.loginHandler()
+        this.router.push({ name: 'login' })
+      } catch (error) {
+        console.log(error);
+      }
+
+    }
   },
 });

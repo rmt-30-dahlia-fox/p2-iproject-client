@@ -1,4 +1,13 @@
-<script></script>
+<script>
+import { mapActions } from 'pinia';
+import { useAdminStore } from '../stores/admin';
+
+export default {
+  methods: {
+    ...mapActions(useAdminStore, ['logout'])
+  }
+}
+</script>
 <template>
   <div class="navbar bg-base-100 mt-4 mb-6">
     <div class="navbar-start">
@@ -22,7 +31,7 @@
           <i class="fa-solid fa-plus text-xl"></i>
         </RouterLink>
       </button>
-      <button class="btn btn-ghost btn-circle">
+      <button class="btn btn-ghost btn-circle" @click.prevent="logout">
         <i class="fa-solid fa-right-from-bracket text-xl"></i>
       </button>
     </div>
