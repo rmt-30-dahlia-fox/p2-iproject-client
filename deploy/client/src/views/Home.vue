@@ -125,15 +125,17 @@ export default {
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
                                 <div v-for="info in news" :key="info.author" class="col-lg-6">
+                                    <img class="rounded" :src="info.urlToImage" alt="" style="height: 250px; width: 300;"/>
                                     <div class="d-flex align-items-center">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span>{{ info.title }}</span>
                                             </h5>
                                             <small class="fst-italic">{{ info.description }}</small>
+                                            <a :href="info.url">Source</a>
                                         </div>
                                     </div>
-                                </div>
+                                </div> 
                             </div>
                         </div>
                     </div>

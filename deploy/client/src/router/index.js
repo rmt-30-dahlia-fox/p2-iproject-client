@@ -4,6 +4,7 @@ import Register from '../views/Register.vue'
 import Home from '../views/Home.vue'
 import MyTeam from '../views/MyTeam.vue'
 import Zonk from '../components/Zonk.vue'
+import Attributes from '../components/Attributes.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/notfound',
       name: 'notfound',
       component: Zonk
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: Attributes
     }
   ]
 })

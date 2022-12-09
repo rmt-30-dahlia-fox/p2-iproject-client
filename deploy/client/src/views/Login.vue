@@ -8,7 +8,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(globalStore, ['login']),
+        ...mapActions(globalStore, ['login', 'googleSignIn']),
 
         async subLogin(){
             await this.login()
@@ -16,6 +16,14 @@ export default {
             if(this.isLogin){
                 this.$router.push('/')
             }
+        },
+
+        async signinGoogle(response){
+          await this.googleSignIn(response)
+
+          if(this.isLogin){
+            this.$router.push('/')
+          }
         }
     }
 }
@@ -54,7 +62,7 @@ export default {
               <div class="my-5">
                 <label for="login-google">or Sign in with</label>
               </div>
-              <!-- <GoogleLogin :callback="signinGoogle"/> -->
+              <GoogleLogin :callback="signinGoogle"/>
             </div>
             <div class="my-3">
             <label>

@@ -16,7 +16,10 @@ export const globalStore = defineStore('global', {
         currentPage: 1,
         playerPosition: '',
         myPlayers: [],
-        news: ''
+        news: '',
+        myPlayer: {},
+        attributes: {}
+
     }),
 
     actions: {
@@ -104,37 +107,37 @@ export const globalStore = defineStore('global', {
             });
         },
 
-        // async googleSignIn(response){
-        //     try {
-        //         const { credential } = response
-        //         const { data } = await axios({
-        //             method: "POST",
-        //             url: this.baseUrl + "/pub/google-sign-in",
-        //             headers: {
-        //                 "google-oauth-token": credential
-        //             }
-        //         })
-        //         localStorage.setItem("access_token", data.access_token)
-        //         localStorage.setItem("name", data.name)
-        //         this.greetTheName = data.name
-        //         this.isLogin = true
-        //         // console.log(data);
-        //         Swal.fire({
-        //             position: "top-end",
-        //             icon: "success",
-        //             title: `Welcome ${data.customer}`,
-        //             showConfirmButton: false,
-        //             timer: 1500,
-        //         });
-        //     } catch (err) {
-        //         Swal.fire({
-        //             icon: "error",
-        //             title: "Oops...",
-        //             text: err.response.data,
-        //             // footer: '<a href="">Why do I have this issue?</a>'
-        //         });
-        //     }
-        // },
+        async googleSignIn(response){
+            try {
+                const { credential } = response
+                const { data } = await axios({
+                    method: "POST",
+                    url: this.baseUrl + "/google-sign-in",
+                    headers: {
+                        "google-oauth-token": credential
+                    }
+                })
+                localStorage.setItem("access_token", data.access_token)
+                localStorage.setItem("name", data.name)
+                this.greetTheName = data.name
+                this.isLogin = true
+                // console.log(data);
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `Welcome ${data.name}`,
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            } catch (err) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: err.response.data,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
+        },
 
         async fetchPlayer(){
             try {
@@ -235,6 +238,25 @@ export const globalStore = defineStore('global', {
                     });
                 }
             });
+        },
+
+        async fetchMyPlayerById(id){
+            try {
+                const {data} = await axios({
+                    method: "GET",
+                    url: this.baseUrl + "/myplayers/" + id,
+                    headers: { access_token: localStorage.access_token }
+                })
+                this.myPlayer = data.myPlayer
+                this.attributes = data.attributes
+            } catch (err) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: err.response.data,
+                    // footer: '<a href="">Why do I have this issue?</a>'
+                });
+            }
         }
     }
 })

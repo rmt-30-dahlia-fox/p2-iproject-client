@@ -41,4 +41,5 @@ export default {
         </section>
       </div>
     </section>
+    <div class="bg-danger"></div>
 </template>

@@ -10,7 +10,11 @@ export default{
     },
 
     methods: {
-        ...mapActions(globalStore, ['deleteMyPlayer'])
+        ...mapActions(globalStore, ['deleteMyPlayer']),
+
+        toDetail(){
+            this.$router.push('/detail/' + this.myPlayer.id)
+        }
     }
 }
 </script>
@@ -22,6 +26,9 @@ export default{
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <span class="text-white bg-danger fw-bold rounded p-1">Position "{{ myPlayer.Player.position }}"</span>
+                    <a @click.prevent="toDetail" class="btn btn-primary border">
+                        <i class="fa-regular fa-eye"></i>
+                    </a>
                 </div>
                 <div class="my-3 text-white">
                     <h5 class="card-title">{{ myPlayer.Player.name }}</h5>

@@ -29,7 +29,7 @@ export default{
             <img :src="player.profile" class="card-img-top progress" style="height: 20em;" alt="...">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <span class="text-white bg-danger fw-bold rounded p-1">Position "{{ player.position }}"</span>
+                    <span class="width-30-px text-white bg-danger fw-bold rounded p-1">Position "{{ player.position }}"</span>
                 </div>
                 <div class="my-3 text-white">
                     <h5 class="card-title">{{ player.name }}</h5>
