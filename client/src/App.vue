@@ -3,21 +3,21 @@ import {mapActions, mapState} from "pinia";
 import Navbar from "./components/Navbar.vue";
 import FriendCard from "./components/FriendCard.vue";
 import {useGlobalStore} from "./stores/global";
-
-window.fbAsyncInit = function() {
-  FB.init({
-    appId            : '434716772000667',
-    autoLogAppEvents : true,
-    xfbml            : true,
-    version          : 'v15.0'
-  });
-
-  FB.AppEvents.logPageView();   
-
-  FB.getLoginStatus(function(response) {
-      statusChangeCallback(response);
-  });
-};
+    
+// window.fbAsyncInit = function() {
+//   FB.init({
+//     appId            : '434716772000667',
+//     autoLogAppEvents : true,
+//     xfbml            : true,
+//     version          : 'v15.0'
+//   });
+// 
+//   FB.AppEvents.logPageView();   
+// 
+//   FB.getLoginStatus(function(response) {
+//       statusChangeCallback(response);
+//   });
+// };
 
 export default {
   components: {

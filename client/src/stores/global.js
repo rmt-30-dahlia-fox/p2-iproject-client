@@ -5,7 +5,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import SessionSocket from '../ws/SessionSocket';
 
-const serverSocket = "localhost:8080";
+const serverSocket = "localhost:3000" || "localhost:8080";
 const serverURL = "localhost:3000";
 const baseURL = "http://" + serverURL;
 const ax = axios.create({
@@ -169,10 +169,11 @@ export const useGlobalStore = defineStore('global', {
 	return this.handleError(err);
       }
     },
-    msgHandler(data) {
-      // console.log(msg);
+    broadcastHandler(data) {
+      console.log(data);
       try {
-	const msg = JSON.parse(data.data);
+	const msg = JSON.parse(data);
+
 	if (msg.type === undefined) {
 	  if (msg.op === "like") {
 	    const post = this.posts.find(po => po.id === msg.id);
@@ -188,7 +189,16 @@ export const useGlobalStore = defineStore('global', {
 	else if (msg.type === "global") {
 	  this.globalMessages.push(msg);
 	}
-	else if (msg.type === "dm") {
+      } catch (err) {
+	console.error(err);
+      }
+    },
+    singleHandler(data) {
+      // console.log(msg);
+      try {
+	const msg = JSON.parse(data);
+
+	if (msg.type === "dm") {
 	  let { RecipientId: recipient_id } = msg;
 
 	  recipient_id = Number(recipient_id);
@@ -207,10 +217,10 @@ export const useGlobalStore = defineStore('global', {
       this.socket = new SessionSocket({
 	userId: this.user.id,
 	httpUri: serverURL,
-	wsUri: serverSocket,
+	// wsUri: serverSocket,
 	secureHttp: false,
-	secureWs: false,
-      }, this.msgHandler);
+	// secureWs: false,
+      }, this.broadcastHandler, this.singleHandler);
 
       // testing purpose
       // window.socket = this.socket;

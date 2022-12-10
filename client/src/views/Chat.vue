@@ -28,6 +28,7 @@ export default {
 	    this.$route.push(route);
 	  }
 	  formData.reset();
+	  this.inputText = "";
 	});
 
       else this.sendGlobalChatMessage(formData)
@@ -36,6 +37,7 @@ export default {
 	    this.$route.push(route);
 	  }
 	  formData.reset();
+	  this.inputText = "";
 	});
     },
     async randomJoke() {

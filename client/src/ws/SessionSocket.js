@@ -15,9 +15,10 @@ class SessionSocket {
   /**
    * Start a new Socket Session
    * @param {SessionSocketOptions} options
-   * @param {(ev: MessageEvent<any>) => void} messageHandler
+   * @param {(string) => void} broadcastHandler
+   * @param {(string) => void} singleHandler
    */
-  constructor(options, messageHandler) {
+  constructor(options, broadcastHandler, singleHandler) {
     const {userId, httpUri, wsUri, secureWs, secureHttp} = options;
     this.userId = Number(userId);
 
@@ -29,27 +30,30 @@ class SessionSocket {
     this.secureWs = !!secureWs;
     this.secureHttp = !!secureHttp;
 
-    this.socket = new WebSocket(this.connectWs);
-    this.ax = axios.create({
-      baseURL: this.connectHttp,
-    });
+    this.socket = io(this.connectHttp);
+    this.socket.on("broadcast", broadcastHandler);
+    this.socket.on("single", singleHandler);
 
-    this.socket.addEventListener('open', (event) => {
-      this.socket.send(JSON.stringify({
-	op: "identify",
-	data: {
-	  user_id: this.userId,
-	}
+    this.socket.on("connect", () => {
+      this.socket.emit("identify", JSON.stringify({
+        op: "identify",
+        data: {
+          user_id: this.userId,
+        }
       }));
 
       console.log("[SessionSocket] Connecedted");
     });
 
-    this.socket.addEventListener("message", messageHandler);
-
-    this.socket.addEventListener("error", (...args) => {
-      console.error(args, "<<<<<<<<< error [socket]");
+    this.ax = axios.create({
+      baseURL: this.connectHttp,
     });
+
+    // this.socket.addEventListener("message", messageHandler);
+
+    // this.socket.addEventListener("error", (...args) => {
+    //   console.error(args, "<<<<<<<<< error [socket]");
+    // });
   }
 
   get connectWs() {
