@@ -21,7 +21,7 @@ export default {
 </script>
 
 <template>
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-white">
   <div class="flex items-center justify-center h-screen">
 
     <main
@@ -35,11 +35,11 @@ export default {
         </a>
 
         <h1
-          class="mt-6 text-2xl font-bold text-gray-900 dark:text-white sm:text-3xl md:text-4xl"
+          class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl"
         >
           Signup
         </h1>
-	<p class="mt-4 leading-relaxed text-gray-500 dark:text-gray-400">
+	<p class="mt-4 leading-relaxed text-gray-500">
           Signup to Satelit 🛰
 	</p>
 
@@ -47,7 +47,7 @@ export default {
           <div class="col-span-6">
             <label
               for="Username"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              class="block text-sm font-medium text-gray-700"
             >
               Username
             </label>
@@ -57,14 +57,14 @@ export default {
               type="text"
               id="Username"
               name="username"
-              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm"
             />
           </div>
 
           <div class="col-span-6">
             <label
               for="Email"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              class="block text-sm font-medium text-gray-700"
             >
               Email
             </label>
@@ -74,14 +74,14 @@ export default {
               type="email"
               id="Email"
               name="email"
-              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm"
             />
           </div>
 
           <div class="col-span-6">
             <label
               for="Password"
-              class="block text-sm font-medium text-gray-700 dark:text-gray-200"
+              class="block text-sm font-medium text-gray-700"
             >
               Password
             </label>
@@ -91,21 +91,21 @@ export default {
               type="password"
               id="Password"
               name="password"
-              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+              class="w-full mt-1 text-sm text-gray-700 bg-white border-gray-200 rounded-md shadow-sm"
             />
           </div>
 
           <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
             <button
 	      @click.prevent="triggerSignup()"
-              class="inline-block px-12 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 shrink-0 rounded-md transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500 dark:hover:bg-blue-700 dark:hover:text-white"
+              class="inline-block px-12 py-3 text-sm font-medium text-white bg-blue-600 border border-blue-600 shrink-0 rounded-md transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
             >
               Create an account
             </button>
 
-            <p class="mt-4 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
+            <p class="mt-4 text-sm text-gray-500 sm:mt-0">
               Already have an account?
-              <router-link to="/login" class="text-gray-700 underline dark:text-gray-200"
+              <router-link to="/login" class="text-gray-700 underline"
                 >Log in</router-link
               >.
             </p>
