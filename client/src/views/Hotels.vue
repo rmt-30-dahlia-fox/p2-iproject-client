@@ -1,17 +1,19 @@
 <script>
-import { mapStores, mapState } from 'pinia'
+import { mapStores, mapState, mapWritableState } from 'pinia'
 import { useMainStore } from '../stores/main'
 import Cities from '../components/Cities.vue'
 import HotelCards from '../components/HotelCards.vue'
 import Paginate from 'vuejs-paginate-next';
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
 
 export default {
     components: {
         Cities,
         HotelCards,
-        Paginate
+        Paginate,
+        Loading
     },
     data() {
         return {
@@ -22,10 +24,12 @@ export default {
     },
     computed: {
         ...mapStores(useMainStore),
-        ...mapState(useMainStore, ['cities', 'hotels', 'totalHotels'])
+        ...mapState(useMainStore, ['cities', 'hotels', 'totalHotels', 'fullPage']),
+        ...mapWritableState(useMainStore, ['isLoading', 'hotels'])
     },
     created() {
         this.mainStore.fetchCities()
+        this.isLoading = true
         this.handleFetchHotels()
         this.selectedCity = this.$route.query.city
         this.selectedCheckInDate = this.$route.query.date_checkin
@@ -33,6 +37,7 @@ export default {
     },
     methods: {
         handleFetchHotels() {
+            this.isLoading = true
             this.mainStore.fetchHotels({
                 city: this.$route.query.city,
                 date_checkin: this.$route.query.date_checkin,
@@ -71,6 +76,13 @@ export default {
 </script>
 
 <template>
+
+    <div class="vl-parent">
+        <loading v-model:active="isLoading"
+                 :can-cancel="true"
+                 :on-cancel="onCancel"
+                 :is-full-page="fullPage"/>
+    </div>
     
     <hr style="margin: 0">
     <div class="row bg-white" style="padding: 0px 400px">

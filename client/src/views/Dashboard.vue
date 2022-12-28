@@ -1,12 +1,14 @@
 <script>
-import { mapStores, mapState } from 'pinia'
+import { mapStores, mapState, mapWritableState } from 'pinia'
 import { useMainStore } from '../stores/main'
 import Cities from '../components/Cities.vue'
-
+import Loading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/css/index.css';
 
     export default {
         components: {
-            Cities
+            Cities,
+            Loading
         },
         data() {
             return {
@@ -18,7 +20,8 @@ import Cities from '../components/Cities.vue'
         },
         computed: {
             ...mapStores(useMainStore),
-            ...mapState(useMainStore, ['cities'])
+            ...mapState(useMainStore, ['cities', 'fullPage']),
+            ...mapWritableState(useMainStore, ['isLoading', 'hotels'])
         },
         created() {
             this.mainStore.fetchCities()
@@ -33,7 +36,7 @@ import Cities from '../components/Cities.vue'
         },
         methods: {
             async handleFindHotels() {
-
+                this.hotels = []
                 this.dateStatus = true
                 
                 if((this.inputCheckInDate < this.inputCheckOutDate) && (new Date() < new Date(this.inputCheckInDate))) {
@@ -57,6 +60,13 @@ import Cities from '../components/Cities.vue'
 </script>
 
 <template>
+
+    <div class="vl-parent">
+        <loading v-model:active="isLoading"
+                 :can-cancel="true"
+                 :on-cancel="onCancel"
+                 :is-full-page="fullPage"/>
+    </div>
 
     <div class="container" style="margin-top:100px">
         <div class="row justify-content-center">
