@@ -58,7 +58,8 @@
                 obj.quantity = this.quantity
                 obj.totalPrice = this.totalPrice
                 this.mainStore.addOrder(obj)
-                console.log(this.totalPrice)
+                this.quantity = 1
+                this.totalPrice = 0
                 document.getElementById('modal').classList.remove('active')
                 document.getElementById('overlay').classList.remove('active')
             }

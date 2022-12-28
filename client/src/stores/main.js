@@ -6,7 +6,7 @@ import Toastify from 'toastify-js'
 export const useMainStore = defineStore('main', {
   state: () => (
     { 
-       baseUrl: 'https://travel-alliance-production.up.railway.app',
+       baseUrl: 'http://localhost:3000',
        cities: [],
        hotels: [],
        totalHotels: '',
@@ -17,7 +17,9 @@ export const useMainStore = defineStore('main', {
        transactionStatus: 'pending',
        loginStatus: false,
        totalPrice: '',
-       quantity: ''
+       quantity: '',
+       isLoading: false,
+       fullPage: true
     }
   ),
   getters: {
@@ -26,12 +28,11 @@ export const useMainStore = defineStore('main', {
   actions: {
     async fetchCities() {
       try {
-
         const {data} = await axios({
           method: 'get',
           url: this.baseUrl + '/cities',
         });
-
+        
         this.cities = data
 
       } catch(err) {
@@ -47,6 +48,7 @@ export const useMainStore = defineStore('main', {
     },
     async fetchHotels(obj) {
       try {
+          this.isLoading = true
           const {city, date_checkin, date_checkout, page} = obj
 
         const {data} = await axios({
@@ -59,11 +61,12 @@ export const useMainStore = defineStore('main', {
             page
           }
         });
-        console.log(data)
+        this.isLoading = false
         this.hotels = data.finalData
         this.totalHotels = data.length
 
       } catch(err) {
+        this.isLoading = false
         Toastify({
           text: err,
           className: "info",
@@ -257,7 +260,7 @@ export const useMainStore = defineStore('main', {
             pendingTransaction
           }
         })
-        localStorage.setItem('verification', data.randomNumber)
+
         window.open(data.url, '_blank')
 
       } catch(err) {
@@ -272,20 +275,22 @@ export const useMainStore = defineStore('main', {
     },
     async successPayment(id, randomNumber) {
       try {
-        console.log(localStorage.verification, randomNumber)
-        if(localStorage.verification !== randomNumber) throw('Forbidden')
+        this.isLoading = true
         const {data} = await axios({
           method: 'patch',
           url: this.baseUrl + `/transactions/${id}`,
           headers: {
             access_token: localStorage.access_token,
           },
+          data: {
+            randomNumber
+          }
         })
-
-        localStorage.removeItem('verification')
+        this.isLoading = false
         this.getPendingTransactions()
         this.router.replace('/transaction')
       } catch(err) {
+        this.isLoading = false
         Toastify({
           text: err,
           className: "info",

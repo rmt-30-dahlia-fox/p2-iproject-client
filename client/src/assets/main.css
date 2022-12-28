@@ -29,7 +29,7 @@ body {
 /* dashboard */
 .navbar-dashboard {
   background: none;
-  color: white
+  color: rgb(5, 106, 236)
 }
 
 
@@ -146,6 +146,7 @@ body {
 }
 
 .gradient-custom {
+  min-height: 100vh;
   /* fallback for old browsers */
   background: #7595ee;
   

@@ -68,19 +68,19 @@ import { useMainStore } from '../stores/main'
                 class="img-fluid" alt="Phone">
             </div>
             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-            <p class="text-muted mb-0">{{paidTransaction.name}}</p>
+                <p class="text-muted mb-0">{{paidTransaction.name}}</p>
             </div>
             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-            <p class="text-muted mb-0 small">${{paidTransaction.price}}</p>
+                <p class="text-muted mb-0 small">${{paidTransaction.price}}</p>
             </div>
             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-            <p class="text-muted mb-0 small">{{Math.round((new Date(this.paidTransaction.dateCheckOut) - new Date(this.paidTransaction.dateCheckIn)) / 86400000)}} night(s)</p>
+                    <p class="text-muted mb-0 small">{{this.paidTransaction.dateCheckIn}} {{ this.paidTransaction.dateCheckOut}}</p>
             </div>
             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-            <p class="text-muted mb-0 small">Room(s): {{this.paidTransaction.quantity}}</p>
+                <p class="text-muted mb-0 small">Room(s): {{this.paidTransaction.quantity}}</p>
             </div>
             <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-            <p class="text-primary mb-0 small">${{this.paidTransaction.totalPrice}}</p>
+                <p class="text-primary mb-0 small">${{this.paidTransaction.totalPrice}}</p>
             </div>
         </div>
         <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
