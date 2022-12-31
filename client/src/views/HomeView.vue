@@ -12,7 +12,7 @@ export default {
     this.fetchMangaList()
   },
   computed: {
-    ...mapWritableState(useCounterStore, ['dataManga', 'currentPage'])
+    ...mapWritableState(useCounterStore, ['dataManga', 'currentPage','loading'])
   },
   components: {
     RankedMangaCard
@@ -21,11 +21,13 @@ export default {
 </script>
 
 <template>
-  <main>
+
+
+  
+  <main v-if="!loading">
     <h1 class="text-center mt-2">Top Manga</h1>
     <div class="container mt-2">
       <div class="mt-2 row row-cols-2 g-2 g-lg-3 row-cols-lg-5">
-        <!-- <pre>{{dataManga}}</pre> -->
         <RankedMangaCard v-for="manga in dataManga" :key="manga.ranking.rank" :manga="manga" />
 
       </div>

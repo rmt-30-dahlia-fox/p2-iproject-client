@@ -13,7 +13,7 @@ export default {
         this.fetchQuote()
     },
     computed: {
-        ...mapWritableState(useCounterStore, ['wantToRead', 'quote'])
+        ...mapWritableState(useCounterStore, ['wantToRead', 'quote','loading'])
     },
     components: {
         WantToReadCard
@@ -22,7 +22,7 @@ export default {
 </script>
 
 <template>
-    <main>
+    <main v-if="!loading">
         <h1 class="text-center ">Want To Read List</h1>
         <div class="d-flex justify-content-between">
             <div></div>
