@@ -15,12 +15,14 @@ export const useCounterStore = defineStore('counter', {
     quote : {
       quote : "",
       character : ""
-    }
+    },
+    loading : false
 
   }),
   actions: {
     async mailWantToRead(){
       try {
+        this.loading = true
         const {data} = await axios({
           method : "get",
           url : this.baseUrl + `/mailWantToRead`,
@@ -28,6 +30,8 @@ export const useCounterStore = defineStore('counter', {
             access_token : localStorage.access_token
           }
         })
+        this.loading = false
+
         Swal.fire({
           icon: 'success',
           title: 'mailed',
@@ -35,7 +39,10 @@ export const useCounterStore = defineStore('counter', {
         })
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
     async fetchQuote(){
@@ -44,15 +51,17 @@ export const useCounterStore = defineStore('counter', {
           method : 'get',
           url : "https://animechan.vercel.app/api/random"
         })
-        console.log(data);
+        
         this.quote = data
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
       }
     },
     async deleteWantToRead(id){
       try {
+        this.loading = true
+
         const {data} = await axios({
           method : "delete",
           url : this.baseUrl + `/wantToRead/${id}`,
@@ -60,6 +69,7 @@ export const useCounterStore = defineStore('counter', {
             access_token : localStorage.access_token
           }
         })
+        this.loading = false
         
         Swal.fire({
           icon: 'success',
@@ -69,11 +79,13 @@ export const useCounterStore = defineStore('counter', {
         this.fetchWantToRead()
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
       }
     },   
     async patchStatusWantToRead(id,statusRead){
       try {
+        this.loading = true
+        
         const {data} = await axios({
           method : "patch",
           url : this.baseUrl + `/wantToRead/${id}`,
@@ -84,7 +96,9 @@ export const useCounterStore = defineStore('counter', {
             statusRead
           }
         })
-        console.log(data);
+        this.loading = false
+
+        
         Swal.fire({
           icon: 'success',
           title: 'update',
@@ -95,11 +109,16 @@ export const useCounterStore = defineStore('counter', {
 
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
     async fetchWantToRead(){
       try {
+        this.loading = true
+
         const {data} = await axios({
           method : "get",
           url : this.baseUrl + "/wantToRead",
@@ -107,18 +126,23 @@ export const useCounterStore = defineStore('counter', {
             access_token : localStorage.access_token
           }
         })
-        console.log('>>',data);
+        
         this.wantToRead = data
 
 
 
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
     async addToWantToRead(){
       try {
+        this.loading = true
+
         await axios({
           method : "post",
           url : this.baseUrl + "/wantToRead",
@@ -131,17 +155,23 @@ export const useCounterStore = defineStore('counter', {
             access_token : localStorage.access_token
           }
         })
+        
 
         this.router.push('/wantToRead')
         
 
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
     async findManga() {
       try {
+        this.loading = true
+
         this.foundManga = ""
 
         if (this.search.length < 3 || !this.search) {
@@ -162,10 +192,13 @@ export const useCounterStore = defineStore('counter', {
         this.foundManga = data.data
         this.router.push('/findManga')
 
-        console.log(this.foundManga);
+        
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
 
@@ -185,12 +218,14 @@ export const useCounterStore = defineStore('counter', {
 
       } catch (error) {
         this.handleError(error);
-        console.log(error);
+        
 
       }
     },
     async registerHandler(dataRegister) {
       try {
+        this.loading = true
+
         const { data } = await axios({
           method: "post",
           url: this.baseUrl + "/register",
@@ -208,13 +243,18 @@ export const useCounterStore = defineStore('counter', {
         this.router.push('/')
 
       } catch (error) {
-        console.log(error);
+        
         this.handleError(error)
+
+      } finally{
+        this.loading = false
 
       }
     },
     async loginHandler(dataLogin) {
       try {
+        this.loading = true
+
         const { data } = await axios({
           method: "post",
           url: this.baseUrl + "/login",
@@ -228,14 +268,19 @@ export const useCounterStore = defineStore('counter', {
         this.router.push('/')
 
       } catch (error) {
-        console.log(error);
+        
         this.handleError(error)
+
+      }finally{
+        this.loading = false
 
       }
     },
 
     async fetchMangaList() {
       try {
+        this.loading = true
+
         const { data } = await axios({
           method: 'get',
           url: this.baseUrl + '/mangas',
@@ -246,21 +291,29 @@ export const useCounterStore = defineStore('counter', {
         this.dataManga = data.data
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
 
     async fetchMangaDetail(id) {
       try {
+        this.loading = true
+
         const { data } = await axios({
           method: 'get',
           url: this.baseUrl + `/mangas/${id}`
         })
         this.mangaDetail = data
-        console.log(this.mangaDetail);
+        
       } catch (error) {
         this.handleError(error)
-        console.log(error);
+        
+      } finally{
+        this.loading = false
+
       }
     },
     logOut() {
